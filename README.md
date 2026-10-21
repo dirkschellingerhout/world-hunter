@@ -52,3 +52,17 @@ Netlify or another HTTPS static host also works.
 3. **Travel-ready mode:** pre-load a town's cards and journal, with explicit online/offline indicators.
 4. **Family profiles and backup:** optional local profiles and user-controlled export/import; no public child profiles.
 5. **Release hardening:** privacy review, accessible controls, testing on real Android devices, API rate-limit handling, and proper icon assets.
+
+
+## Stage 2 updates
+- Map framing follows the selected acquisition radius and displays about three times that radius around the user's current location, with an outline for the actual acquisition zone.
+- Acquisition range presets now run from 25 m to 1 km, with a custom setting from 10 m to 5 km. Nearby source/map searches adapt to the selected range.
+- A separate visit action records a visit only when the user is within 35 m of a real sourced story point. This is separate from discovery eligibility.
+- Local quizzes can be launched from a sourced story card or selected from nearby story cards. Questions use details in the card's linked summary (for example, a year mentioned in the text); the linked source remains the place to verify context. These are lightweight source-grounded quizzes, not AI-generated historical claims.
+- Service worker cache version is bumped to v3 so deployed clients can pick up the update.
+
+Validation: `node --check app.js` and manifest JSON validation passed. A live browser/GPS/API test has not been run in this environment.
+
+
+### Location on first launch
+On first launch, World Hunter explains why it uses location and asks the user to continue. The browser/Android then owns the actual location permission prompt. After permission is granted, later launches automatically refresh the user's location and nearby results when the browser reports that permission is already granted. If permission is denied or still awaiting a browser decision, the app shows a status and leaves the user in control of retrying.

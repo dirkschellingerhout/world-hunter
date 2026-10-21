@@ -49,10 +49,10 @@
       <div id="map" class="map" aria-label="Map of nearby discoveries">
         <div class="map-placeholder"><span>◎</span><b>Your map will appear here</b><p>Allow location access, or explore the sample collection below.</p></div>
       </div>
-      <div class="map-legend"><span><i class="legend-dot nearby"></i> Nearby</span><span><i class="legend-dot collected"></i> Collected</span><span id="radiusLabel">Unlock radius: 100 m</span></div>
+      <div class="map-legend"><span><i class="legend-dot nearby"></i> Discovery</span><span><i class="legend-dot collected"></i> Collected</span><span id="radiusLabel">Unlock radius: 100 m</span><span id="mapRadiusLabel">Map view: 300 m radius</span></div>
       <div class="section-heading compact"><div><h3>Discovery trail</h3><p class="muted">Real places, curious stories.</p></div><select id="categoryFilter" aria-label="Filter discoveries"><option value="all">All topics</option><option>History</option><option>Architecture</option><option>People</option><option>Nature</option><option>Science</option><option>Legend</option></select></div>
       <div id="discoveryList" class="discovery-list"></div>
-      <p id="dataNote" class="footnote">Nearby place data is fetched when you choose to locate yourself. Sample cards are labelled clearly.</p>
+      <p id="dataNote" class="footnote">Nearby stops load automatically after you enable location. Sample cards are labelled clearly.</p>
     </section>
 
     <section id="journalPanel" class="panel" hidden>
@@ -76,6 +76,9 @@
           <div id="quizResult" hidden><div class="quiz-result-score" id="quizFinalScore"></div><h4 id="quizResultTitle"></h4><p id="quizResultCopy"></p><button class="small-button" id="retryQuizBtn">Play again</button></div>
         </div>
       </div>
+      <div class="mission-card local-quiz-card">
+        <div class="mission-symbol">📍</div><div class="mission-body"><span class="pill">LOCAL CHALLENGE</span><h3>Quiz from your discoveries</h3><p id="localQuizDescription">Find nearby sourced story cards to unlock questions about the places around you.</p><div id="localQuizArea"><button class="small-button" id="startLocalQuizBtn">Start local quiz</button><p id="localQuizFeedback" class="tip-text" hidden></p></div></div>
+      </div>
       <div class="mission-card">
         <div class="mission-symbol">🔎</div><div class="mission-body"><span class="pill">OBSERVATION</span><h3>Look a little closer</h3><p>Find a public building or monument. Look for a date, symbol or inscription. What do you think it tells you?</p><div class="mission-progress"><span id="observeProgress">0 / 1 discovery</span><button id="observeBtn" class="small-button">Mark complete</button></div></div>
       </div>
@@ -90,6 +93,15 @@
   </main>
 
   <footer><span>WORLD HUNTER · FIELD GUIDE NO. 001</span><button id="settingsBtn" class="text-button">Settings</button></footer>
+
+  <dialog id="locationIntroDialog" class="settings-dialog location-intro-dialog">
+    <div class="location-intro-icon" aria-hidden="true">⌖</div>
+    <p class="eyebrow">WELCOME, EXPLORER</p>
+    <h2>Find the stories around you</h2>
+    <p>World Hunter uses your location to centre the map and find nearby points of interest. Your GPS position stays on this device; approximate coordinates are sent to public map and article services to retrieve nearby results.</p>
+    <p class="muted">Choose “Enable location” to continue. Your browser or Android will show its own permission prompt. You can change location access later in browser settings.</p>
+    <div class="location-intro-actions"><button id="enableLocationBtn" class="primary-button" type="button">Enable location & find stops</button><button id="notNowLocationBtn" class="quiet-button" type="button">Not now</button></div>
+  </dialog>
 
   <dialog id="cardDialog" class="card-dialog">
     <form method="dialog"><button class="dialog-close" aria-label="Close">×</button></form>
@@ -107,9 +119,10 @@
   <dialog id="settingsDialog" class="settings-dialog">
     <form method="dialog"><button class="dialog-close" aria-label="Close">×</button></form>
     <h2>Explorer settings</h2>
-    <label for="radiusSelect">Automatic unlock distance</label>
-    <select id="radiusSelect"><option value="50">50 metres</option><option value="100" selected>100 metres</option><option value="150">150 metres</option><option value="250">250 metres</option></select>
-    <p class="muted">A smaller radius encourages discoveries at the actual site. GPS accuracy varies, especially between tall buildings.</p>
+    <label for="radiusSelect">Acquisition / unlock radius</label>
+    <select id="radiusSelect"><option value="25">25 metres</option><option value="50">50 metres</option><option value="100" selected>100 metres</option><option value="150">150 metres</option><option value="250">250 metres</option><option value="500">500 metres</option><option value="1000">1 kilometre</option><option value="custom">Custom range…</option></select>
+    <div id="customRadiusWrap" hidden><label for="customRadius">Custom range (metres)</label><input id="customRadius" type="number" min="10" max="5000" step="10" value="100" inputmode="numeric"></div>
+    <p class="muted">The map frames an area about 3× this radius. You can discover a point from further away, but visiting it is recorded only when you're within 35 m. GPS accuracy varies, especially between tall buildings.</p>
     <label class="toggle-row"><input type="checkbox" id="autoCollect" checked> Automatically save verified discoveries when close enough</label>
     <p class="muted">Location is used on this device while the app is open. This MVP does not send your GPS position to an account or tracking server. Nearby-place lookups send approximate coordinates to public map/data services when you request them.</p>
     <button id="clearDataBtn" class="danger-button" type="button">Clear all local progress</button>
