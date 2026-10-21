@@ -69,14 +69,21 @@
 
     <section id="missionsPanel" class="panel" hidden>
       <div class="section-heading"><div><p class="eyebrow">LITTLE QUESTS, BIG DISCOVERIES</p><h2>Field missions</h2></div></div>
+      <div class="mission-card quiz-mission">
+        <div class="mission-symbol">🧠</div><div class="mission-body"><span class="pill">MINI QUIZ · 3 QUESTIONS</span><h3>Become a fact detective</h3><p>Can you tell a reliable source from a map pin or a local legend? Get instant feedback after every answer.</p>
+          <div id="quizIntro"><button class="small-button" id="startQuizBtn">Start mini quiz</button><span id="quizBestScore" class="quiz-best"></span></div>
+          <div id="quizPlay" hidden><div class="quiz-topline"><span id="quizCounter">Question 1 of 3</span><span id="quizScore">Score: 0</span></div><div class="progress-track"><span id="quizBar"></span></div><h4 id="quizQuestion" class="quiz-question"></h4><div id="quizOptions" class="quiz-options"></div><p id="quizFeedback" class="quiz-feedback" hidden></p><button id="quizNextBtn" class="small-button" hidden>Next question →</button></div>
+          <div id="quizResult" hidden><div class="quiz-result-score" id="quizFinalScore"></div><h4 id="quizResultTitle"></h4><p id="quizResultCopy"></p><button class="small-button" id="retryQuizBtn">Play again</button></div>
+        </div>
+      </div>
       <div class="mission-card">
         <div class="mission-symbol">🔎</div><div class="mission-body"><span class="pill">OBSERVATION</span><h3>Look a little closer</h3><p>Find a public building or monument. Look for a date, symbol or inscription. What do you think it tells you?</p><div class="mission-progress"><span id="observeProgress">0 / 1 discovery</span><button id="observeBtn" class="small-button">Mark complete</button></div></div>
       </div>
       <div class="mission-card">
-        <div class="mission-symbol">🗺️</div><div class="mission-body"><span class="pill">COLLECTION</span><h3>Curiosity collector</h3><p>Collect three discovery cards to earn your first explorer badge.</p><div class="progress-track"><span id="missionBar"></span></div><small id="missionProgress">0 / 3 cards</small></div>
+        <div class="mission-symbol">🗺️</div><div class="mission-body"><span class="pill">COLLECTION</span><h3>Curiosity collector</h3><p>Collect three sourced story cards to earn your first explorer badge.</p><div class="progress-track"><span id="missionBar"></span></div><small id="missionProgress">0 / 3 cards</small></div>
       </div>
       <div class="mission-card">
-        <div class="mission-symbol">📚</div><div class="mission-body"><span class="pill">JOURNAL</span><h3>Fact or folklore?</h3><p>When a card is marked as a legend, compare it with a documented historical source. Legends can be fascinating even when they aren't proven facts.</p><button class="small-button" id="legendTipBtn">Show explorer tip</button><p id="legendTip" class="tip-text" hidden>Ask: who recorded this story, when was it written down, and is there independent evidence? A legend is part of local culture—not automatically a verified event.</p></div>
+        <div class="mission-symbol">📚</div><div class="mission-body"><span class="pill">FIELD TIP</span><h3>Fact or folklore?</h3><p>A legend can tell us a lot about a place's culture, even when the story itself isn't proven history.</p><button class="small-button" id="legendTipBtn">Show explorer tip</button><p id="legendTip" class="tip-text" hidden>Ask: who recorded this story, when was it written down, and is there independent evidence? A legend is part of local culture—not automatically a verified event.</p></div>
       </div>
       <p class="footnote">Missions are designed for family exploration. The app never requires running, entering restricted areas, or approaching strangers.</p>
     </section>

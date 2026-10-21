@@ -15,13 +15,14 @@
   let discoveries = [...demoCards];
   let map = null, userMarker = null, layer = null, watchId = null, userPosition = null;
   let deferredInstall = null, activeCardId = null, toastTimer = null;
+  let quizIndex = 0, quizScore = 0, quizAnswered = false;
 
   function loadState() {
     try {
       const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
       return {collected:Array.isArray(saved.collected)?saved.collected:[], radius:[50,100,150,250].includes(saved.radius)?saved.radius:DEFAULT_RADIUS,
-        autoCollect:saved.autoCollect !== false, observeDone:!!saved.observeDone, profile:saved.profile || "Explorer"};
-    } catch { return {collected:[],radius:DEFAULT_RADIUS,autoCollect:true,observeDone:false,profile:"Explorer"}; }
+        autoCollect:saved.autoCollect !== false, observeDone:!!saved.observeDone, quizBestScore:Number.isFinite(saved.quizBestScore)?saved.quizBestScore:null, quizAttempts:Number.isFinite(saved.quizAttempts)?saved.quizAttempts:0, quizCompleted:!!saved.quizCompleted, profile:saved.profile || "Explorer"};
+    } catch { return {collected:[],radius:DEFAULT_RADIUS,autoCollect:true,observeDone:false,quizBestScore:null,quizAttempts:0,quizCompleted:false,profile:"Explorer"}; }
   }
   function saveState() {
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch { toast("Couldn't save locally. Check browser storage settings."); }
@@ -120,6 +121,7 @@
     $("observeProgress").textContent=state.observeDone?"✓ Complete":"0 / 1 discovery";
     $("observeBtn").textContent=state.observeDone?"Completed ✓":"Mark complete";
     $("observeBtn").disabled=state.observeDone;
+    $("quizBestScore").textContent=state.quizBestScore===null?"":"Best: "+state.quizBestScore+"/3 · "+state.quizAttempts+" attempt"+(state.quizAttempts===1?"":"s");
   }
   function openCard(c) {
     activeCardId=c.id;
@@ -127,7 +129,7 @@
     $("dialogMeta").textContent=`${c.category||"Discovery"} · ${c.kind==="legend"?"Folklore / legend":c.kind==="place"?"Place information":"Documented story"}${c.demo?" · DEMO CARD":""}`;
     $("dialogTitle").textContent=c.title;
     $("dialogStory").textContent=c.story || "This map location has been identified from open geographic data. We don't yet have a separately verified historical story for this place.";
-    $("dialogSource").innerHTML=c.url?`<b>Source</b><br><a href="${escapeHtml(c.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(c.source||"Open source")}</a>`:`<b>Source</b><br><a href="https://www.openstreetmap.org/" target="_blank" rel="noopener noreferrer">OpenStreetMap place data</a><br><span>This identifies the mapped place; it is not itself proof of a historical claim.</span>`;
+    $("dialogSource").innerHTML=c.url?`<b>Source</b><br><a href="${escapeHtml(c.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(c.source||"Open source")}</a>${c.source==="Wikipedia article summary · check references"?'<br><span>Wikipedia text is available under CC BY-SA; open the article for contributor attribution and references.</span>':''}`:`<b>Source</b><br><a href="https://www.openstreetmap.org/" target="_blank" rel="noopener noreferrer">OpenStreetMap place data</a><br><span>This identifies the mapped place; it is not itself proof of a historical claim.</span>`;
     let d=userPosition&&Number.isFinite(c.lat)&&Number.isFinite(c.lon)?distanceMetres(userPosition,c):null;
     $("dialogDistance").textContent=d!==null?fmtDistance(d):c.demo?"Sample card — not a live nearby result":"Location distance unavailable";
     const actions=$("dialogActions"); actions.innerHTML="";
@@ -168,11 +170,13 @@
           if(!sr.ok) return null;
           const s=await sr.json();
           const extract=(s.extract||"").trim();
-          if(!extract) return null;
+          const lower=extract.toLowerCase();
+          // Skip disambiguation and very thin entries: a pin or stub is not a useful story card.
+          if(extract.length<140 || /may refer to:|is a disambiguation page|can refer to several things/i.test(extract)) return null;
           const category=guessCategory(p.title+" "+extract);
-          return {id:"wiki-"+p.pageid,title:p.title,category,lat:p.lat,lon:p.lon,story:extract,short:extract.length>100?extract.slice(0,97)+"…":extract,
-            source:"Wikipedia",url:s.content_urls?.desktop?.page||`https://en.wikipedia.org/?curid=${p.pageid}`,kind:"documented",
-            art:icons[category]||"📚",rarity:p.dist<250?"Uncommon":"Discovery",dist:p.dist,sourceNote:"Wikipedia article summary"};
+          return {id:"wiki-"+p.pageid,title:p.title,category,lat:p.lat,lon:p.lon,story:extract+"\n\nSource note: this is a Wikipedia summary. Open the article to inspect its references and follow the cited heritage, museum or primary sources for important historical claims.",short:extract.length>100?extract.slice(0,97)+"…":extract,
+            source:"Wikipedia article summary · check references",url:s.content_urls?.desktop?.page||`https://en.wikipedia.org/?curid=${p.pageid}`,kind:"documented",
+            art:icons[category]||"📚",rarity:p.dist<250?"Uncommon":"Discovery",dist:p.dist,sourceNote:"Secondary summary; references should be checked"};
         }catch{return null;}
       }));
       results.push(...summaries.filter(Boolean));
@@ -259,6 +263,60 @@
     const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="world-hunter-journal.json";a.click();URL.revokeObjectURL(url);
     toast("Journal export prepared.");
   }
+  const quizQuestions = [
+    {q:"A map pin marks a centuries-old tower. What does that pin prove by itself?", options:["The tower's exact age","That the place is mapped at that location","Who built the tower","That every story about it is true"], answer:1, explanation:"A map pin helps identify a place. It does not verify a date, a builder or a story; those claims need a reliable source."},
+    {q:"A local legend says a hidden tunnel runs beneath a castle. What is the fairest way to describe it?", options:["A proven fact because people repeat it","A false story that has no cultural value","A local legend unless good evidence verifies it","An official record of the castle's construction"], answer:2, explanation:"Legends can be valuable parts of local culture, but repetition alone doesn't prove that an event happened."},
+    {q:"You read that a monument was built in 1450. Which is the strongest next step?", options:["Trust the first search result","Check the article's references and a credible heritage or museum source","Assume the date is correct if the page has a photo","Use the map pin as proof of the date"], answer:1, explanation:"Cross-checking the claim against cited references and a credible heritage or museum source gives you stronger evidence."}
+  ];
+  function startQuiz() {
+    quizIndex=0;quizScore=0;quizAnswered=false;
+    $("quizIntro").hidden=true;$("quizResult").hidden=true;$("quizPlay").hidden=false;
+    renderQuizQuestion();
+  }
+  function renderQuizQuestion() {
+    const q=quizQuestions[quizIndex]; quizAnswered=false;
+    $("quizCounter").textContent=`Question ${quizIndex+1} of ${quizQuestions.length}`;
+    $("quizScore").textContent=`Score: ${quizScore}`;
+    $("quizBar").style.width=((quizIndex)/quizQuestions.length*100)+"%";
+    $("quizQuestion").textContent=q.q;
+    $("quizFeedback").hidden=true;$("quizNextBtn").hidden=true;
+    const options=$("quizOptions");options.innerHTML="";
+    q.options.forEach((label,i)=>{
+      const b=document.createElement("button");b.type="button";b.className="quiz-option";b.textContent=label;
+      b.addEventListener("click",()=>answerQuiz(i));options.appendChild(b);
+    });
+  }
+  function answerQuiz(choice) {
+    if(quizAnswered)return;quizAnswered=true;
+    const q=quizQuestions[quizIndex], correct=choice===q.answer;
+    if(correct)quizScore++;
+    [...$("quizOptions").children].forEach((b,i)=>{
+      b.disabled=true;
+      if(i===q.answer)b.classList.add("answer-correct");
+      else if(i===choice)b.classList.add("answer-wrong");
+    });
+    $("quizFeedback").textContent=(correct?"You got it! ":"Good try! ")+q.explanation;
+    $("quizFeedback").className="quiz-feedback "+(correct?"is-correct":"is-learning");
+    $("quizFeedback").hidden=false;
+    $("quizNextBtn").textContent=quizIndex===quizQuestions.length-1?"See results →":"Next question →";
+    $("quizNextBtn").hidden=false;
+    $("quizBar").style.width=((quizIndex+1)/quizQuestions.length*100)+"%";
+  }
+  function finishQuiz() {
+    state.quizAttempts=(state.quizAttempts||0)+1;
+    state.quizCompleted=true;
+    if(state.quizBestScore===null||quizScore>state.quizBestScore)state.quizBestScore=quizScore;
+    saveState();
+    $("quizPlay").hidden=true;$("quizResult").hidden=false;$("quizFinalScore").textContent=`${quizScore} / ${quizQuestions.length}`;
+    $("quizResultTitle").textContent=quizScore===3?"Brilliant fact detective!":quizScore===2?"Great exploring!":"Curiosity is the real superpower.";
+    $("quizResultCopy").textContent=quizScore===3?"You checked the evidence and spotted the difference between a place, a story and a proven fact.":"Every answer is a chance to learn. Have another go whenever you're ready, or try these ideas on your next walk.";
+    $("quizBar").style.width="100%";
+    toast(quizScore===3?"Fact Detective badge earned!":"Mini quiz complete — progress saved!");
+  }
+  $("startQuizBtn").addEventListener("click",startQuiz);
+  $("retryQuizBtn").addEventListener("click",startQuiz);
+  $("quizNextBtn").addEventListener("click",()=>{if(quizIndex<quizQuestions.length-1){quizIndex++;renderQuizQuestion();}else finishQuiz();});
+
   $("locateBtn").addEventListener("click",locate);
   $("refreshBtn").addEventListener("click",()=>userPosition?locate():toast("Tap “Find discoveries nearby” to enable GPS first."));
   $("categoryFilter").addEventListener("change",renderDiscoveries);
@@ -272,7 +330,7 @@
   $("legendTipBtn").addEventListener("click",()=>$("legendTip").hidden=!$("legendTip").hidden);
   $("clearDataBtn").addEventListener("click",()=>{
     if(!confirm("Clear all collected cards and mission progress from this device? This cannot be undone unless you exported your journal."))return;
-    state={collected:[],radius:DEFAULT_RADIUS,autoCollect:true,observeDone:false,profile:"Explorer"};saveState();
+    state={collected:[],radius:DEFAULT_RADIUS,autoCollect:true,observeDone:false,quizBestScore:null,quizAttempts:0,quizCompleted:false,profile:"Explorer"};saveState();
     $("radiusSelect").value=String(DEFAULT_RADIUS);$("autoCollect").checked=true;$("radiusLabel").textContent=`Unlock radius: ${DEFAULT_RADIUS} m`;renderDiscoveries();$("settingsDialog").close();toast("Local progress cleared.");
   });
   window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredInstall=e;$("installBtn").hidden=false;});

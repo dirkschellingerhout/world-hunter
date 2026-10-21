@@ -42,7 +42,7 @@ Netlify or another HTTPS static host also works.
 - Overpass and Wikipedia API availability/rate limits are outside this app's control. The app falls back to a small clearly-labelled sample collection.
 - Map tiles are served by OpenStreetMap. Follow the tile usage policy and do not bulk download tiles for offline use.
 - Offline caching covers the app shell, not an offline map database or all unseen discoveries. The map and fresh facts need internet.
-- Wikipedia summaries are useful starting points, not a guarantee that every nearby location has a dedicated article. For a production release, review each card, add authoritative heritage sources, image licences/attribution, and richer curated local collections.
+- Wikipedia summaries are useful starting points, not a guarantee that every nearby location has a dedicated article or that every claim is definitive. The app links to the original article and reminds users to inspect references; Wikipedia content is available under CC BY-SA and reuse must retain appropriate attribution and comply with the licence. For a production release, review each card, add authoritative heritage sources, image licences/attribution, and richer curated local collections.
 - This is an MVP, not a navigation/safety system. GPS accuracy can vary; collection should never require entering private or restricted areas, crossing roads unsafely, or approaching strangers.
 
 ## Next stages
