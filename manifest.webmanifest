@@ -1,0 +1,19 @@
+{
+  "name": "World Hunter \u2014 Real-world discoveries",
+  "short_name": "World Hunter",
+  "description": "Explore nearby places, unlock stories, and collect discoveries.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fbf8ef",
+  "theme_color": "#173c35",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

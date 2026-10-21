@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#173c35">
+  <meta name="description" content="Explore the real world, uncover local stories, and collect discoveries.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <title>World Hunter</title>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-mark" aria-hidden="true">✦</div>
+    <div class="brand">
+      <div class="eyebrow">YOUR REAL-WORLD ADVENTURE</div>
+      <h1>World Hunter</h1>
+    </div>
+    <button id="installBtn" class="icon-button" hidden aria-label="Install app" title="Install app">＋</button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <p class="eyebrow light">EXPLORER'S FIELD GUIDE</p>
+        <h2>There's a story<br>around every corner.</h2>
+        <p class="hero-copy">Find curious places. Unlock their stories. Keep the discoveries.</p>
+        <div class="hero-actions">
+          <button id="locateBtn" class="primary-button">◎ Find discoveries nearby</button>
+          <span id="locationStatus" class="status" role="status">Location not started</span>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true"><span>✧</span><b>W</b><i>✦</i></div>
+    </section>
+
+    <nav class="tabs" aria-label="Main navigation">
+      <button class="tab active" data-tab="explore">Explore</button>
+      <button class="tab" data-tab="journal">My journal <span id="navCount" class="count">0</span></button>
+      <button class="tab" data-tab="missions">Missions</button>
+    </nav>
+
+    <section id="explorePanel" class="panel">
+      <div class="section-heading">
+        <div><p class="eyebrow">THE WORLD IS YOUR MUSEUM</p><h2>Nearby discoveries</h2></div>
+        <button id="refreshBtn" class="quiet-button">Refresh ↻</button>
+      </div>
+      <div class="notice"><span>🧭</span><p><b>Explorer safety:</b> stop somewhere safe before using your phone. Only approach public places; never enter private property or cross barriers to collect a card.</p></div>
+      <div id="map" class="map" aria-label="Map of nearby discoveries">
+        <div class="map-placeholder"><span>◎</span><b>Your map will appear here</b><p>Allow location access, or explore the sample collection below.</p></div>
+      </div>
+      <div class="map-legend"><span><i class="legend-dot nearby"></i> Nearby</span><span><i class="legend-dot collected"></i> Collected</span><span id="radiusLabel">Unlock radius: 100 m</span></div>
+      <div class="section-heading compact"><div><h3>Discovery trail</h3><p class="muted">Real places, curious stories.</p></div><select id="categoryFilter" aria-label="Filter discoveries"><option value="all">All topics</option><option>History</option><option>Architecture</option><option>People</option><option>Nature</option><option>Science</option><option>Legend</option></select></div>
+      <div id="discoveryList" class="discovery-list"></div>
+      <p id="dataNote" class="footnote">Nearby place data is fetched when you choose to locate yourself. Sample cards are labelled clearly.</p>
+    </section>
+
+    <section id="journalPanel" class="panel" hidden>
+      <div class="section-heading"><div><p class="eyebrow">EVERY FIND TELLS A STORY</p><h2>My explorer's journal</h2></div></div>
+      <div class="stats-grid">
+        <div class="stat-card"><span class="stat-icon">✦</span><b id="journalTotal">0</b><small>Cards collected</small></div>
+        <div class="stat-card"><span class="stat-icon">⌖</span><b id="journalPlaces">0</b><small>Places discovered</small></div>
+        <div class="stat-card"><span class="stat-icon">🏅</span><b id="journalBadges">0</b><small>Badges earned</small></div>
+      </div>
+      <div id="journalList" class="card-grid"></div>
+      <div id="emptyJournal" class="empty-state"><span>📖</span><h3>Your story starts here</h3><p>Unlock a discovery nearby and it will be saved here on this device.</p></div>
+      <button id="exportBtn" class="secondary-button">Export my journal (JSON)</button>
+    </section>
+
+    <section id="missionsPanel" class="panel" hidden>
+      <div class="section-heading"><div><p class="eyebrow">LITTLE QUESTS, BIG DISCOVERIES</p><h2>Field missions</h2></div></div>
+      <div class="mission-card">
+        <div class="mission-symbol">🔎</div><div class="mission-body"><span class="pill">OBSERVATION</span><h3>Look a little closer</h3><p>Find a public building or monument. Look for a date, symbol or inscription. What do you think it tells you?</p><div class="mission-progress"><span id="observeProgress">0 / 1 discovery</span><button id="observeBtn" class="small-button">Mark complete</button></div></div>
+      </div>
+      <div class="mission-card">
+        <div class="mission-symbol">🗺️</div><div class="mission-body"><span class="pill">COLLECTION</span><h3>Curiosity collector</h3><p>Collect three discovery cards to earn your first explorer badge.</p><div class="progress-track"><span id="missionBar"></span></div><small id="missionProgress">0 / 3 cards</small></div>
+      </div>
+      <div class="mission-card">
+        <div class="mission-symbol">📚</div><div class="mission-body"><span class="pill">JOURNAL</span><h3>Fact or folklore?</h3><p>When a card is marked as a legend, compare it with a documented historical source. Legends can be fascinating even when they aren't proven facts.</p><button class="small-button" id="legendTipBtn">Show explorer tip</button><p id="legendTip" class="tip-text" hidden>Ask: who recorded this story, when was it written down, and is there independent evidence? A legend is part of local culture—not automatically a verified event.</p></div>
+      </div>
+      <p class="footnote">Missions are designed for family exploration. The app never requires running, entering restricted areas, or approaching strangers.</p>
+    </section>
+  </main>
+
+  <footer><span>WORLD HUNTER · FIELD GUIDE NO. 001</span><button id="settingsBtn" class="text-button">Settings</button></footer>
+
+  <dialog id="cardDialog" class="card-dialog">
+    <form method="dialog"><button class="dialog-close" aria-label="Close">×</button></form>
+    <div id="dialogArt" class="dialog-art">✦</div>
+    <div class="dialog-content">
+      <div id="dialogMeta" class="card-meta"></div>
+      <h2 id="dialogTitle"></h2>
+      <p id="dialogStory"></p>
+      <div id="dialogSource" class="source-box"></div>
+      <div id="dialogDistance" class="distance-line"></div>
+      <div id="dialogActions" class="dialog-actions"></div>
+    </div>
+  </dialog>
+
+  <dialog id="settingsDialog" class="settings-dialog">
+    <form method="dialog"><button class="dialog-close" aria-label="Close">×</button></form>
+    <h2>Explorer settings</h2>
+    <label for="radiusSelect">Automatic unlock distance</label>
+    <select id="radiusSelect"><option value="50">50 metres</option><option value="100" selected>100 metres</option><option value="150">150 metres</option><option value="250">250 metres</option></select>
+    <p class="muted">A smaller radius encourages discoveries at the actual site. GPS accuracy varies, especially between tall buildings.</p>
+    <label class="toggle-row"><input type="checkbox" id="autoCollect" checked> Automatically save verified discoveries when close enough</label>
+    <p class="muted">Location is used on this device while the app is open. This MVP does not send your GPS position to an account or tracking server. Nearby-place lookups send approximate coordinates to public map/data services when you request them.</p>
+    <button id="clearDataBtn" class="danger-button" type="button">Clear all local progress</button>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="anonymous"></script>
+  <script src="app.js"></script>
+</body>
+</html>
