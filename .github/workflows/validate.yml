@@ -23,4 +23,5 @@ jobs:
           grep -q 'state.quizHistory.push(attempt)' app.js
           grep -q 'ARRIVAL POINT UNVERIFIED' app.js
           grep -q 'worldHunterExploredLayer' app.js
+          grep -q 'renderFogOfWar' app.js
           grep -q 'URL.createObjectURL(blob)' admin.js
