@@ -1,19 +1,174 @@
 {
   "source_policy": "Use official heritage, archaeological park, museum, government or UNESCO sources first. A source record supports only the claims explicitly linked to it; it does not automatically validate every statement on a page.",
   "sources": [
-    {"id":"src-unesco-pompeii","title":"Archaeological Areas of Pompei, Herculaneum and Torre Annunziata","publisher":"UNESCO World Heritage Centre","url":"https://whc.unesco.org/en/list/829/","source_type":"international heritage authority","accessed":"2026-10-21"},
-    {"id":"src-pompeii-park","title":"Homepage / archaeological sites information","publisher":"Pompeii Archaeological Park","url":"https://pompeiisites.org/en/","source_type":"official archaeological park","accessed":"2026-10-21"},
-    {"id":"src-pompeii-stabiae","title":"Stabiae","publisher":"Pompeii Archaeological Park","url":"https://pompeiisites.org/en/stabiae/","source_type":"official archaeological park","accessed":"2026-10-21"},
-    {"id":"src-pompeii-guide","title":"A Guide to the Pompeii Excavations (PDF)","publisher":"Pompeii Archaeological Park","url":"https://pompeiisites.org/wp-content/uploads/A-Guide-to-the-Pompeii-Excavations-2.pdf","source_type":"official archaeological park guide","accessed":"2026-10-21"},
-    {"id":"src-pompeii-open-buildings","title":"Open buildings","publisher":"Pompeii Archaeological Park","url":"https://pompeiisites.org/en/houses/","source_type":"official archaeological park visitor information","accessed":"2026-10-21","note":"Use for current visitor access only; opening status can change."},
-    {"id":"src-unesco-amalfi","title":"Costiera Amalfitana","publisher":"UNESCO World Heritage Centre","url":"https://whc.unesco.org/en/list/830/","source_type":"international heritage authority","accessed":"2026-10-21"},
-    {"id":"src-italia-sorrento","title":"Sorrento: things to do among beaches and art","publisher":"Italia.it / Italian National Tourism Board","url":"https://www.italia.it/en/campania/naples/sorrento","source_type":"national tourism authority","accessed":"2026-10-21"},
-    {"id":"src-italia-sorrento-peninsula","title":"Sorrento peninsula","publisher":"Italia.it / Italian National Tourism Board","url":"https://www.italia.it/en/campania/sorrento-peninsula","source_type":"national tourism authority","accessed":"2026-10-21"},
-    {"id":"src-italia-regina-baths","title":"Archeological site Bagni Regina Giovanna","publisher":"Italia.it / Italian National Tourism Board","url":"https://www.italia.it/en/campania/naples/things-to-do/bagni-regina-giovanna-roman-villa-capo-di-sorrento","source_type":"national tourism authority","accessed":"2026-10-21"},
-    {"id":"src-italia-regina-baths-legend","title":"Bagni Regina Giovanna in Sorrento","publisher":"Italia.it / Italian National Tourism Board","url":"https://www.italia.it/en/campania/naples/bagni-regina-giovanna","source_type":"national tourism authority; legend explicitly distinguished","accessed":"2026-10-21"},
-    {"id":"src-correale-museum","title":"The Museum","publisher":"Museo Correale di Terranova","url":"https://www.museocorreale.it/en/museum/","source_type":"official museum","accessed":"2026-10-21"},
-    {"id":"src-sabap-surrentum","title":"Surrentum/Sorrento. Studi e ricerche per la carta archeologica della città","publisher":"Soprintendenza Archeologia Belle Arti e Paesaggio per l'Area Metropolitana di Napoli","url":"https://sabapmetropolitanana.cultura.gov.it/surrentum-sorrento-studi-e-ricerche-per-la-carta-archeologica-della-citta/","source_type":"government archaeological heritage authority / scholarly publication listing","accessed":"2026-10-21"},
-    {"id":"src-giardino-archeologico","title":"Archaeological Sorrento: Main Sites and Cultural Landmarks","publisher":"Giardino Archeologico Sorrento","url":"https://giardinoarcheologicosorrento.it/en/infopoint","source_type":"local archaeological interpretation site","accessed":"2026-10-21"},
-    {"id":"src-unesco-italy-pompeii","title":"Pompeii, Herculaneum and Torre Annunziata","publisher":"Italian Ministry of Culture, UNESCO heritage portal","url":"https://unesco.cultura.gov.it/en/projects/pompeii-herculaneum-and-torre-annunziata/","source_type":"government heritage authority","accessed":"2026-10-21"}
+    {
+      "id": "src-unesco-pompeii",
+      "title": "Archaeological Areas of Pompei, Herculaneum and Torre Annunziata",
+      "publisher": "UNESCO World Heritage Centre",
+      "url": "https://whc.unesco.org/en/list/829/",
+      "source_type": "international heritage authority",
+      "accessed": "2026-10-21"
+    },
+    {
+      "id": "src-pompeii-park",
+      "title": "Homepage / archaeological sites information",
+      "publisher": "Pompeii Archaeological Park",
+      "url": "https://pompeiisites.org/en/",
+      "source_type": "official archaeological park",
+      "accessed": "2026-10-21"
+    },
+    {
+      "id": "src-pompeii-stabiae",
+      "title": "Stabiae",
+      "publisher": "Pompeii Archaeological Park",
+      "url": "https://pompeiisites.org/en/stabiae/",
+      "source_type": "official archaeological park",
+      "accessed": "2026-10-21"
+    },
+    {
+      "id": "src-pompeii-guide",
+      "title": "A Guide to the Pompeii Excavations (PDF)",
+      "publisher": "Pompeii Archaeological Park",
+      "url": "https://pompeiisites.org/wp-content/uploads/A-Guide-to-the-Pompeii-Excavations-2.pdf",
+      "source_type": "official archaeological park guide",
+      "accessed": "2026-10-21"
+    },
+    {
+      "id": "src-pompeii-open-buildings",
+      "title": "Open buildings",
+      "publisher": "Pompeii Archaeological Park",
+      "url": "https://pompeiisites.org/en/houses/",
+      "source_type": "official archaeological park visitor information",
+      "accessed": "2026-10-21",
+      "note": "Use for current visitor access only; opening status can change."
+    },
+    {
+      "id": "src-unesco-amalfi",
+      "title": "Costiera Amalfitana",
+      "publisher": "UNESCO World Heritage Centre",
+      "url": "https://whc.unesco.org/en/list/830/",
+      "source_type": "international heritage authority",
+      "accessed": "2026-10-21"
+    },
+    {
+      "id": "src-italia-sorrento",
+      "title": "Sorrento: things to do among beaches and art",
+      "publisher": "Italia.it / Italian National Tourism Board",
+      "url": "https://www.italia.it/en/campania/naples/sorrento",
+      "source_type": "national tourism authority",
+      "accessed": "2026-10-21"
+    },
+    {
+      "id": "src-italia-sorrento-peninsula",
+      "title": "Sorrento peninsula",
+      "publisher": "Italia.it / Italian National Tourism Board",
+      "url": "https://www.italia.it/en/campania/sorrento-peninsula",
+      "source_type": "national tourism authority",
+      "accessed": "2026-10-21"
+    },
+    {
+      "id": "src-italia-regina-baths",
+      "title": "Archeological site Bagni Regina Giovanna",
+      "publisher": "Italia.it / Italian National Tourism Board",
+      "url": "https://www.italia.it/en/campania/naples/things-to-do/bagni-regina-giovanna-roman-villa-capo-di-sorrento",
+      "source_type": "national tourism authority",
+      "accessed": "2026-10-21"
+    },
+    {
+      "id": "src-italia-regina-baths-legend",
+      "title": "Bagni Regina Giovanna in Sorrento",
+      "publisher": "Italia.it / Italian National Tourism Board",
+      "url": "https://www.italia.it/en/campania/naples/bagni-regina-giovanna",
+      "source_type": "national tourism authority; legend explicitly distinguished",
+      "accessed": "2026-10-21"
+    },
+    {
+      "id": "src-correale-museum",
+      "title": "The Museum",
+      "publisher": "Museo Correale di Terranova",
+      "url": "https://www.museocorreale.it/en/museum/",
+      "source_type": "official museum",
+      "accessed": "2026-10-21"
+    },
+    {
+      "id": "src-sabap-surrentum",
+      "title": "Surrentum/Sorrento. Studi e ricerche per la carta archeologica della città",
+      "publisher": "Soprintendenza Archeologia Belle Arti e Paesaggio per l'Area Metropolitana di Napoli",
+      "url": "https://sabapmetropolitanana.cultura.gov.it/surrentum-sorrento-studi-e-ricerche-per-la-carta-archeologica-della-citta/",
+      "source_type": "government archaeological heritage authority / scholarly publication listing",
+      "accessed": "2026-10-21"
+    },
+    {
+      "id": "src-giardino-archeologico",
+      "title": "Archaeological Sorrento: Main Sites and Cultural Landmarks",
+      "publisher": "Giardino Archeologico Sorrento",
+      "url": "https://giardinoarcheologicosorrento.it/en/infopoint",
+      "source_type": "local archaeological interpretation site",
+      "accessed": "2026-10-21"
+    },
+    {
+      "id": "src-unesco-italy-pompeii",
+      "title": "Pompeii, Herculaneum and Torre Annunziata",
+      "publisher": "Italian Ministry of Culture, UNESCO heritage portal",
+      "url": "https://unesco.cultura.gov.it/en/projects/pompeii-herculaneum-and-torre-annunziata/",
+      "source_type": "government heritage authority",
+      "accessed": "2026-10-21"
+    },
+    {
+      "id": "src-unesco-syracuse",
+      "title": "Syracuse and the Rocky Necropolis of Pantalica",
+      "publisher": "UNESCO World Heritage Centre",
+      "url": "https://whc.unesco.org/en/list/1200/",
+      "source_type": "international heritage authority",
+      "accessed": "2026-10-23"
+    },
+    {
+      "id": "src-sicily-syracuse-park",
+      "title": "Parco Archeologico di Siracusa",
+      "publisher": "Regione Siciliana",
+      "url": "https://parchiarcheologici.regione.sicilia.it/en/parco-archeologico-di-siracusa-eloro-villa-del-tellaro-e-akrai/",
+      "source_type": "regional government archaeological park",
+      "accessed": "2026-10-23"
+    },
+    {
+      "id": "src-sicily-valley-temples",
+      "title": "Parco Archeologico della Valle dei Templi",
+      "publisher": "Regione Siciliana",
+      "url": "https://parchiarcheologici.regione.sicilia.it/en/parco-archeologico-della-valle-dei-templi/",
+      "source_type": "regional government archaeological park",
+      "accessed": "2026-10-23"
+    },
+    {
+      "id": "src-unesco-etna",
+      "title": "Mount Etna",
+      "publisher": "UNESCO World Heritage Centre",
+      "url": "https://whc.unesco.org/en/list/1427/",
+      "source_type": "international heritage authority",
+      "accessed": "2026-10-23"
+    },
+    {
+      "id": "src-unesco-palermo",
+      "title": "Arab-Norman Palermo and the Cathedral Churches of Cefalú and Monreale",
+      "publisher": "UNESCO World Heritage Centre",
+      "url": "https://whc.unesco.org/en/list/1487/",
+      "source_type": "international heritage authority",
+      "accessed": "2026-10-23"
+    },
+    {
+      "id": "src-unesco-villa-casale",
+      "title": "Villa Romana del Casale",
+      "publisher": "UNESCO World Heritage Centre",
+      "url": "https://whc.unesco.org/en/list/832/",
+      "source_type": "international heritage authority",
+      "accessed": "2026-10-23"
+    },
+    {
+      "id": "src-unesco-segesta",
+      "title": "Archaeological Area of Agrigento / Sicily heritage context",
+      "publisher": "Regione Siciliana Archaeological Parks",
+      "url": "https://parchiarcheologici.regione.sicilia.it/en/",
+      "source_type": "regional government archaeological parks portal",
+      "accessed": "2026-10-23"
+    }
   ]
 }
