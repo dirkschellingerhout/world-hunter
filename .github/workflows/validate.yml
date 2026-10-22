@@ -27,5 +27,7 @@ jobs:
           grep -q 'state.captureRadius' app.js
           grep -q 'explorer-marker-halo' app.js
           grep -q "maplibregl.Map" app.js
+          grep -q "Keep existing MapLibre Marker instances alive" app.js
+          grep -q "world-hunter-v10-map-performance" sw.js
           grep -q "pitchToggleBtn" index.html
           grep -q 'URL.createObjectURL(blob)' admin.js
