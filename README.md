@@ -109,3 +109,12 @@ Validation performed for this build: JavaScript syntax check, JSON parsing, and 
 - Two public targets are currently mapped: Museo Archeologico Georges Vallet at Villa Fondi (official government record coordinate; ground-check entrance recommended) and the public Vallone dei Mulini viewpoint on Via Fuorimura (not the inaccessible gorge floor).
 - The remaining cards are deliberately browse-only until the exact safe arrival point is confirmed. Broad regions and features inside larger archaeological parks are not treated as independent GPS stops.
 - Clear site data only as a last resort; updating the service worker should preserve local progress.
+
+
+## Release 0.7 prototype
+
+- Mini-quiz attempts retain date, score, each selected answer, correct answer and explanation locally, with latest/best summaries and an expandable history.
+- Explored GPS positions are stored on-device and shown as soft, persistent explored-area circles when the map is loaded. This is exploration memory, not a full opaque fog-of-war mask.
+- Curated story cards explicitly label research-checked content separately from an unverified arrival/collection point.
+- A local-only content editor lets you edit card metadata in the browser, save a draft to that browser's local storage and export JSON. It does not write to GitHub or publish content.
+- Local browser data is not synced across devices and can be cleared by browser storage controls. Export backups before clearing site data.
