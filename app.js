@@ -17,7 +17,7 @@
   let curatedCards = [];
   let curatedQuizzes = [];
   let sourceById = {};
-  let map = null, userMarker = null, layer = null, watchId = null, userPosition = null;
+  let map = null, userMarker = null, layer = null, watchId = null, userPosition = null, fogSvg = null, fogPath = null;
   let deferredInstall = null, activeCardId = null, toastTimer = null;
   let quizIndex = 0, quizScore = 0, quizAnswered = false, quizAnswers = [], quizStartedAt = null;
   let localQuizCard = null, localQuizAnswer = null;
@@ -115,6 +115,13 @@
     if(last&&distanceMetres(last,position)<Math.max(20,state.radius*0.5))return;state.explored.push({lat:position.lat,lon:position.lon,at:Date.now()});if(state.explored.length>500)state.explored=state.explored.slice(-500);
     try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state));}catch{toast("Exploration area could not be saved on this device.");}
   }
+  function renderFogOfWar() {
+    if(!map||!fogSvg||!fogPath||!window.L)return;
+    const size=map.getSize();fogSvg.setAttribute('width',size.x);fogSvg.setAttribute('height',size.y);fogSvg.setAttribute('viewBox','0 0 '+size.x+' '+size.y);
+    let path='M0 0H'+size.x+'V'+size.y+'H0Z';
+    (state.explored||[]).forEach(point=>{const centre=map.latLngToContainerPoint([point.lat,point.lon]);const onePixel=map.containerPointToLatLng([centre.x+1,centre.y]);const metresPerPixel=map.distance([point.lat,point.lon],onePixel);const radiusPx=Math.max(18,Math.min(180,55/Math.max(.01,metresPerPixel)));path+=' M '+(centre.x-radiusPx)+' '+centre.y+' a '+radiusPx+' '+radiusPx+' 0 1 0 '+(radiusPx*2)+' 0 a '+radiusPx+' '+radiusPx+' 0 1 0 '+(-radiusPx*2)+' 0';});
+    fogPath.setAttribute('d',path);fogPath.setAttribute('fill-rule','evenodd');
+  }
   function ensureMap(lat,lon) {
     if (!window.L) {
       $("dataNote").textContent="The map library could not load. Discovery cards and the journal still work; try again with an internet connection.";
@@ -127,9 +134,10 @@
         maxZoom:19, attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'
       }).addTo(map);
       layer=L.layerGroup().addTo(map);window.worldHunterExploredLayer=L.layerGroup().addTo(map);
+      const fogPane=map.createPane('worldHunterFogPane');fogPane.style.zIndex='350';fogPane.style.pointerEvents='none';fogSvg=document.createElementNS('http://www.w3.org/2000/svg','svg');fogSvg.setAttribute('class','world-hunter-fog');fogSvg.style.position='absolute';fogSvg.style.left='0';fogSvg.style.top='0';fogSvg.style.pointerEvents='none';fogPath=document.createElementNS('http://www.w3.org/2000/svg','path');fogPath.setAttribute('fill','#172923');fogPath.setAttribute('fill-opacity','0.48');fogPane.appendChild(fogSvg);fogSvg.appendChild(fogPath);map.on('move zoom resize',renderFogOfWar);
     } else { map.setView([lat,lon],16); }
     if (acquisitionCircle) acquisitionCircle.remove();
-    if(window.worldHunterExploredLayer){window.worldHunterExploredLayer.clearLayers();(state.explored||[]).forEach(point=>L.circle([point.lat,point.lon],{radius:Math.max(20,state.radius*1.5),color:"#8a9e73",weight:1,fillColor:"#c7d8b4",fillOpacity:.20,dashArray:"3 5",interactive:false}).addTo(window.worldHunterExploredLayer));}
+    if(window.worldHunterExploredLayer){window.worldHunterExploredLayer.clearLayers();(state.explored||[]).forEach(point=>L.circle([point.lat,point.lon],{radius:Math.max(20,state.radius*1.5),color:"#8a9e73",weight:1,fillColor:"#c7d8b4",fillOpacity:.20,dashArray:"3 5",interactive:false}).addTo(window.worldHunterExploredLayer));}renderFogOfWar();
     acquisitionCircle=L.circle([lat,lon],{radius:state.radius,color:"#24574b",weight:2,fillColor:"#24574b",fillOpacity:.07,dashArray:"5 6"}).addTo(map);
     frameMapToRange();
     if (userMarker) userMarker.remove();
@@ -403,7 +411,7 @@
       watchId=navigator.geolocation.watchPosition(p=>{
         userPosition={lat:p.coords.latitude,lon:p.coords.longitude};
         const exploredCountBefore=(state.explored||[]).length;rememberExploredPosition(userPosition);
-        if((state.explored||[]).length!==exploredCountBefore&&window.worldHunterExploredLayer){window.worldHunterExploredLayer.clearLayers();state.explored.forEach(point=>L.circle([point.lat,point.lon],{radius:Math.max(20,state.radius*1.5),color:"#8a9e73",weight:1,fillColor:"#c7d8b4",fillOpacity:.20,dashArray:"3 5",interactive:false}).addTo(window.worldHunterExploredLayer));}
+        if((state.explored||[]).length!==exploredCountBefore&&window.worldHunterExploredLayer){window.worldHunterExploredLayer.clearLayers();state.explored.forEach(point=>L.circle([point.lat,point.lon],{radius:Math.max(20,state.radius*1.5),color:"#8a9e73",weight:1,fillColor:"#c7d8b4",fillOpacity:.20,dashArray:"3 5",interactive:false}).addTo(window.worldHunterExploredLayer));renderFogOfWar();}
         if(userMarker)userMarker.setLatLng([userPosition.lat,userPosition.lon]);
         if(acquisitionCircle)acquisitionCircle.setLatLng([userPosition.lat,userPosition.lon]);
         maybeAutoCollect();renderDiscoveries();renderMapMarkers();

@@ -118,3 +118,10 @@ Validation performed for this build: JavaScript syntax check, JSON parsing, and 
 - Curated story cards explicitly label research-checked content separately from an unverified arrival/collection point.
 - A local-only content editor lets you edit card metadata in the browser, save a draft to that browser's local storage and export JSON. It does not write to GitHub or publish content.
 - Local browser data is not synced across devices and can be cleared by browser storage controls. Export backups before clearing site data.
+
+
+## Release 0.8 — fog of war prototype
+
+- Adds a translucent map shade with clear windows around locally remembered GPS exploration points. The overlay stays beneath map markers and the unlock-radius circle and redraws on map movement, zoom and resize.
+- Reveal windows use an approximate 55-metre ground radius; this is a first-pass exploration effect, not terrain-aware routing or a precise geospatial raster.
+- Exploration data remains local to the browser. Manual visual testing on Android/PWA and checks of GPS, zoom, pan, and previously saved exploration are still required before merging.
