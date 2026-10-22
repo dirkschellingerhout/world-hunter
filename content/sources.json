@@ -169,6 +169,14 @@
       "url": "https://parchiarcheologici.regione.sicilia.it/en/",
       "source_type": "regional government archaeological parks portal",
       "accessed": "2026-10-23"
+    },
+    {
+      "id": "src-sicily-segesta",
+      "title": "Sicilian Regional Archaeological Parks portal",
+      "publisher": "Regione Siciliana",
+      "url": "https://parchiarcheologici.regione.sicilia.it/en/",
+      "source_type": "regional government archaeological parks portal; lead only, not yet used to approve historical claims",
+      "accessed": "2026-10-23"
     }
   ]
 }
