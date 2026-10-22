@@ -120,8 +120,10 @@ Validation performed for this build: JavaScript syntax check, JSON parsing, and 
 - Local browser data is not synced across devices and can be cleared by browser storage controls. Export backups before clearing site data.
 
 
-## Release 0.8 — fog of war prototype
+## Release 0.8b — explorer cartography
 
-- Adds a translucent map shade with clear windows around locally remembered GPS exploration points. The overlay stays beneath map markers and the unlock-radius circle and redraws on map movement, zoom and resize.
-- Reveal windows use an approximate 55-metre ground radius; this is a first-pass exploration effect, not terrain-aware routing or a precise geospatial raster.
-- Exploration data remains local to the browser. Manual visual testing on Android/PWA and checks of GPS, zoom, pan, and previously saved exploration are still required before merging.
+- Removes the unreliable SVG fog-of-war mask; previously saved exploration remains visible as remembered-area circles and a dotted expedition trail.
+- Adds an inline SVG explorer protagonist at the live GPS position.
+- Applies a subtle warm parchment-like tint to real OpenStreetMap tiles without changing their geometry.
+- The map remains flat Leaflet; true pitch/rotation is deferred for a separate engine evaluation.
+- GPS data stays local to the browser. Android/PWA visual testing is required before merging.
