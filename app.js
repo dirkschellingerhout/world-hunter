@@ -207,7 +207,7 @@
     actions.appendChild(btn);
     if(!c.demo && !c.curated && Number.isFinite(c.lat) && Number.isFinite(c.lon)){
       const visit=document.createElement("button");visit.className="quiet-button";
-      visit.textContent=hasVisited?"✓ Visited":visitEligible?"Mark as visited":"Visit point (get within 35 m)";
+      visit.textContent=hasVisited?"✓ Visited":visitEligible?"Mark as visited":"Visit point (get within "+state.captureRadius+" m)";
       visit.disabled=hasVisited||!visitEligible;
       if(visitEligible&&!hasVisited)visit.addEventListener("click",()=>markVisited(c));
       actions.appendChild(visit);
@@ -219,7 +219,7 @@
     $("cardDialog").showModal();
   }
   function markVisited(c) {
-    if(!userPosition||distanceMetres(userPosition,c)>state.captureRadius){toast("Get within 35 m of the mapped point to record a visit.");return;}
+    if(!userPosition||distanceMetres(userPosition,c)>state.captureRadius){toast("Get within "+state.captureRadius+" m of the mapped point to record a visit.");return;}
     if(!state.visited.includes(c.id))state.visited.push(c.id);
     state.visitLog=Array.isArray(state.visitLog)?state.visitLog:[];
     state.visitLog.push({id:c.id,title:c.title,visitedAt:Date.now(),distanceMetres:Math.round(distanceMetres(userPosition,c))});
