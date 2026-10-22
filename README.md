@@ -127,3 +127,11 @@ Validation performed for this build: JavaScript syntax check, JSON parsing, and 
 - Applies a subtle warm parchment-like tint to real OpenStreetMap tiles without changing their geometry.
 - The map remains flat Leaflet; true pitch/rotation is deferred for a separate engine evaluation.
 - GPS data stays local to the browser. Android/PWA visual testing is required before merging.
+
+
+## Experimental release 0.9 — MapLibre Explorer Mode
+
+- Replaces the Leaflet map renderer with MapLibre GL JS and a vector-map style from OpenFreeMap.
+- Adds a 45-degree tilted camera with a one-tap flat/tilted toggle, bearing/navigational controls, an illustrated explorer marker, discovery markers, remembered explored areas, expedition trail and configurable acquisition-radius overlay.
+- Existing content, collection, quiz, journal and GPS-distance logic are intended to remain unchanged.
+- Map style and tiles are third-party services and require internet access. Review provider terms and availability before production use; this experiment does not provide offline map tiles. Android touch, GPS, marker interaction and service-worker update testing are required.
