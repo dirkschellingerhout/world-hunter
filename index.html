@@ -46,10 +46,11 @@
         <button id="refreshBtn" class="quiet-button">Refresh ↻</button>
       </div>
       <div class="notice"><span>🧭</span><p><b>Explorer safety:</b> stop somewhere safe before using your phone. Only approach public places; never enter private property or cross barriers to collect a card.</p></div>
+      <div class="map-toolbar"><span class="map-mode-label">🧭 <b>Explorer map</b> · Gold markers are verified targets</span><button id="recenterMapBtn" class="quiet-button" type="button" aria-label="Centre map on my location">◎ You are here</button></div>
       <div id="map" class="map" aria-label="Map of nearby discoveries">
         <div class="map-placeholder"><span>◎</span><b>Your map will appear here</b><p>Allow location access, or explore the sample collection below.</p></div>
       </div>
-      <div class="map-legend"><span><i class="legend-dot nearby"></i> Discovery</span><span><i class="legend-dot collected"></i> Collected</span><span id="radiusLabel">Unlock radius: 100 m</span><span id="mapRadiusLabel">Map view: 300 m radius</span></div>
+      <div class="map-legend"><span><i class="legend-pin target"></i> Verified target</span><span><i class="legend-pin near"></i> In range</span><span><i class="legend-pin collected"></i> Collected</span><span><i class="legend-avatar"></i> You are here</span><span id="radiusLabel">Unlock radius: 100 m</span><span id="mapRadiusLabel">Map view: 300 m radius</span></div>
       <div class="section-heading compact"><div><h3>Discovery trail</h3><p class="muted">Real places, curious stories.</p></div><select id="categoryFilter" aria-label="Filter discoveries"><option value="all">All topics</option><option>History</option><option>Architecture</option><option>People</option><option>Nature</option><option>Place</option><option>Science</option><option>Legend</option></select></div>
       <div id="discoveryList" class="discovery-list"></div>
       <p id="dataNote" class="footnote">Nearby stops load automatically after you enable location. Sample cards are labelled clearly.</p>

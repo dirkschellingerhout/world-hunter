@@ -76,7 +76,7 @@
           approvedFacts: card.approved_facts || [], visitChallenge: card.visit_challenge || null,
           sourceIds: card.sources || [], source: firstSource ? firstSource.title : "Curated content source",
           url: firstSource ? firstSource.url : "", coordinateStatus: card.coordinate_status || "needs_verified_geocoding",
-          lat: null, lon: null, art: category === "Legend" ? "🌙" : category === "Nature" ? "🌿" : category === "Architecture" ? "🏛️" : "📚",
+          lat: card.coordinate_status === "verified_target" && Number.isFinite(card.lat) ? card.lat : null, lon: card.coordinate_status === "verified_target" && Number.isFinite(card.lon) ? card.lon : null, art: category === "Legend" ? "🌙" : category === "Nature" ? "🌿" : category === "Architecture" ? "🏛️" : "📚",
           rarity: card.status === "approved-with-limits" ? "Observation only" : "Curated story"
         };
       });
@@ -95,7 +95,7 @@
       if (curatedQuizzes.length) quizQuestions = curatedQuizzes;
       window.worldHunterContentStatus = {cards: curatedCards.length, approvedQuizzes: curatedQuizzes.length, reviewItems: (reviewData.items || []).length};
       renderDiscoveries(); renderLocalQuizPicker(); renderMissions();
-      $("dataNote").textContent = `Sorrento content loaded: ${curatedCards.length} curated cards and ${curatedQuizzes.length} source-linked quiz questions. Cards without verified coordinates are browse-only.`;
+      $("dataNote").textContent = `Sorrento content loaded: ${curatedCards.length} curated cards and ${curatedQuizzes.length} source-linked quiz questions. Only reviewed safe target points can be collected; other cards remain browse-only while their arrival points are checked.`;
     } catch (error) {
       console.warn("Curated content could not be loaded:", error);
       $("dataNote").textContent = "Curated content could not be loaded. Check that the content folder is deployed with the app.";
@@ -127,7 +127,7 @@
     acquisitionCircle=L.circle([lat,lon],{radius:state.radius,color:"#24574b",weight:2,fillColor:"#24574b",fillOpacity:.07,dashArray:"5 6"}).addTo(map);
     frameMapToRange();
     if (userMarker) userMarker.remove();
-    userMarker=L.circleMarker([lat,lon],{radius:8,color:"#fff",weight:3,fillColor:"#24574b",fillOpacity:1}).addTo(map).bindPopup("You are here (only visible on this device).");
+    userMarker=L.marker([lat,lon],{icon:L.divIcon({className:"explorer-location-marker",html:"<span class=\"explorer-marker-halo\"><img src=\"./assets/explorer-avatar.png\" alt=\"You are here\"></span>",iconSize:[54,62],iconAnchor:[27,55]})}).addTo(map).bindPopup("<b>You are here</b><br>Your location stays on this device.");
     renderMapMarkers();
     setTimeout(()=>{map.invalidateSize();frameMapToRange();},100);
   }
@@ -143,8 +143,8 @@
     layer.clearLayers();
     discoveries.filter(c=>Number.isFinite(c.lat)&&Number.isFinite(c.lon)).forEach(c=>{
       const was=collected(c.id), near=userPosition?distanceMetres(userPosition,c)<=state.radius:false;
-      const marker=L.circleMarker([c.lat,c.lon],{radius:was?8:6,color:"#fff",weight:2,fillColor:was?"#24574b":(near?"#d86e50":"#d5a83f"),fillOpacity:.95});
-      marker.bindPopup(`<b>${escapeHtml(c.title)}</b><br>${was?"Collected":near?"In unlock range":escapeHtml(c.category||"Discovery")}<br><button type="button" onclick="window.worldHunterOpen('${escapeHtml(c.id)}')">Open card</button>`);
+      const marker=L.marker([c.lat,c.lon],{icon:L.divIcon({className:"treasure-marker-wrap",html:`<span class="treasure-marker ${was?"is-collected":near?"is-near":""}" aria-hidden="true"><i>${was?"✓":"✦"}</i></span>`,iconSize:[40,48],iconAnchor:[20,43]})});
+      marker.bindPopup(`<b>${escapeHtml(c.title)}</b><br>${was?"Collected":near?"Within unlock radius":"Verified target"}<br><button type="button" onclick="window.worldHunterOpen('${escapeHtml(c.id)}')">Open story</button>`);
       marker.on("click",()=>{});
       marker.addTo(layer);
     });
@@ -204,7 +204,7 @@
       sourceHtml = `<b>Sources</b><br>${links.map(src => `<a href="${escapeHtml(src.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(src.title)} — ${escapeHtml(src.publisher)}</a>`).join("<br>") || "No linked sources"}`;
       if (c.approvedFacts && c.approvedFacts.length) sourceHtml += `<br><br><b>Approved facts in this pack</b><ul>${c.approvedFacts.map(f => `<li>${escapeHtml(f.claim)}</li>`).join("")}</ul>`;
       if (c.visitChallenge) sourceHtml += `<br><br><b>Try this on site</b><br>${escapeHtml(c.visitChallenge.prompt)}<br><small>${escapeHtml(c.visitChallenge.safety || "Stay in public areas and follow site rules.")}</small>`;
-      if (c.locationArea) sourceHtml += `<br><br><small>Area: ${escapeHtml(c.locationArea)}. GPS collection is disabled until this exact location is verified.</small>`;
+      if (c.locationArea) sourceHtml += `<br><br><small>Area: ${escapeHtml(c.locationArea)}. ${c.coordinateStatus === "verified_target" ? "Map target is reviewed; follow posted access and safety guidance." : "GPS collection is disabled until a safe arrival point is verified."}</small>`;
     }
     $("dialogSource").innerHTML = sourceHtml;
     let d=userPosition&&Number.isFinite(c.lat)&&Number.isFinite(c.lon)?distanceMetres(userPosition,c):null;
@@ -212,8 +212,8 @@
     const actions=$("dialogActions"); actions.innerHTML="";
     const already=collected(c.id);
     const hasVisited=state.visited.includes(c.id);
-    const visitEligible=d!==null&&d<=VISIT_RADIUS&&!c.demo;
-    const eligible=!c.demo && c.kind!=="place" && !!c.url && d!==null && d<=state.radius;
+    const visitEligible=d!==null&&d<=VISIT_RADIUS&&!c.demo&&(!c.curated || c.coordinateStatus === "verified_target");
+    const eligible=!c.demo && (!c.curated || c.coordinateStatus === "verified_target") && c.kind!=="place" && !!c.url && d!==null && d<=state.radius;
     const btn=document.createElement("button"); btn.className="primary-button";
     if(already){btn.textContent="✓ In your journal";btn.disabled=true;}
     else if(eligible){btn.textContent="Collect discovery";btn.addEventListener("click",()=>collect(c));}
@@ -285,7 +285,7 @@
   }
   function collect(c) {
     if(collected(c.id)) return;
-    if(c.demo || c.kind==="place" || !c.url){toast("Only sourced story cards can be collected; this place needs a verified story first.");return;}
+    if(c.demo || (c.curated && c.coordinateStatus !== "verified_target") || c.kind==="place" || !c.url){toast("Only sourced story cards can be collected; this place needs a verified story first.");return;}
     const d=userPosition?distanceMetres(userPosition,c):Infinity;
     if(d>state.radius){toast("You're outside the unlock range. Explore safely and try again.");return;}
     state.collected.push({...c,collectedAt:Date.now(),distanceAtCollection:Math.round(d)});
@@ -417,7 +417,7 @@
   }
   function maybeAutoCollect() {
     if(!state.autoCollect||!userPosition)return;
-    const eligible=discoveries.filter(c=>!c.demo&&c.kind!=="place"&&c.url&&!collected(c.id)&&Number.isFinite(c.lat)&&Number.isFinite(c.lon)&&distanceMetres(userPosition,c)<=state.radius);
+    const eligible=discoveries.filter(c=>!c.demo&&(!c.curated||c.coordinateStatus==="verified_target")&&c.kind!=="place"&&c.url&&!collected(c.id)&&Number.isFinite(c.lat)&&Number.isFinite(c.lon)&&distanceMetres(userPosition,c)<=state.radius);
     // Auto-save sourced discoveries in proximity. OSM place-only cards have a source URL but no historical claim.
     eligible.forEach(c=>{
       state.collected.push({...c,collectedAt:Date.now(),distanceAtCollection:Math.round(distanceMetres(userPosition,c))});
@@ -510,6 +510,7 @@
   $("radiusSelect").addEventListener("change",e=>{const custom=e.target.value==="custom";$("customRadiusWrap").hidden=!custom;if(!custom)applyRadius(e.target.value);else $("customRadius").focus();});
   $("customRadius").addEventListener("change",e=>applyRadius(e.target.value));
   $("autoCollect").checked=state.autoCollect;
+  $("recenterMapBtn").addEventListener("click",()=>{if(!userPosition){toast("Find your location first.");locate();return;} if(map){map.setView([userPosition.lat,userPosition.lon],17,{animate:true});if(userMarker)userMarker.openPopup();}});
   $("autoCollect").addEventListener("change",e=>{state.autoCollect=e.target.checked;saveState();toast(state.autoCollect?"Automatic collection enabled":"Automatic collection paused");});
   $("exportBtn").addEventListener("click",exportJournal);
   $("observeBtn").addEventListener("click",()=>{state.observeDone=true;saveState();toast("Mission complete — Observation Scout badge earned!");});

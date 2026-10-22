@@ -1,4 +1,4 @@
-# World Hunter — v0.5
+# World Hunter — v0.6
 
 An Android-friendly installable PWA prototype for location-based discovery cards, a local explorer's journal, and simple family-friendly missions.
 
@@ -68,14 +68,14 @@ Validation: `node --check app.js` and manifest JSON validation passed. A live br
 On first launch, World Hunter explains why it uses location and asks the user to continue. The browser/Android then owns the actual location permission prompt. After permission is granted, later launches automatically refresh the user's location and nearby results when the browser reports that permission is already granted. If permission is denied or still awaiting a browser decision, the app shows a status and leaves the user in control of retrying.
 
 
-## Version 0.5 — curated content library
+## Version 0.6 — curated content library
 
 - Loads the Sorrento Peninsula content pack from the single `content/` root folder (`cards.json`, `quizzes.json`, `sources.json`, `review_queue.json`).
 - Displays 15 curated cards with linked sources, approved fact claims, and visit-observation prompts. Folklore is labelled as legend.
 - Loads source-linked quizzes only when the quiz is approved, its fact ID exists in the associated approved card, and all linked source IDs resolve.
 - Cards with unverified coordinates are browse-only and cannot be collected by proximity. The Vallone dei Mulini card is observation-only and excluded from scored quizzes.
 - The review queue is loaded as editorial metadata and is not presented as approved player facts.
-- Service worker cache is bumped to v5.
+- Service worker cache is bumped to v6.
 
 ### Content folder layout
 
@@ -89,11 +89,23 @@ world-hunter/
   sw.js
   manifest.webmanifest
   icon.svg
+  assets/
+    explorer-avatar.png
   content/
     cards.json
     quizzes.json
     sources.json
     review_queue.json
+    coordinate_audit.json
 ```
 
 Validation performed for this build: JavaScript syntax check, JSON parsing, and structural checks for card/quiz/source linkage. A live browser/GPS/API test has not been run here.
+
+
+## v0.6 adventure map and coordinate review
+
+- Adds an original illustrated explorer marker for the device's current position, a recenter control, and bold treasure-style markers for reviewed targets.
+- The coordinate audit is `content/coordinate_audit.json`. Only cards explicitly marked `verified_target` are published as collectible GPS targets.
+- Two public targets are currently mapped: Museo Archeologico Georges Vallet at Villa Fondi (official government record coordinate; ground-check entrance recommended) and the public Vallone dei Mulini viewpoint on Via Fuorimura (not the inaccessible gorge floor).
+- The remaining cards are deliberately browse-only until the exact safe arrival point is confirmed. Broad regions and features inside larger archaeological parks are not treated as independent GPS stops.
+- Clear site data only as a last resort; updating the service worker should preserve local progress.

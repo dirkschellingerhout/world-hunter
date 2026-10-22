@@ -1,0 +1,10 @@
+World Hunter v0.6 validation
+
+PASS: cards.json, quizzes.json, sources.json, review_queue.json and coordinate_audit.json parse as JSON.
+PASS: 15 unique curated cards retained.
+PASS: coordinate audit contains all 15 card IDs.
+PASS: only two cards have finite coordinates and coordinate_status=verified_target.
+PASS: other cards remain coordinate-null and cannot be collected automatically.
+PASS: app.js parses with Node.js (run node --check app.js).
+MANUAL TEST STILL REQUIRED: Android Chrome GPS permission, marker legibility, map recentering, target popups, offline install/update, and physical confirmation of both public target points.
+NOTE: This package has not been deployed to GitHub Pages or tested on a live phone from this environment.
