@@ -14,6 +14,9 @@
 
   let state = loadState();
   let discoveries = [...demoCards];
+  let curatedCards = [];
+  let curatedQuizzes = [];
+  let sourceById = {};
   let map = null, userMarker = null, layer = null, watchId = null, userPosition = null;
   let deferredInstall = null, activeCardId = null, toastTimer = null;
   let quizIndex = 0, quizScore = 0, quizAnswered = false;
@@ -46,6 +49,58 @@
   function collected(id) { return state.collected.some(x=>x.id===id); }
   function isDemo(c) { return !!c.demo; }
   function uniqueId(c) { return c.id || `${c.title}-${c.lat}-${c.lon}`; }
+
+  async function loadCuratedContent() {
+    try {
+      const base = "./content/";
+      const files = ["cards.json", "quizzes.json", "sources.json", "review_queue.json"];
+      const loaded = await Promise.all(files.map(async file => {
+        const response = await fetch(base + file);
+        if (!response.ok) throw new Error(`Failed to load ${file}`);
+        return response.json();
+      }));
+      const [cardsData, quizzesData, sourcesData, reviewData] = loaded;
+      sourceById = Object.fromEntries((sourcesData.sources || []).map(source => [source.id, source]));
+      const sourceCardData = cardsData.cards || [];
+      curatedCards = sourceCardData.map(card => {
+        const tags = card.category || [];
+        const category = tags.some(x => /myth|folklore|legend/i.test(x)) ? "Legend"
+          : tags.some(x => /nature|geology/i.test(x)) ? "Nature"
+          : tags.some(x => /architecture|visual-observation/i.test(x)) ? "Architecture"
+          : tags.some(x => /history|archaeology/i.test(x)) ? "History" : "Place";
+        const firstSource = sourceById[(card.sources || [])[0]];
+        return {
+          id: card.id, title: card.title, category, short: card.short_story, story: card.short_story,
+          kind: category === "Legend" ? "legend" : "documented", curated: true, status: card.status,
+          locationName: card.location_name, locationArea: card.location_area,
+          approvedFacts: card.approved_facts || [], visitChallenge: card.visit_challenge || null,
+          sourceIds: card.sources || [], source: firstSource ? firstSource.title : "Curated content source",
+          url: firstSource ? firstSource.url : "", coordinateStatus: card.coordinate_status || "needs_verified_geocoding",
+          lat: null, lon: null, art: category === "Legend" ? "🌙" : category === "Nature" ? "🌿" : category === "Architecture" ? "🏛️" : "📚",
+          rarity: card.status === "approved-with-limits" ? "Observation only" : "Curated story"
+        };
+      });
+      const cardById = Object.fromEntries(sourceCardData.map(card => [card.id, card]));
+      curatedQuizzes = (quizzesData.quizzes || []).filter(q => {
+        const card = cardById[q.card_id];
+        return q.status === "approved" && card && card.status === "approved" &&
+          (card.approved_facts || []).some(f => f.id === q.fact_id) &&
+          (q.source_ids || []).length > 0 && q.source_ids.every(id => !!sourceById[id]);
+      }).map(q => ({
+        id: q.id, cardId: q.card_id, factId: q.fact_id, q: q.question,
+        options: q.options, answer: q.correct_option_index, explanation: q.explanation,
+        sourceIds: q.source_ids
+      }));
+      discoveries = [...demoCards, ...curatedCards];
+      if (curatedQuizzes.length) quizQuestions = curatedQuizzes;
+      window.worldHunterContentStatus = {cards: curatedCards.length, approvedQuizzes: curatedQuizzes.length, reviewItems: (reviewData.items || []).length};
+      renderDiscoveries(); renderLocalQuizPicker(); renderMissions();
+      $("dataNote").textContent = `Sorrento content loaded: ${curatedCards.length} curated cards and ${curatedQuizzes.length} source-linked quiz questions. Cards without verified coordinates are browse-only.`;
+    } catch (error) {
+      console.warn("Curated content could not be loaded:", error);
+      $("dataNote").textContent = "Curated content could not be loaded. Check that the content folder is deployed with the app.";
+    }
+  }
 
   function switchTab(tab) {
     document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));
@@ -135,15 +190,23 @@
     $("observeProgress").textContent=state.observeDone?"✓ Complete":"0 / 1 discovery";
     $("observeBtn").textContent=state.observeDone?"Completed ✓":"Mark complete";
     $("observeBtn").disabled=state.observeDone;
-    $("quizBestScore").textContent=state.quizBestScore===null?"":"Best: "+state.quizBestScore+"/3 · "+state.quizAttempts+" attempt"+(state.quizAttempts===1?"":"s");
+    $("quizBestScore").textContent=state.quizBestScore===null?"":"Best: "+state.quizBestScore+`/${quizQuestions.length} · `+state.quizAttempts+" attempt"+(state.quizAttempts===1?"":"s");
   }
   function openCard(c) {
     activeCardId=c.id;
     $("dialogArt").textContent=c.art||icons[c.category]||"✦";
-    $("dialogMeta").textContent=`${c.category||"Discovery"} · ${c.kind==="legend"?"Folklore / legend":c.kind==="place"?"Place information":"Documented story"}${c.demo?" · DEMO CARD":""}`;
+    $("dialogMeta").textContent=`${c.category||"Discovery"} · ${c.kind==="legend"?"Folklore / legend":c.kind==="place"?"Place information":"Documented story"}${c.curated?" · CURATED CONTENT":""}${c.status==="approved-with-limits"?" · OBSERVATION ONLY":""}${c.demo?" · DEMO CARD":""}`;
     $("dialogTitle").textContent=c.title;
     $("dialogStory").textContent=c.story || "This map location has been identified from open geographic data. We don't yet have a separately verified historical story for this place.";
-    $("dialogSource").innerHTML=c.url?`<b>Source</b><br><a href="${escapeHtml(c.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(c.source||"Open source")}</a>${c.source==="Wikipedia article summary · check references"?'<br><span>Wikipedia text is available under CC BY-SA; open the article for contributor attribution and references.</span>':''}`:`<b>Source</b><br><a href="https://www.openstreetmap.org/" target="_blank" rel="noopener noreferrer">OpenStreetMap place data</a><br><span>This identifies the mapped place; it is not itself proof of a historical claim.</span>`;
+    let sourceHtml = c.url ? `<b>Source</b><br><a href="${escapeHtml(c.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(c.source||"Open source")}</a>` : `<b>Source</b><br><span>No source link is available for this card.</span>`;
+    if (c.curated) {
+      const links = (c.sourceIds || []).map(id => sourceById[id]).filter(Boolean);
+      sourceHtml = `<b>Sources</b><br>${links.map(src => `<a href="${escapeHtml(src.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(src.title)} — ${escapeHtml(src.publisher)}</a>`).join("<br>") || "No linked sources"}`;
+      if (c.approvedFacts && c.approvedFacts.length) sourceHtml += `<br><br><b>Approved facts in this pack</b><ul>${c.approvedFacts.map(f => `<li>${escapeHtml(f.claim)}</li>`).join("")}</ul>`;
+      if (c.visitChallenge) sourceHtml += `<br><br><b>Try this on site</b><br>${escapeHtml(c.visitChallenge.prompt)}<br><small>${escapeHtml(c.visitChallenge.safety || "Stay in public areas and follow site rules.")}</small>`;
+      if (c.locationArea) sourceHtml += `<br><br><small>Area: ${escapeHtml(c.locationArea)}. GPS collection is disabled until this exact location is verified.</small>`;
+    }
+    $("dialogSource").innerHTML = sourceHtml;
     let d=userPosition&&Number.isFinite(c.lat)&&Number.isFinite(c.lon)?distanceMetres(userPosition,c):null;
     $("dialogDistance").textContent=d!==null?fmtDistance(d):c.demo?"Sample card — not a live nearby result":"Location distance unavailable";
     const actions=$("dialogActions"); actions.innerHTML="";
@@ -154,9 +217,9 @@
     const btn=document.createElement("button"); btn.className="primary-button";
     if(already){btn.textContent="✓ In your journal";btn.disabled=true;}
     else if(eligible){btn.textContent="Collect discovery";btn.addEventListener("click",()=>collect(c));}
-    else {btn.textContent=c.demo?"Demo only — not collectible":"Get closer to collect";btn.disabled=true;}
+    else {btn.textContent=c.demo?"Demo only — not collectible":c.curated?"Location not verified — browse only":"Get closer to collect";btn.disabled=true;}
     actions.appendChild(btn);
-    if(!c.demo && Number.isFinite(c.lat) && Number.isFinite(c.lon)){
+    if(!c.demo && !c.curated && Number.isFinite(c.lat) && Number.isFinite(c.lon)){
       const visit=document.createElement("button");visit.className="quiet-button";
       visit.textContent=hasVisited?"✓ Visited":visitEligible?"Mark as visited":"Visit point (get within 35 m)";
       visit.disabled=hasVisited||!visitEligible;
@@ -177,6 +240,24 @@
     state.observeDone=true;saveState();renderDiscoveries();openCard(c);toast("Visit recorded in your explorer journal!");
   }
   function startCardQuiz(c) {
+    const authored = curatedQuizzes.filter(q => q.cardId === c.id);
+    if (authored.length) {
+      const area = $("localQuizArea"); area.innerHTML = "";
+      const q = authored[Math.floor(Math.random() * authored.length)];
+      const prompt = document.createElement("p"); prompt.className = "quiz-question"; prompt.textContent = q.q;
+      const opts = document.createElement("div"); opts.className = "quiz-options";
+      const feedback = document.createElement("p"); feedback.className = "quiz-feedback"; feedback.hidden = true;
+      area.append(prompt, opts, feedback);
+      q.options.forEach((option, index) => { const b = document.createElement("button"); b.className = "quiz-option"; b.textContent = option; b.addEventListener("click", () => {
+        [...opts.children].forEach(x => x.disabled = true); const good = index === q.answer; b.classList.add(good ? "answer-correct" : "answer-wrong");
+        if (good) opts.children[q.answer].classList.add("answer-correct");
+        feedback.hidden = false; feedback.className = "quiz-feedback " + (good ? "is-correct" : "is-learning");
+        const sourceLinks = q.sourceIds.map(id => sourceById[id]).filter(Boolean).map(src => src.title).join(", ");
+        feedback.textContent = `${good ? "Correct. " : "Not quite. "}${q.explanation} Source: ${sourceLinks}.`;
+        const next = document.createElement("button"); next.className = "small-button"; next.textContent = "Choose another discovery"; next.addEventListener("click", renderLocalQuizPicker); area.appendChild(next);
+      }); opts.appendChild(b); });
+      return;
+    }
     const years=[...new Set((c.story||"").match(/\b(?:1[0-9]{3}|20[0-2][0-9]|[1-9][0-9]{2})\b/g)||[])];
     const area=$("localQuizArea");area.innerHTML="";
     const q=document.createElement("p");q.className="quiz-question";
@@ -196,7 +277,7 @@
     options.forEach(option=>{const b=document.createElement("button");b.className="quiz-option";b.textContent=option;b.addEventListener("click",()=>{[...opts.children].forEach(x=>x.disabled=true);const good=option===correctText;b.classList.add(good?"answer-correct":"answer-wrong");feedback.hidden=false;feedback.className="quiz-feedback "+(good?"is-correct":"is-learning");feedback.textContent=good?`Correct. Check the source link on the card to read the original context. Source: ${c.source||"linked article"}.`:`Not quite. The summary's answer is “${correctText}”. Open the linked source to see the context.`;const next=document.createElement("button");next.className="small-button";next.textContent="Choose another discovery";next.addEventListener("click",renderLocalQuizPicker);area.appendChild(next);});opts.appendChild(b);});
   }
   function renderLocalQuizPicker() {
-    const candidates=discoveries.filter(c=>!c.demo&&c.kind!=="place"&&c.url&&c.story&&c.story.length>80);
+    const candidates=discoveries.filter(c=>!c.demo&&c.kind!=="place"&&c.url&&c.story&&c.story.length>80&&(c.curated?curatedQuizzes.some(q=>q.cardId===c.id):true));
     $("localQuizDescription").textContent=candidates.length?`${candidates.length} sourced local stories available. Questions use details visible in the linked summary; open the source to check the context.`:"Locate yourself to load nearby sourced stories. Place-only map pins are leads, not verified historical accounts.";
     const area=$("localQuizArea");area.innerHTML="";
     if(!candidates.length){const b=document.createElement("button");b.className="small-button";b.textContent="Find nearby discoveries";b.addEventListener("click",locate);area.appendChild(b);return;}
@@ -316,13 +397,13 @@
       try{
         const fresh=await fetchNearby(userPosition.lat,userPosition.lon);
         if(fresh.length){
-          discoveries=[...fresh,...demoCards];
+          discoveries=[...fresh,...curatedCards,...demoCards];
           $("dataNote").textContent="Live results combine nearby Wikipedia articles and named OpenStreetMap places. An OSM place card identifies a location; it does not claim the place has a verified historical story. Demo cards are examples, not nearby results.";
         }else{
-          discoveries=[...demoCards];
+          discoveries=[...curatedCards,...demoCards];
           $("dataNote").textContent="No live results came back. Check your connection or try again later. Demo cards are examples, not nearby results.";
         }
-      }catch(e){discoveries=[...demoCards];$("dataNote").textContent="Could not load nearby data right now. Demo cards are examples, not nearby results.";}
+      }catch(e){discoveries=[...curatedCards,...demoCards];$("dataNote").textContent="Could not load nearby data right now. Demo cards are examples, not nearby results.";}
       renderDiscoveries();renderMapMarkers();
       updateLocationStatus(`Location ready · GPS accuracy ±${Math.round(pos.coords.accuracy)} m`);
       maybeAutoCollect();
@@ -348,11 +429,12 @@
     const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="world-hunter-journal.json";a.click();URL.revokeObjectURL(url);
     toast("Journal export prepared.");
   }
-  const quizQuestions = [
+  const fallbackQuizQuestions = [
     {q:"A map pin marks a centuries-old tower. What does that pin prove by itself?", options:["The tower's exact age","That the place is mapped at that location","Who built the tower","That every story about it is true"], answer:1, explanation:"A map pin helps identify a place. It does not verify a date, a builder or a story; those claims need a reliable source."},
     {q:"A local legend says a hidden tunnel runs beneath a castle. What is the fairest way to describe it?", options:["A proven fact because people repeat it","A false story that has no cultural value","A local legend unless good evidence verifies it","An official record of the castle's construction"], answer:2, explanation:"Legends can be valuable parts of local culture, but repetition alone doesn't prove that an event happened."},
     {q:"You read that a monument was built in 1450. Which is the strongest next step?", options:["Trust the first search result","Check the article's references and a credible heritage or museum source","Assume the date is correct if the page has a photo","Use the map pin as proof of the date"], answer:1, explanation:"Cross-checking the claim against cited references and a credible heritage or museum source gives you stronger evidence."}
   ];
+  let quizQuestions = [...fallbackQuizQuestions];
   function startQuiz() {
     quizIndex=0;quizScore=0;quizAnswered=false;
     $("quizIntro").hidden=true;$("quizResult").hidden=true;$("quizPlay").hidden=false;
@@ -380,7 +462,9 @@
       if(i===q.answer)b.classList.add("answer-correct");
       else if(i===choice)b.classList.add("answer-wrong");
     });
-    $("quizFeedback").textContent=(correct?"You got it! ":"Good try! ")+q.explanation;
+    const quizSources = (q.sourceIds || []).map(id => sourceById[id]).filter(Boolean);
+    $("quizFeedback").innerHTML = escapeHtml((correct?"You got it! ":"Good try! ")+q.explanation) +
+      (quizSources.length ? `<br><br><b>Sources:</b><br>${quizSources.map(src => `<a href="${escapeHtml(src.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(src.title)} — ${escapeHtml(src.publisher)}</a>`).join("<br>")}` : "");
     $("quizFeedback").className="quiz-feedback "+(correct?"is-correct":"is-learning");
     $("quizFeedback").hidden=false;
     $("quizNextBtn").textContent=quizIndex===quizQuestions.length-1?"See results →":"Next question →";
@@ -393,10 +477,10 @@
     if(state.quizBestScore===null||quizScore>state.quizBestScore)state.quizBestScore=quizScore;
     saveState();
     $("quizPlay").hidden=true;$("quizResult").hidden=false;$("quizFinalScore").textContent=`${quizScore} / ${quizQuestions.length}`;
-    $("quizResultTitle").textContent=quizScore===3?"Brilliant fact detective!":quizScore===2?"Great exploring!":"Curiosity is the real superpower.";
-    $("quizResultCopy").textContent=quizScore===3?"You checked the evidence and spotted the difference between a place, a story and a proven fact.":"Every answer is a chance to learn. Have another go whenever you're ready, or try these ideas on your next walk.";
+    $("quizResultTitle").textContent=quizScore===quizQuestions.length?"Brilliant fact detective!":quizScore>=Math.ceil(quizQuestions.length*0.67)?"Great exploring!":"Curiosity is the real superpower.";
+    $("quizResultCopy").textContent=quizScore===quizQuestions.length?"You checked the evidence and spotted the difference between a place, a story and a proven fact.":"Every answer is a chance to learn. Have another go whenever you're ready, or try these ideas on your next walk.";
     $("quizBar").style.width="100%";
-    toast(quizScore===3?"Fact Detective badge earned!":"Mini quiz complete — progress saved!");
+    toast(quizScore===quizQuestions.length?"Fact Detective badge earned!":"Mini quiz complete — progress saved!");
   }
   $("startQuizBtn").addEventListener("click",startQuiz);
   $("retryQuizBtn").addEventListener("click",startQuiz);
@@ -445,6 +529,7 @@
   $("radiusLabel").textContent=`Unlock radius: ${state.radius} m`;
   $("mapRadiusLabel").textContent=`Map view: ${(state.radius*3)>=1000?((state.radius*3/1000).toFixed(1)+" km"):((state.radius*3)+" m")} radius`;
   renderLocalQuizPicker();renderDiscoveries();renderCounts();renderJournal();renderMissions();
+  loadCuratedContent();
   if(!state.locationSetupComplete && !state.locationIntroDismissed){
     // First launch: explain the location request before invoking the browser permission prompt.
     setTimeout(showLocationIntro,250);

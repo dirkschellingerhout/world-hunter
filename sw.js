@@ -1,5 +1,5 @@
-const CACHE = "world-hunter-v4";
-const CORE = ["./", "./index.html", "./styles.css", "./app.js", "./manifest.webmanifest", "./icon.svg"];
+const CACHE = "world-hunter-v5";
+const CORE = ["./", "./index.html", "./styles.css", "./app.js", "./manifest.webmanifest", "./icon.svg", "./content/cards.json", "./content/quizzes.json", "./content/sources.json", "./content/review_queue.json"];
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(CORE)).then(() => self.skipWaiting()));
 });

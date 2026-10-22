@@ -1,4 +1,4 @@
-# World Hunter MVP — v0.1
+# World Hunter — v0.5
 
 An Android-friendly installable PWA prototype for location-based discovery cards, a local explorer's journal, and simple family-friendly missions.
 
@@ -66,3 +66,34 @@ Validation: `node --check app.js` and manifest JSON validation passed. A live br
 
 ### Location on first launch
 On first launch, World Hunter explains why it uses location and asks the user to continue. The browser/Android then owns the actual location permission prompt. After permission is granted, later launches automatically refresh the user's location and nearby results when the browser reports that permission is already granted. If permission is denied or still awaiting a browser decision, the app shows a status and leaves the user in control of retrying.
+
+
+## Version 0.5 — curated content library
+
+- Loads the Sorrento Peninsula content pack from the single `content/` root folder (`cards.json`, `quizzes.json`, `sources.json`, `review_queue.json`).
+- Displays 15 curated cards with linked sources, approved fact claims, and visit-observation prompts. Folklore is labelled as legend.
+- Loads source-linked quizzes only when the quiz is approved, its fact ID exists in the associated approved card, and all linked source IDs resolve.
+- Cards with unverified coordinates are browse-only and cannot be collected by proximity. The Vallone dei Mulini card is observation-only and excluded from scored quizzes.
+- The review queue is loaded as editorial metadata and is not presented as approved player facts.
+- Service worker cache is bumped to v5.
+
+### Content folder layout
+
+Keep all content data files directly inside `content/`, regardless of the region. Add new regions as additional records in the shared JSON files using unique IDs and the `location_area` field; do not create per-location subfolders.
+
+```text
+world-hunter/
+  index.html
+  app.js
+  styles.css
+  sw.js
+  manifest.webmanifest
+  icon.svg
+  content/
+    cards.json
+    quizzes.json
+    sources.json
+    review_queue.json
+```
+
+Validation performed for this build: JavaScript syntax check, JSON parsing, and structural checks for card/quiz/source linkage. A live browser/GPS/API test has not been run here.

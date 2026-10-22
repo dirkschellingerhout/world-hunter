@@ -1,0 +1,11 @@
+World Hunter v0.5 validation
+
+PASS: app.js and sw.js pass Node syntax checks.
+PASS: all four runtime JSON content files parse.
+PASS: content pack contains 15 unique card records.
+PASS: 14 quizzes pass approval, approved-fact, and source-reference linkage checks.
+PASS: all source IDs referenced by the cards and approved quizzes resolve.
+PASS: content data and editorial reference files live directly under content/.
+PASS: no coordinates were invented; curated cards remain browse-only until coordinates are verified.
+
+LIMITATION: automated checks verify syntax, JSON structure, and linkage; they do not independently prove the truth of every claim. No live browser, GPS, map, or GitHub Pages test was run in this environment.
