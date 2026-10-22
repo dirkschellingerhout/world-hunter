@@ -19,7 +19,7 @@
   let sourceById = {};
   let map = null, userMarker = null, layer = null, watchId = null, userPosition = null;
   let deferredInstall = null, activeCardId = null, toastTimer = null;
-  let quizIndex = 0, quizScore = 0, quizAnswered = false;
+  let quizIndex = 0, quizScore = 0, quizAnswered = false, quizAnswers = [], quizStartedAt = null;
   let localQuizCard = null, localQuizAnswer = null;
   let acquisitionCircle = null;
 
@@ -27,9 +27,9 @@
     try {
       const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
       return {collected:Array.isArray(saved.collected)?saved.collected:[], radius:Number.isFinite(saved.radius)&&saved.radius>=10&&saved.radius<=5000?saved.radius:DEFAULT_RADIUS,
-        visited:Array.isArray(saved.visited)?saved.visited:[], localQuizBest:Number.isFinite(saved.localQuizBest)?saved.localQuizBest:null,
+        visited:Array.isArray(saved.visited)?saved.visited:[], explored:Array.isArray(saved.explored)?saved.explored.filter(p=>Number.isFinite(p.lat)&&Number.isFinite(p.lon)):[], quizHistory:Array.isArray(saved.quizHistory)?saved.quizHistory:[], latestQuiz:saved.latestQuiz&&typeof saved.latestQuiz==="object"?saved.latestQuiz:null, localQuizBest:Number.isFinite(saved.localQuizBest)?saved.localQuizBest:null,
         autoCollect:saved.autoCollect !== false, observeDone:!!saved.observeDone, quizBestScore:Number.isFinite(saved.quizBestScore)?saved.quizBestScore:null, quizAttempts:Number.isFinite(saved.quizAttempts)?saved.quizAttempts:0, quizCompleted:!!saved.quizCompleted, locationSetupComplete:!!saved.locationSetupComplete, locationIntroDismissed:!!saved.locationIntroDismissed, profile:saved.profile || "Explorer"};
-    } catch { return {collected:[],radius:DEFAULT_RADIUS,visited:[],localQuizBest:null,autoCollect:true,observeDone:false,quizBestScore:null,quizAttempts:0,quizCompleted:false,locationSetupComplete:false,locationIntroDismissed:false,profile:"Explorer"}; }
+    } catch { return {collected:[],radius:DEFAULT_RADIUS,visited:[],explored:[],quizHistory:[],latestQuiz:null,localQuizBest:null,autoCollect:true,observeDone:false,quizBestScore:null,quizAttempts:0,quizCompleted:false,locationSetupComplete:false,locationIntroDismissed:false,profile:"Explorer"}; }
   }
   function saveState() {
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch { toast("Couldn't save locally. Check browser storage settings."); }
@@ -110,6 +110,11 @@
   }
   document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>switchTab(b.dataset.tab)));
 
+  function rememberExploredPosition(position) {
+    if(!Number.isFinite(position.lat)||!Number.isFinite(position.lon))return;state.explored=Array.isArray(state.explored)?state.explored:[];const last=state.explored[state.explored.length-1];
+    if(last&&distanceMetres(last,position)<Math.max(20,state.radius*0.5))return;state.explored.push({lat:position.lat,lon:position.lon,at:Date.now()});if(state.explored.length>500)state.explored=state.explored.slice(-500);
+    try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state));}catch{toast("Exploration area could not be saved on this device.");}
+  }
   function ensureMap(lat,lon) {
     if (!window.L) {
       $("dataNote").textContent="The map library could not load. Discovery cards and the journal still work; try again with an internet connection.";
@@ -121,9 +126,10 @@
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
         maxZoom:19, attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'
       }).addTo(map);
-      layer=L.layerGroup().addTo(map);
+      layer=L.layerGroup().addTo(map);window.worldHunterExploredLayer=L.layerGroup().addTo(map);
     } else { map.setView([lat,lon],16); }
     if (acquisitionCircle) acquisitionCircle.remove();
+    if(window.worldHunterExploredLayer){window.worldHunterExploredLayer.clearLayers();(state.explored||[]).forEach(point=>L.circle([point.lat,point.lon],{radius:Math.max(20,state.radius*1.5),color:"#8a9e73",weight:1,fillColor:"#c7d8b4",fillOpacity:.20,dashArray:"3 5",interactive:false}).addTo(window.worldHunterExploredLayer));}
     acquisitionCircle=L.circle([lat,lon],{radius:state.radius,color:"#24574b",weight:2,fillColor:"#24574b",fillOpacity:.07,dashArray:"5 6"}).addTo(map);
     frameMapToRange();
     if (userMarker) userMarker.remove();
@@ -183,6 +189,11 @@
       el.addEventListener("click",()=>openCard(c)); host.appendChild(el);
     });
   }
+  function renderQuizHistory() {
+    const host=$("quizHistoryList");if(!host)return;const history=Array.isArray(state.quizHistory)?state.quizHistory:[];
+    $("quizHistorySummary").textContent=history.length? `Latest: ${state.latestQuiz?state.latestQuiz.score+"/"+state.latestQuiz.total:"—"} · Best: ${state.quizBestScore===null?"—":state.quizBestScore+"/3"} · ${history.length} attempt${history.length===1?"":"s"}`:"No completed quizzes yet. Each attempt will be saved on this device.";
+    host.innerHTML="";history.slice().reverse().forEach((attempt,index)=>{const item=document.createElement("details");item.className="quiz-history-item";const date=attempt.completedAt?new Date(attempt.completedAt).toLocaleString():"Date unavailable";const summary=document.createElement("summary");summary.textContent=`${date} — ${attempt.score}/${attempt.total}${index===0?" · Latest":""}`;const body=document.createElement("div");body.className="quiz-history-answers";(attempt.answers||[]).forEach((answer,i)=>{const p=document.createElement("p");p.textContent=`${i+1}. ${answer.question} — Your answer: ${answer.selectedAnswer||"No answer"}; correct answer: ${answer.correctAnswer||"Unknown"} (${answer.isCorrect?"correct":"not quite"}).`;body.appendChild(p);});item.append(summary,body);host.appendChild(item);});
+  }
   function renderMissions() {
     const n=state.collected.length;
     $("missionBar").style.width=Math.min(100,n/3*100)+"%";
@@ -190,12 +201,12 @@
     $("observeProgress").textContent=state.observeDone?"✓ Complete":"0 / 1 discovery";
     $("observeBtn").textContent=state.observeDone?"Completed ✓":"Mark complete";
     $("observeBtn").disabled=state.observeDone;
-    $("quizBestScore").textContent=state.quizBestScore===null?"":"Best: "+state.quizBestScore+`/${quizQuestions.length} · `+state.quizAttempts+" attempt"+(state.quizAttempts===1?"":"s");
+    $("quizBestScore").textContent=state.quizBestScore===null?"":"Best: "+state.quizBestScore+`/${quizQuestions.length} · `+state.quizAttempts+" attempt"+(state.quizAttempts===1?"":"s");renderQuizHistory();
   }
   function openCard(c) {
     activeCardId=c.id;
     $("dialogArt").textContent=c.art||icons[c.category]||"✦";
-    $("dialogMeta").textContent=`${c.category||"Discovery"} · ${c.kind==="legend"?"Folklore / legend":c.kind==="place"?"Place information":"Documented story"}${c.curated?" · CURATED CONTENT":""}${c.status==="approved-with-limits"?" · OBSERVATION ONLY":""}${c.demo?" · DEMO CARD":""}`;
+    $("dialogMeta").textContent=`${c.category||"Discovery"} · ${c.kind==="legend"?"Folklore / legend":c.kind==="place"?"Place information":"Documented story"}${c.curated?" · RESEARCH-CHECKED STORY":""}${c.curated&&c.coordinateStatus!=="verified_target"?" · ARRIVAL POINT UNVERIFIED":""}${c.status==="approved-with-limits"?" · OBSERVATION ONLY":""}${c.demo?" · DEMO CARD":""}`;
     $("dialogTitle").textContent=c.title;
     $("dialogStory").textContent=c.story || "This map location has been identified from open geographic data. We don't yet have a separately verified historical story for this place.";
     let sourceHtml = c.url ? `<b>Source</b><br><a href="${escapeHtml(c.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(c.source||"Open source")}</a>` : `<b>Source</b><br><span>No source link is available for this card.</span>`;
@@ -386,10 +397,13 @@
     $("locateBtn").disabled=true;
     navigator.geolocation.getCurrentPosition(async pos=>{
       userPosition={lat:pos.coords.latitude,lon:pos.coords.longitude};
+      rememberExploredPosition(userPosition);
       ensureMap(userPosition.lat,userPosition.lon);
       if(watchId!==null)navigator.geolocation.clearWatch(watchId);
       watchId=navigator.geolocation.watchPosition(p=>{
         userPosition={lat:p.coords.latitude,lon:p.coords.longitude};
+        rememberExploredPosition(userPosition);
+        if(window.worldHunterExploredLayer){const point=state.explored[state.explored.length-1];if(point&&distanceMetres(point,userPosition)<Math.max(20,state.radius*0.5))L.circle([point.lat,point.lon],{radius:Math.max(20,state.radius*1.5),color:"#8a9e73",weight:1,fillColor:"#c7d8b4",fillOpacity:.20,dashArray:"3 5",interactive:false}).addTo(window.worldHunterExploredLayer);}
         if(userMarker)userMarker.setLatLng([userPosition.lat,userPosition.lon]);
         if(acquisitionCircle)acquisitionCircle.setLatLng([userPosition.lat,userPosition.lon]);
         maybeAutoCollect();renderDiscoveries();renderMapMarkers();
@@ -436,7 +450,7 @@
   ];
   let quizQuestions = [...fallbackQuizQuestions];
   function startQuiz() {
-    quizIndex=0;quizScore=0;quizAnswered=false;
+    quizIndex=0;quizScore=0;quizAnswered=false;quizAnswers=[];quizStartedAt=new Date().toISOString();
     $("quizIntro").hidden=true;$("quizResult").hidden=true;$("quizPlay").hidden=false;
     renderQuizQuestion();
   }
@@ -457,6 +471,7 @@
     if(quizAnswered)return;quizAnswered=true;
     const q=quizQuestions[quizIndex], correct=choice===q.answer;
     if(correct)quizScore++;
+    quizAnswers.push({questionId:q.id||null,question:q.q,selectedIndex:choice,selectedAnswer:q.options[choice],correctIndex:q.answer,correctAnswer:q.options[q.answer],isCorrect:correct,explanation:q.explanation||"",sourceIds:q.sourceIds||[]});
     [...$("quizOptions").children].forEach((b,i)=>{
       b.disabled=true;
       if(i===q.answer)b.classList.add("answer-correct");
@@ -472,10 +487,13 @@
     $("quizBar").style.width=((quizIndex+1)/quizQuestions.length*100)+"%";
   }
   function finishQuiz() {
-    state.quizAttempts=(state.quizAttempts||0)+1;
-    state.quizCompleted=true;
+    const completedAt=new Date().toISOString();
+    const attempt={id:(globalThis.crypto&&crypto.randomUUID)?crypto.randomUUID():("quiz-"+Date.now()+"-"+Math.random().toString(36).slice(2,8)),type:"fact-detective",startedAt:quizStartedAt||completedAt,completedAt,score:quizScore,total:quizQuestions.length,answers:quizAnswers.slice()};
+    state.quizHistory=Array.isArray(state.quizHistory)?state.quizHistory:[];
+    state.quizHistory.push(attempt);state.latestQuiz=attempt;
+    state.quizAttempts=(state.quizAttempts||0)+1;state.quizCompleted=true;
     if(state.quizBestScore===null||quizScore>state.quizBestScore)state.quizBestScore=quizScore;
-    saveState();
+    saveState();renderQuizHistory();
     $("quizPlay").hidden=true;$("quizResult").hidden=false;$("quizFinalScore").textContent=`${quizScore} / ${quizQuestions.length}`;
     $("quizResultTitle").textContent=quizScore===quizQuestions.length?"Brilliant fact detective!":quizScore>=Math.ceil(quizQuestions.length*0.67)?"Great exploring!":"Curiosity is the real superpower.";
     $("quizResultCopy").textContent=quizScore===quizQuestions.length?"You checked the evidence and spotted the difference between a place, a story and a proven fact.":"Every answer is a chance to learn. Have another go whenever you're ready, or try these ideas on your next walk.";
@@ -517,7 +535,7 @@
   $("legendTipBtn").addEventListener("click",()=>$("legendTip").hidden=!$("legendTip").hidden);
   $("clearDataBtn").addEventListener("click",()=>{
     if(!confirm("Clear all collected cards and mission progress from this device? This cannot be undone unless you exported your journal."))return;
-    state={collected:[],radius:DEFAULT_RADIUS,visited:[],localQuizBest:null,autoCollect:true,observeDone:false,quizBestScore:null,quizAttempts:0,quizCompleted:false,locationSetupComplete:false,locationIntroDismissed:false,profile:"Explorer"};saveState();
+    state={collected:[],radius:DEFAULT_RADIUS,visited:[],explored:[],quizHistory:[],latestQuiz:null,localQuizBest:null,autoCollect:true,observeDone:false,quizBestScore:null,quizAttempts:0,quizCompleted:false,locationSetupComplete:false,locationIntroDismissed:false,profile:"Explorer"};saveState();
     $("radiusSelect").value=String(DEFAULT_RADIUS);$("customRadiusWrap").hidden=true;$("customRadius").value=String(DEFAULT_RADIUS);$("autoCollect").checked=true;$("radiusLabel").textContent=`Unlock radius: ${DEFAULT_RADIUS} m`;renderDiscoveries();if(userPosition)ensureMap(userPosition.lat,userPosition.lon);$("settingsDialog").close();toast("Local progress cleared.");
   });
   window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredInstall=e;$("installBtn").hidden=false;});
