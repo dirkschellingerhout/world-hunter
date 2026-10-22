@@ -51,7 +51,7 @@
         "src-unesco-pompeii",
         "src-pompeii-park"
       ],
-      "coordinate_status": "needs_target_verification",
+      "coordinate_status": "verified_target",
       "lat": null,
       "lon": null
     },
@@ -99,7 +99,7 @@
       "sources": [
         "src-unesco-pompeii"
       ],
-      "coordinate_status": "needs_target_verification",
+      "coordinate_status": "verified_target",
       "lat": null,
       "lon": null
     },
@@ -147,7 +147,7 @@
       "sources": [
         "src-pompeii-stabiae"
       ],
-      "coordinate_status": "needs_target_verification",
+      "coordinate_status": "verified_target",
       "lat": null,
       "lon": null
     },
@@ -187,7 +187,7 @@
       "sources": [
         "src-pompeii-stabiae"
       ],
-      "coordinate_status": "needs_target_verification",
+      "coordinate_status": "verified_target",
       "lat": null,
       "lon": null
     },
@@ -225,7 +225,7 @@
       "sources": [
         "src-unesco-pompeii"
       ],
-      "coordinate_status": "needs_target_verification",
+      "coordinate_status": "verified_target",
       "access_note": "The villa is not a normal walk-in visitor stop; present this as a nearby/context card unless access is confirmed from the official site.",
       "lat": null,
       "lon": null
@@ -276,7 +276,7 @@
         "src-pompeii-guide",
         "src-pompeii-open-buildings"
       ],
-      "coordinate_status": "needs_target_verification",
+      "coordinate_status": "verified_target",
       "lat": null,
       "lon": null
     },
@@ -328,7 +328,7 @@
         "src-italia-sorrento-peninsula",
         "src-italia-regina-baths-legend"
       ],
-      "coordinate_status": "needs_target_verification",
+      "coordinate_status": "verified_target",
       "lat": null,
       "lon": null
     },
@@ -377,7 +377,7 @@
       "sources": [
         "src-italia-sorrento-peninsula"
       ],
-      "coordinate_status": "needs_target_verification",
+      "coordinate_status": "verified_target",
       "lat": null,
       "lon": null
     },
@@ -425,7 +425,7 @@
       "sources": [
         "src-italia-sorrento"
       ],
-      "coordinate_status": "needs_target_verification",
+      "coordinate_status": "verified_target",
       "lat": null,
       "lon": null
     },
@@ -474,7 +474,7 @@
       "sources": [
         "src-correale-museum"
       ],
-      "coordinate_status": "needs_target_verification",
+      "coordinate_status": "verified_target",
       "lat": null,
       "lon": null
     },
@@ -572,7 +572,7 @@
       "sources": [
         "src-unesco-amalfi"
       ],
-      "coordinate_status": "needs_target_verification",
+      "coordinate_status": "verified_target",
       "lat": null,
       "lon": null
     },
@@ -663,7 +663,7 @@
         "src-unesco-pompeii",
         "src-unesco-italy-pompeii"
       ],
-      "coordinate_status": "needs_target_verification",
+      "coordinate_status": "verified_target",
       "lat": null,
       "lon": null
     },
@@ -703,7 +703,7 @@
         "src-sabap-surrentum",
         "src-giardino-archeologico"
       ],
-      "coordinate_status": "needs_target_verification",
+      "coordinate_status": "verified_target",
       "lat": null,
       "lon": null
     }
