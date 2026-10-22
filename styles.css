@@ -17,5 +17,9 @@
 /* Release 0.7: persistent quiz journal and local-only content editor */
 .quiz-history-panel{margin:18px 0 24px;padding:16px;background:#f1f2e9;border:1px solid var(--line);border-radius:15px}.quiz-history-panel .section-heading{margin-bottom:8px}.quiz-history-item{padding:10px 0;border-top:1px solid var(--line);font-size:12px}.quiz-history-item summary{cursor:pointer;font-weight:800;color:var(--forest2)}.quiz-history-answers{padding:4px 0 0 12px;line-height:1.5;color:var(--muted)}.quiz-history-answers p{margin:8px 0}.admin-link{color:var(--forest2);text-decoration:underline;margin-left:12px}.admin-page{max-width:900px;margin:0 auto;padding:20px}.admin-page h1,.admin-page h2{font-family:Georgia,serif}.admin-panel{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;margin:14px 0}.admin-page label{display:block;font-weight:750;font-size:13px;margin:12px 0 6px}.admin-page input,.admin-page textarea,.admin-page select{box-sizing:border-box;width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;font:inherit;background:white;color:var(--ink)}.admin-page textarea{min-height:110px;resize:vertical}.admin-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.admin-page .status-note{font-size:12px;color:var(--muted);line-height:1.5}.admin-page .warning-note{background:#fff3d8;border-radius:10px;padding:12px;font-size:12px;line-height:1.5}
 
-/* v0.8 fog of war */
-.world-hunter-fog{display:block;overflow:hidden}.world-hunter-fog path{fill:#172923;fill-opacity:.48;fill-rule:evenodd;}
+/* v0.8 cartographic styling */
+.leaflet-tile-pane{filter:sepia(.22) saturate(.82) contrast(.98)}
+.explorer-location-marker{background:transparent;border:0!important;filter:drop-shadow(0 4px 3px #172c2438)}
+.explorer-marker-halo{display:flex;align-items:center;justify-content:center;width:64px;height:76px;position:relative;overflow:visible}
+.explorer-marker-halo:before{content:"";position:absolute;inset:4px 5px 7px;border:2px solid #fff;border-radius:50%;background:#dce8d5;box-shadow:0 0 0 3px #315d50,0 0 0 8px #315d5030}
+.explorer-marker-halo svg{position:relative;width:64px;height:76px;overflow:visible}
