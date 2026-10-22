@@ -1,4 +1,4 @@
-const CACHE = "world-hunter-v10-map-performance";
+const CACHE = "world-hunter-v11-sicily-content";
 const CORE = ["./", "./index.html", "./admin.html", "./admin.js", "./styles.css", "./app.js", "./manifest.webmanifest", "./icon.svg", "./assets/explorer-avatar.png", "./content/coordinate_audit.json", "./content/cards.json", "./content/quizzes.json", "./content/sources.json", "./content/review_queue.json"];
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(CORE)).then(() => self.skipWaiting()));
