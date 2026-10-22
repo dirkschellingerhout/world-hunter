@@ -1,8 +1,0 @@
-PASS: JSON parses for all four JSON files.
-PASS: 15 unique cards.
-PASS: 14 approved cards; 1 approved-with-limits card(s).
-PASS: 14 scored quizzes each reference an approved fact and valid source IDs.
-PASS: All card and claim source references resolve in sources.json.
-PASS: 6 unresolved review items are recorded separately.
-NOTE: Coordinates intentionally omitted; GPS publishing remains blocked until locations are verified.
-NOTE: Automated checks verify structure and linkage, not the truth of every source claim; see README and review_queue.
