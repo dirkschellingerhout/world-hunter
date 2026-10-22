@@ -1,0 +1,26 @@
+name: Validate World Hunter
+on:
+  pull_request:
+  push:
+    branches: [main]
+jobs:
+  static-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Check JavaScript syntax
+        run: |
+          node --check app.js
+          node --check admin.js
+      - name: Validate JSON content
+        run: |
+          node -e "for (const f of ['manifest.webmanifest','content/cards.json','content/quizzes.json','content/sources.json','content/review_queue.json','content/coordinate_audit.json']) JSON.parse(require('fs').readFileSync(f,'utf8')); console.log('JSON files valid')"
+      - name: Check release features are wired
+        run: |
+          grep -q 'state.quizHistory.push(attempt)' app.js
+          grep -q 'ARRIVAL POINT UNVERIFIED' app.js
+          grep -q 'worldHunterExploredLayer' app.js
+          grep -q 'URL.createObjectURL(blob)' admin.js
