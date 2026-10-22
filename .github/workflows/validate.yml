@@ -22,7 +22,8 @@ jobs:
         run: |
           grep -q 'state.quizHistory.push(attempt)' app.js
           grep -q 'ARRIVAL POINT UNVERIFIED' app.js
-          grep -q 'worldHunterExploredLayer' app.js
+          grep -q 'redrawExploration' app.js
           grep -q 'explorer-marker-halo' app.js
-          grep -q "dashArray:'3 9'" app.js
+          grep -q "maplibregl.Map" app.js
+          grep -q "pitchToggleBtn" index.html
           grep -q 'URL.createObjectURL(blob)' admin.js
