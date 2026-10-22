@@ -128,8 +128,37 @@
     redrawExploration();renderMapMarkers();setTimeout(()=>{if(map)map.resize();frameMapToRange();},150);
   }
   function frameMapToRange(){if(!map||!userPosition)return;const lat=userPosition.lat,lon=userPosition.lon,latDelta=state.radius*3/111320,lonDelta=state.radius*3/(111320*Math.max(.2,Math.cos(lat*Math.PI/180)));map.fitBounds([[lon-lonDelta,lat-latDelta],[lon+lonDelta,lat+latDelta]],{padding:{top:35,bottom:35,left:30,right:30},maxZoom:17,duration:0});const s=map.getSource("acquisition-zone");if(s)s.setData(circleFeature(lat,lon,state.radius));$("mapRadiusLabel").textContent=`Map view: ${state.radius*3>=1000?(state.radius*3/1000).toFixed(1)+" km":state.radius*3+" m"} radius`;}
-  function renderMapMarkers(){if(!map||!window.maplibregl)return;if(Array.isArray(layer)&&layer.some(m=>m.getPopup&&m.getPopup().isOpen()))return;
-    if(Array.isArray(layer))layer.forEach(m=>m.remove());layer=[];discoveries.filter(c=>Number.isFinite(c.lat)&&Number.isFinite(c.lon)).forEach(c=>{const was=collected(c.id),near=userPosition?distanceMetres(userPosition,c)<=state.radius:false,el=document.createElement("button");el.type="button";el.className="treasure-marker-wrap maplibre-treasure-marker";el.setAttribute("aria-label",c.title);el.innerHTML=`<span class="treasure-marker ${was?"is-collected":near?"is-near":""}" aria-hidden="true"><i>${was?"✓":"✦"}</i></span>`;const marker=new maplibregl.Marker({element:el,anchor:"bottom"}).setLngLat([c.lon,c.lat]).setPopup(new maplibregl.Popup({offset:24}).setHTML(`<b>${escapeHtml(c.title)}</b><br>${was?"Collected":near?"Within unlock radius":"Discovery point"}<br><button type="button" onclick="window.worldHunterOpen('${escapeHtml(c.id)}')">Open story</button>`)).addTo(map);layer.push(marker);});}
+  function renderMapMarkers(){
+    if(!map||!window.maplibregl)return;
+    if(!Array.isArray(layer))layer=[];
+    const valid=discoveries.filter(c=>Number.isFinite(c.lat)&&Number.isFinite(c.lon));
+    const liveIds=new Set(valid.map(c=>String(c.id)));
+    // Keep existing MapLibre Marker instances alive. Recreating every marker on
+    // each GPS fix forces layout work and can close popups on mobile devices.
+    layer=layer.filter(marker=>{
+      if(liveIds.has(String(marker._worldHunterId)))return true;
+      marker.remove();return false;
+    });
+    valid.forEach(c=>{
+      const id=String(c.id);
+      const was=collected(c.id),near=!!userPosition&&distanceMetres(userPosition,c)<=state.radius;
+      let marker=layer.find(item=>String(item._worldHunterId)===id);
+      if(marker){
+        marker.setLngLat([c.lon,c.lat]);
+        const el=marker.getElement();
+        el.setAttribute("aria-label",c.title);
+        const pin=el.querySelector(".treasure-marker");
+        if(pin){pin.classList.toggle("is-collected",was);pin.classList.toggle("is-near",!was&&near);const glyph=pin.querySelector("i");if(glyph)glyph.textContent=was?"✓":"✦";}
+        const popup=marker.getPopup();
+        if(popup&&!popup.isOpen())popup.setHTML(`<b>${escapeHtml(c.title)}</b><br>${was?"Collected":near?"Within unlock radius":"Discovery point"}<br><button type="button" onclick="window.worldHunterOpen('${escapeHtml(c.id)}')">Open story</button>`);
+        return;
+      }
+      const el=document.createElement("button");el.type="button";el.className="treasure-marker-wrap maplibre-treasure-marker";el.setAttribute("aria-label",c.title);
+      el.innerHTML=`<span class="treasure-marker ${was?"is-collected":near?"is-near":""}" aria-hidden="true"><i>${was?"✓":"✦"}</i></span>`;
+      marker=new maplibregl.Marker({element:el,anchor:"bottom"}).setLngLat([c.lon,c.lat]).setPopup(new maplibregl.Popup({offset:24}).setHTML(`<b>${escapeHtml(c.title)}</b><br>${was?"Collected":near?"Within unlock radius":"Discovery point"}<br><button type="button" onclick="window.worldHunterOpen('${escapeHtml(c.id)}')">Open story</button>`)).addTo(map);
+      marker._worldHunterId=id;layer.push(marker);
+    });
+  }
   window.worldHunterOpen = id => { const c=discoveries.find(x=>x.id===id); if(c) openCard(c); };
 
   function renderDiscoveries() {
@@ -381,7 +410,7 @@
         if((state.explored||[]).length!==exploredCountBefore)redrawExploration();
         if(userMarker)userMarker.setLngLat([userPosition.lon,userPosition.lat]);
         const zone=map&&map.getSource("acquisition-zone");if(zone)zone.setData(circleFeature(userPosition.lat,userPosition.lon,state.radius));
-        maybeAutoCollect();renderDiscoveries();renderMapMarkers();
+        maybeAutoCollect();renderDiscoveries();
       },err=>console.warn("GPS watch",err),{enableHighAccuracy:true,maximumAge:10000,timeout:20000});
       try{
         const fresh=await fetchNearby(userPosition.lat,userPosition.lon);
