@@ -402,8 +402,8 @@
       if(watchId!==null)navigator.geolocation.clearWatch(watchId);
       watchId=navigator.geolocation.watchPosition(p=>{
         userPosition={lat:p.coords.latitude,lon:p.coords.longitude};
-        rememberExploredPosition(userPosition);
-        if(window.worldHunterExploredLayer){const point=state.explored[state.explored.length-1];if(point&&distanceMetres(point,userPosition)<Math.max(20,state.radius*0.5))L.circle([point.lat,point.lon],{radius:Math.max(20,state.radius*1.5),color:"#8a9e73",weight:1,fillColor:"#c7d8b4",fillOpacity:.20,dashArray:"3 5",interactive:false}).addTo(window.worldHunterExploredLayer);}
+        const exploredCountBefore=(state.explored||[]).length;rememberExploredPosition(userPosition);
+        if((state.explored||[]).length!==exploredCountBefore&&window.worldHunterExploredLayer){window.worldHunterExploredLayer.clearLayers();state.explored.forEach(point=>L.circle([point.lat,point.lon],{radius:Math.max(20,state.radius*1.5),color:"#8a9e73",weight:1,fillColor:"#c7d8b4",fillOpacity:.20,dashArray:"3 5",interactive:false}).addTo(window.worldHunterExploredLayer));}
         if(userMarker)userMarker.setLatLng([userPosition.lat,userPosition.lon]);
         if(acquisitionCircle)acquisitionCircle.setLatLng([userPosition.lat,userPosition.lon]);
         maybeAutoCollect();renderDiscoveries();renderMapMarkers();
