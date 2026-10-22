@@ -4,7 +4,7 @@
   const $ = id => document.getElementById(id);
   const STORAGE_KEY = "worldHunterStateV1";
   const DEFAULT_RADIUS = 100;
-  const VISIT_RADIUS = 35;
+  const DEFAULT_CAPTURE_RADIUS = 35;
   const icons = {History:"🏛️",Architecture:"🏰",People:"🧭",Nature:"🌿",Science:"⚗️",Legend:"🌙",Place:"📍"};
   const demoCards = [
     {id:"demo-pompeii",title:"Pompeii: a city paused in time",category:"History",lat:40.7506,lon:14.4869,story:"In AD 79, Mount Vesuvius erupted and buried Pompeii under volcanic material. The deposits preserved buildings, objects and traces of everyday Roman life, giving archaeologists an extraordinary snapshot of an ancient city. This is a demo card, not a nearby GPS result.",source:"UNESCO World Heritage Centre",url:"https://whc.unesco.org/en/list/829/",kind:"documented",demo:true,art:"🏛️",rarity:"Uncommon"},
@@ -26,10 +26,10 @@
   function loadState() {
     try {
       const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
-      return {collected:Array.isArray(saved.collected)?saved.collected:[], radius:Number.isFinite(saved.radius)&&saved.radius>=10&&saved.radius<=5000?saved.radius:DEFAULT_RADIUS,
+      return {collected:Array.isArray(saved.collected)?saved.collected:[], radius:Number.isFinite(saved.radius)&&saved.radius>=10&&saved.radius<=5000?saved.radius:DEFAULT_RADIUS, captureRadius:Number.isFinite(saved.captureRadius)&&saved.captureRadius>=5&&saved.captureRadius<=500?saved.captureRadius:DEFAULT_CAPTURE_RADIUS,
         visited:Array.isArray(saved.visited)?saved.visited:[], explored:Array.isArray(saved.explored)?saved.explored.filter(p=>Number.isFinite(p.lat)&&Number.isFinite(p.lon)):[], quizHistory:Array.isArray(saved.quizHistory)?saved.quizHistory:[], latestQuiz:saved.latestQuiz&&typeof saved.latestQuiz==="object"?saved.latestQuiz:null, localQuizBest:Number.isFinite(saved.localQuizBest)?saved.localQuizBest:null,
         autoCollect:saved.autoCollect !== false, observeDone:!!saved.observeDone, quizBestScore:Number.isFinite(saved.quizBestScore)?saved.quizBestScore:null, quizAttempts:Number.isFinite(saved.quizAttempts)?saved.quizAttempts:0, quizCompleted:!!saved.quizCompleted, locationSetupComplete:!!saved.locationSetupComplete, locationIntroDismissed:!!saved.locationIntroDismissed, profile:saved.profile || "Explorer"};
-    } catch { return {collected:[],radius:DEFAULT_RADIUS,visited:[],explored:[],quizHistory:[],latestQuiz:null,localQuizBest:null,autoCollect:true,observeDone:false,quizBestScore:null,quizAttempts:0,quizCompleted:false,locationSetupComplete:false,locationIntroDismissed:false,profile:"Explorer"}; }
+    } catch { return {collected:[],radius:DEFAULT_RADIUS,captureRadius:DEFAULT_CAPTURE_RADIUS,visited:[],explored:[],quizHistory:[],latestQuiz:null,localQuizBest:null,autoCollect:true,observeDone:false,quizBestScore:null,quizAttempts:0,quizCompleted:false,locationSetupComplete:false,locationIntroDismissed:false,profile:"Explorer"}; }
   }
   function saveState() {
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch { toast("Couldn't save locally. Check browser storage settings."); }
@@ -128,7 +128,8 @@
     redrawExploration();renderMapMarkers();setTimeout(()=>{if(map)map.resize();frameMapToRange();},150);
   }
   function frameMapToRange(){if(!map||!userPosition)return;const lat=userPosition.lat,lon=userPosition.lon,latDelta=state.radius*3/111320,lonDelta=state.radius*3/(111320*Math.max(.2,Math.cos(lat*Math.PI/180)));map.fitBounds([[lon-lonDelta,lat-latDelta],[lon+lonDelta,lat+latDelta]],{padding:{top:35,bottom:35,left:30,right:30},maxZoom:17,duration:0});const s=map.getSource("acquisition-zone");if(s)s.setData(circleFeature(lat,lon,state.radius));$("mapRadiusLabel").textContent=`Map view: ${state.radius*3>=1000?(state.radius*3/1000).toFixed(1)+" km":state.radius*3+" m"} radius`;}
-  function renderMapMarkers(){if(!map||!window.maplibregl)return;if(Array.isArray(layer))layer.forEach(m=>m.remove());layer=[];discoveries.filter(c=>Number.isFinite(c.lat)&&Number.isFinite(c.lon)).forEach(c=>{const was=collected(c.id),near=userPosition?distanceMetres(userPosition,c)<=state.radius:false,el=document.createElement("button");el.type="button";el.className="treasure-marker-wrap maplibre-treasure-marker";el.setAttribute("aria-label",c.title);el.innerHTML=`<span class="treasure-marker ${was?"is-collected":near?"is-near":""}" aria-hidden="true"><i>${was?"✓":"✦"}</i></span>`;const marker=new maplibregl.Marker({element:el,anchor:"bottom"}).setLngLat([c.lon,c.lat]).setPopup(new maplibregl.Popup({offset:24}).setHTML(`<b>${escapeHtml(c.title)}</b><br>${was?"Collected":near?"Within unlock radius":"Discovery point"}<br><button type="button" onclick="window.worldHunterOpen('${escapeHtml(c.id)}')">Open story</button>`)).addTo(map);layer.push(marker);});}
+  function renderMapMarkers(){if(!map||!window.maplibregl)return;if(Array.isArray(layer)&&layer.some(m=>m.getPopup&&m.getPopup().isOpen()))return;
+    if(Array.isArray(layer))layer.forEach(m=>m.remove());layer=[];discoveries.filter(c=>Number.isFinite(c.lat)&&Number.isFinite(c.lon)).forEach(c=>{const was=collected(c.id),near=userPosition?distanceMetres(userPosition,c)<=state.radius:false,el=document.createElement("button");el.type="button";el.className="treasure-marker-wrap maplibre-treasure-marker";el.setAttribute("aria-label",c.title);el.innerHTML=`<span class="treasure-marker ${was?"is-collected":near?"is-near":""}" aria-hidden="true"><i>${was?"✓":"✦"}</i></span>`;const marker=new maplibregl.Marker({element:el,anchor:"bottom"}).setLngLat([c.lon,c.lat]).setPopup(new maplibregl.Popup({offset:24}).setHTML(`<b>${escapeHtml(c.title)}</b><br>${was?"Collected":near?"Within unlock radius":"Discovery point"}<br><button type="button" onclick="window.worldHunterOpen('${escapeHtml(c.id)}')">Open story</button>`)).addTo(map);layer.push(marker);});}
   window.worldHunterOpen = id => { const c=discoveries.find(x=>x.id===id); if(c) openCard(c); };
 
   function renderDiscoveries() {
@@ -197,7 +198,7 @@
     const actions=$("dialogActions"); actions.innerHTML="";
     const already=collected(c.id);
     const hasVisited=state.visited.includes(c.id);
-    const visitEligible=d!==null&&d<=VISIT_RADIUS&&!c.demo&&(!c.curated || c.coordinateStatus === "verified_target");
+    const visitEligible=d!==null&&d<=state.captureRadius&&!c.demo&&(!c.curated || c.coordinateStatus === "verified_target");
     const eligible=!c.demo && (!c.curated || c.coordinateStatus === "verified_target") && c.kind!=="place" && !!c.url && d!==null && d<=state.radius;
     const btn=document.createElement("button"); btn.className="primary-button";
     if(already){btn.textContent="✓ In your journal";btn.disabled=true;}
@@ -206,7 +207,7 @@
     actions.appendChild(btn);
     if(!c.demo && !c.curated && Number.isFinite(c.lat) && Number.isFinite(c.lon)){
       const visit=document.createElement("button");visit.className="quiet-button";
-      visit.textContent=hasVisited?"✓ Visited":visitEligible?"Mark as visited":"Visit point (get within 35 m)";
+      visit.textContent=hasVisited?"✓ Visited":visitEligible?"Mark as visited":"Visit point (get within "+state.captureRadius+" m)";
       visit.disabled=hasVisited||!visitEligible;
       if(visitEligible&&!hasVisited)visit.addEventListener("click",()=>markVisited(c));
       actions.appendChild(visit);
@@ -218,7 +219,7 @@
     $("cardDialog").showModal();
   }
   function markVisited(c) {
-    if(!userPosition||distanceMetres(userPosition,c)>VISIT_RADIUS){toast("Get within 35 m of the mapped point to record a visit.");return;}
+    if(!userPosition||distanceMetres(userPosition,c)>state.captureRadius){toast("Get within "+state.captureRadius+" m of the mapped point to record a visit.");return;}
     if(!state.visited.includes(c.id))state.visited.push(c.id);
     state.visitLog=Array.isArray(state.visitLog)?state.visitLog:[];
     state.visitLog.push({id:c.id,title:c.title,visitedAt:Date.now(),distanceMetres:Math.round(distanceMetres(userPosition,c))});
@@ -495,6 +496,13 @@
   $("categoryFilter").addEventListener("change",renderDiscoveries);
   $("settingsBtn").addEventListener("click",()=>$("settingsDialog").showModal());
   const radiusPresets=[25,50,100,150,250,500,1000];
+  const captureRadiusPresets=[10,20,35,50,100,200];
+  $("captureRadiusSelect").value=captureRadiusPresets.includes(state.captureRadius)?String(state.captureRadius):"custom";
+  $("customCaptureRadius").value=String(state.captureRadius);
+  $("customCaptureRadiusWrap").hidden=$("captureRadiusSelect").value!=="custom";
+  function applyCaptureRadius(value){state.captureRadius=Math.max(5,Math.min(500,Math.round(Number(value)||DEFAULT_CAPTURE_RADIUS)));$("captureRadiusLabel").textContent="Capture / visit radius: "+state.captureRadius+" m";$("customCaptureRadius").value=String(state.captureRadius);saveState();renderDiscoveries();renderMapMarkers();}
+  $("captureRadiusSelect").addEventListener("change",e=>{const custom=e.target.value==="custom";$("customCaptureRadiusWrap").hidden=!custom;if(!custom)applyCaptureRadius(e.target.value);else $("customCaptureRadius").focus();});
+  $("customCaptureRadius").addEventListener("change",e=>applyCaptureRadius(e.target.value));
   $("radiusSelect").value=radiusPresets.includes(state.radius)?String(state.radius):"custom";
   $("customRadius").value=String(state.radius);
   $("customRadiusWrap").hidden=$("radiusSelect").value!=="custom";
@@ -502,6 +510,7 @@
   $("radiusSelect").addEventListener("change",e=>{const custom=e.target.value==="custom";$("customRadiusWrap").hidden=!custom;if(!custom)applyRadius(e.target.value);else $("customRadius").focus();});
   $("customRadius").addEventListener("change",e=>applyRadius(e.target.value));
   $("autoCollect").checked=state.autoCollect;
+  $("captureRadiusLabel").textContent="Capture / visit radius: "+state.captureRadius+" m";
   $("pitchToggleBtn").addEventListener("click",()=>{pitchEnabled=!pitchEnabled;$("pitchToggleBtn").textContent=pitchEnabled?"↗ 3D view on":"▱ Flat map";$("pitchToggleBtn").setAttribute("aria-pressed",String(pitchEnabled));if(map)map.easeTo({pitch:pitchEnabled?45:0,duration:500});});
   $("recenterMapBtn").addEventListener("click",()=>{if(!userPosition){toast("Find your location first.");locate();return;} if(map){map.easeTo({center:[userPosition.lon,userPosition.lat],zoom:17,pitch:pitchEnabled?45:0,duration:500});if(userMarker)userMarker.togglePopup();}});
   $("autoCollect").addEventListener("change",e=>{state.autoCollect=e.target.checked;saveState();toast(state.autoCollect?"Automatic collection enabled":"Automatic collection paused");});
