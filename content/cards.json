@@ -1,0 +1,263 @@
+{
+  "pack_id": "wh-sorrento-peninsula-001",
+  "title": "Sorrento Peninsula & Nearby Archaeological Sites",
+  "version": "1.0.0",
+  "language": "en",
+  "created_date": "2026-10-21",
+  "coordinate_policy": "No coordinates are included in this pack. Resolve each named place using a verified official source or a reviewed geocoding result before importing into the app.",
+  "cards": [
+    {
+      "id": "sor-001",
+      "title": "Pompeii: a city preserved by disaster",
+      "category": ["history", "archaeology"],
+      "location_name": "Pompeii Archaeological Park",
+      "location_area": "Pompeii, Campania",
+      "short_story": "The eruption of Vesuvius in AD 79 buried Pompeii beneath volcanic material. The remains preserve streets, public buildings, homes, paintings and traces of everyday life, giving archaeologists an unusually detailed view of a Roman town.",
+      "approved_facts": [
+        {"id":"sor-001-f1","claim":"The eruption of Vesuvius in AD 79 engulfed Pompeii.","source_ids":["src-unesco-pompeii","src-pompeii-park"],"confidence":"high","review_note":"Supported by UNESCO and the official archaeological park."},
+        {"id":"sor-001-f2","claim":"Pompeii preserves extensive evidence of Roman urban and domestic life, including streets, public buildings, houses and wall decoration.","source_ids":["src-unesco-pompeii"],"confidence":"high","review_note":"Directly described by UNESCO World Heritage Centre."}
+      ],
+      "quiz_ids": ["quiz-sor-001-1"],
+      "visit_challenge": {"id":"challenge-sor-001","prompt":"Find one feature that helps you imagine everyday life here: a shop counter, street stepping stone, wall painting, public building or house entrance.","type":"observation","safety":"Stay on marked visitor routes and do not touch the remains."},
+      "status":"approved",
+      "sources":["src-unesco-pompeii","src-pompeii-park"],
+      "coordinate_status":"needs_verified_geocoding"
+    },
+    {
+      "id": "sor-002",
+      "title": "Herculaneum: details that survived",
+      "category": ["history", "archaeology", "architecture"],
+      "location_name": "Herculaneum Archaeological Park",
+      "location_area": "Ercolano, Campania",
+      "short_story": "Herculaneum was engulfed in the same AD 79 disaster as Pompeii, but volcanic surges and flows buried it differently. The deposits preserved remarkable details, including upper floors, wooden objects and food remains that were carbonised by the heat.",
+      "approved_facts": [
+        {"id":"sor-002-f1","claim":"Herculaneum was engulfed during the eruption of Vesuvius in AD 79.","source_ids":["src-unesco-pompeii"],"confidence":"high","review_note":"UNESCO World Heritage Centre."},
+        {"id":"sor-002-f2","claim":"Herculaneum preserves upper floors and carbonised organic materials, including wooden furniture and food remains.","source_ids":["src-unesco-pompeii"],"confidence":"high","review_note":"UNESCO explicitly describes these preservation features."}
+      ],
+      "quiz_ids": ["quiz-sor-002-1"],
+      "visit_challenge": {"id":"challenge-sor-002","prompt":"Look for a preserved building detail that is easy to miss at first glance, such as an upper storey, doorway, timber element or household feature.","type":"observation","safety":"Follow the site's access rules; do not enter closed buildings."},
+      "status":"approved",
+      "sources":["src-unesco-pompeii"],
+      "coordinate_status":"needs_verified_geocoding"
+    },
+    {
+      "id": "sor-003",
+      "title": "Villa San Marco at Stabiae",
+      "category": ["history", "archaeology", "architecture"],
+      "location_name": "Villa San Marco",
+      "location_area": "Stabiae, Castellammare di Stabia, Campania",
+      "short_story": "Villa San Marco was a large Roman residential villa on the Varano hill. Its remains include decorated residential spaces, baths, porticoes and garden features, showing how wealthy Romans used the coastal landscape as a place to live and relax.",
+      "approved_facts": [
+        {"id":"sor-003-f1","claim":"Villa San Marco is one of the largest Roman residential villas at Stabiae, covering about 11,000 square metres.","source_ids":["src-pompeii-stabiae"],"confidence":"high","review_note":"Official Pompeii Sites page gives the area and describes its residential character."},
+        {"id":"sor-003-f2","claim":"The villa included decorated residential rooms, baths and porticoes.","source_ids":["src-pompeii-stabiae"],"confidence":"high","review_note":"Official Pompeii Sites description."}
+      ],
+      "quiz_ids": ["quiz-sor-003-1"],
+      "visit_challenge": {"id":"challenge-sor-003","prompt":"Look for how the building uses its hillside setting. Which visible room, terrace or portico seems positioned to make the most of the view?", "type":"observation","safety":"Use signed routes and respect barriers."},
+      "status":"approved",
+      "sources":["src-pompeii-stabiae"],
+      "coordinate_status":"needs_verified_geocoding"
+    },
+    {
+      "id": "sor-004",
+      "title": "Villa Arianna and the story of a name",
+      "category": ["history", "archaeology", "myths", "architecture"],
+      "location_name": "Villa Arianna",
+      "location_area": "Stabiae, Castellammare di Stabia, Campania",
+      "short_story": "Villa Arianna is one of the Roman villas at Stabiae. The archaeological park explains that its modern name comes from a large mythological fresco of Ariadne on a wall of the triclinium. The name points to an image found at the site, not proof that the myth happened there.",
+      "approved_facts": [
+        {"id":"sor-004-f1","claim":"The modern name Villa Arianna refers to a large mythological fresco depicting Ariadne in the villa's triclinium.","source_ids":["src-pompeii-stabiae"],"confidence":"high","review_note":"Official Pompeii Sites description; explicitly distinguishes the naming story from historical proof."}
+      ],
+      "quiz_ids": ["quiz-sor-004-1"],
+      "visit_challenge": {"id":"challenge-sor-004","prompt":"If the relevant fresco or a reproduction is on view, identify one clue that tells you the scene comes from mythology. If it is not on view, use the site's information panel instead.","type":"observation","safety":"Display access may change; do not assume every room is open."},
+      "status":"approved",
+      "sources":["src-pompeii-stabiae"],
+      "coordinate_status":"needs_verified_geocoding"
+    },
+    {
+      "id": "sor-005",
+      "title": "Villa of the Papyri: a library from the ancient world",
+      "category": ["history", "archaeology"],
+      "location_name": "Villa of the Papyri",
+      "location_area": "Herculaneum, Campania",
+      "short_story": "The Villa of the Papyri is an opulent Roman villa associated with the discovery of more than 1,800 papyrus scrolls containing Greek philosophical texts. The scrolls are an extraordinary reminder that books and ideas were part of Roman elite life.",
+      "approved_facts": [
+        {"id":"sor-005-f1","claim":"More than 1,800 papyrus scrolls containing Greek philosophical texts were found at the Villa of the Papyri.","source_ids":["src-unesco-pompeii"],"confidence":"high","review_note":"UNESCO World Heritage Centre gives the count and subject matter."}
+      ],
+      "quiz_ids": ["quiz-sor-005-1"],
+      "visit_challenge": {"id":"challenge-sor-005","prompt":"At the site's interpretation or a museum display, find out why papyrus scrolls are much more fragile than the stone buildings around them.","type":"research-observation","safety":"This is a research challenge; the villa itself is not generally a simple open-access stop."},
+      "status":"approved",
+      "sources":["src-unesco-pompeii"],
+      "coordinate_status":"needs_verified_geocoding",
+      "access_note":"The villa is not a normal walk-in visitor stop; present this as a nearby/context card unless access is confirmed from the official site."
+    },
+    {
+      "id": "sor-006",
+      "title": "The House of the Faun",
+      "category": ["history", "archaeology", "architecture", "visual-observation"],
+      "location_name": "House of the Faun",
+      "location_area": "Pompeii Archaeological Park",
+      "short_story": "The House of the Faun is one of Pompeii's large houses. The official excavation guide describes two atriums and two peristyles, and explains that the house takes its name from a statue of a dancing faun. A famous mosaic depicting a battle between Alexander the Great and Darius is associated with the house; the original is displayed in Naples.",
+      "approved_facts": [
+        {"id":"sor-006-f1","claim":"The House of the Faun had two atriums and two peristyles.","source_ids":["src-pompeii-guide"],"confidence":"high","review_note":"Official archaeological park excavation guide."},
+        {"id":"sor-006-f2","claim":"The house's name refers to a statue of a dancing faun; the original Alexander mosaic is displayed at the National Archaeological Museum of Naples.","source_ids":["src-pompeii-guide"],"confidence":"high","review_note":"Official excavation guide; the quiz should not imply the original mosaic is still in the house."}
+      ],
+      "quiz_ids": ["quiz-sor-006-1"],
+      "visit_challenge": {"id":"challenge-sor-006","prompt":"Look at the visible layout or plan. Can you identify the central open spaces that helped organise the house?", "type":"observation","safety":"Some rooms or houses may be closed; check the current official access list."},
+      "status":"approved",
+      "sources":["src-pompeii-guide","src-pompeii-open-buildings"],
+      "coordinate_status":"needs_verified_geocoding"
+    },
+    {
+      "id": "sor-007",
+      "title": "Queen Giovanna's Baths: legend beside a Roman villa",
+      "category": ["history", "archaeology", "folklore", "nature"],
+      "location_name": "Bagni della Regina Giovanna and Villa Pollio Felice",
+      "location_area": "Capo di Sorrento, Sorrento Peninsula",
+      "short_story": "A natural pool sits beside the remains of a Roman seaside villa associated with Pollio Felice. The story that Queen Giovanna II met younger lovers here belongs to local legend; the Roman villa is the archaeological evidence. Keep those two layers separate as you explore.",
+      "approved_facts": [
+        {"id":"sor-007-f1","claim":"The ruins at Capo di Sorrento are associated with a Roman villa attributed to Pollio Felice and dated to the first century BC by Italia.it.","source_ids":["src-italia-regina-baths","src-italia-sorrento-peninsula"],"confidence":"medium-high","review_note":"Official national tourism portal. Dating is represented as the source's description; check specialist archaeological references before using more precise chronology."},
+        {"id":"sor-007-f2","claim":"The story that Queen Giovanna II met lovers at the natural pool is presented as a legend, not as established archaeological fact.","source_ids":["src-italia-regina-baths-legend"],"confidence":"high","review_note":"Italia.it explicitly separates historical context from legend."}
+      ],
+      "quiz_ids": ["quiz-sor-007-1"],
+      "visit_challenge": {"id":"challenge-sor-007","prompt":"From a safe public viewpoint, find the natural rock pool and the remains of the Roman villa. Name one thing that is physical evidence and one thing that belongs to the legend.","type":"observation","safety":"Cliffs and rocks can be slippery; do not climb barriers or swim in unsafe conditions."},
+      "status":"approved",
+      "sources":["src-italia-regina-baths","src-italia-sorrento-peninsula","src-italia-regina-baths-legend"],
+      "coordinate_status":"needs_verified_geocoding"
+    },
+    {
+      "id": "sor-008",
+      "title": "The Sirens at Punta Campanella",
+      "category": ["folklore", "mythology", "nature", "geography"],
+      "location_name": "Punta Campanella",
+      "location_area": "Massa Lubrense, Sorrento Peninsula",
+      "short_story": "Punta Campanella marks the tip of the Sorrento Peninsula between the Gulf of Naples and the Gulf of Salerno. Local tradition connects the area with the Sirens of the Odyssey, whose songs lured sailors onto rocks. This is a mythic explanation for a dramatic and sometimes difficult stretch of sea, not evidence that Sirens existed.",
+      "approved_facts": [
+        {"id":"sor-008-f1","claim":"Punta Campanella is at the tip of the Sorrento Peninsula and separates the Gulf of Naples from the Gulf of Salerno.","source_ids":["src-italia-sorrento-peninsula"],"confidence":"high","review_note":"Italia.it geographic description."},
+        {"id":"sor-008-f2","claim":"A local legend associates Punta Campanella with the Sirens of Odysseus; this is folklore rather than archaeological evidence.","source_ids":["src-italia-sorrento-peninsula"],"confidence":"high","review_note":"Source labels this as a legend; quiz language explicitly preserves that distinction."}
+      ],
+      "quiz_ids": ["quiz-sor-008-1"],
+      "visit_challenge": {"id":"challenge-sor-008","prompt":"At a safe viewpoint, look across the water and describe why a story about dangerous rocks and alluring songs might have developed here.","type":"reflection-observation","safety":"Use marked paths; check local trail and weather conditions before hiking."},
+      "status":"approved",
+      "sources":["src-italia-sorrento-peninsula"],
+      "coordinate_status":"needs_verified_geocoding"
+    },
+    {
+      "id": "sor-009",
+      "title": "Sedil Dominova: a meeting place with a tiled dome",
+      "category": ["architecture", "history", "visual-observation"],
+      "location_name": "Sedil Dominova",
+      "location_area": "Sorrento historic centre",
+      "short_story": "Sedil Dominova is a historic meeting building associated with Sorrento's nobility. Italia.it describes it as dating from around 1500 and notes its distinctive yellow-and-green tiled dome. It is a good place to practise looking closely at how decorative details distinguish a civic building.",
+      "approved_facts": [
+        {"id":"sor-009-f1","claim":"Sedil Dominova is described by Italia.it as dating from around 1500 and as the only surviving example of the historic sedili in Campania.","source_ids":["src-italia-sorrento"],"confidence":"medium-high","review_note":"Official national tourism portal; use 'described as' and avoid presenting approximate dating as an exact construction year."},
+        {"id":"sor-009-f2","claim":"The building has a characteristic yellow-and-green tiled dome.","source_ids":["src-italia-sorrento"],"confidence":"high","review_note":"Directly described by Italia.it; suitable for an observation challenge."}
+      ],
+      "quiz_ids": ["quiz-sor-009-1"],
+      "visit_challenge": {"id":"challenge-sor-009","prompt":"Find the tiled dome. Which two colours does the official tourism description call out? Then identify another decorative detail on the building.","type":"visual-observation","safety":"Observe from public areas and do not obstruct entrances."},
+      "status":"approved",
+      "sources":["src-italia-sorrento"],
+      "coordinate_status":"needs_verified_geocoding"
+    },
+    {
+      "id": "sor-010",
+      "title": "Correale Museum: a house full of collections",
+      "category": ["art", "history", "archaeology", "museum"],
+      "location_name": "Museo Correale di Terranova",
+      "location_area": "Sorrento",
+      "short_story": "The Correale Museum occupies an eighteenth-century residence known as Villa alla Rota. The museum opened in May 1924 and now displays collections across 24 rooms, including an archaeological section. It connects Sorrento's local history with art, decorative objects and the landscape around the villa.",
+      "approved_facts": [
+        {"id":"sor-010-f1","claim":"The Correale Museum opened in May 1924 and is housed in an eighteenth-century residence called Villa alla Rota.","source_ids":["src-correale-museum"],"confidence":"high","review_note":"Official museum website."},
+        {"id":"sor-010-f2","claim":"The museum's collections are arranged across 24 rooms, and its archaeological section is in the basement.","source_ids":["src-correale-museum"],"confidence":"high","review_note":"Official museum website; note the page may be updated over time."}
+      ],
+      "quiz_ids": ["quiz-sor-010-1"],
+      "visit_challenge": {"id":"challenge-sor-010","prompt":"Choose one object that tells a story about local life or craft. Record its material, one visible detail and what the museum label says about it.","type":"museum-observation","safety":"Follow museum photography and handling rules."},
+      "status":"approved",
+      "sources":["src-correale-museum"],
+      "coordinate_status":"needs_verified_geocoding"
+    },
+    {
+      "id": "sor-011",
+      "title": "A museum for the Sorrento Peninsula's archaeology",
+      "category": ["history", "archaeology", "museum"],
+      "location_name": "Museo Archeologico della Penisola Sorrentina Georges Vallet",
+      "location_area": "Villa Fondi, Piano di Sorrento",
+      "short_story": "The Georges Vallet archaeological museum is housed in the nineteenth-century Villa Fondi de Sangro. Its collections draw on excavations across the Sorrento Peninsula and cover periods from prehistory to Roman times, making it a useful starting point for understanding the region's scattered archaeological remains.",
+      "approved_facts": [
+        {"id":"sor-011-f1","claim":"The Georges Vallet archaeological museum is housed in the nineteenth-century Villa Fondi de Sangro.","source_ids":["src-italia-sorrento"],"confidence":"high","review_note":"Italia.it regional tourism page."},
+        {"id":"sor-011-f2","claim":"Its collection includes artefacts from excavations on the Sorrento Peninsula and covers prehistory through Roman times.","source_ids":["src-italia-sorrento"],"confidence":"high","review_note":"Italia.it regional tourism page."}
+      ],
+      "quiz_ids": ["quiz-sor-011-1"],
+      "visit_challenge": {"id":"challenge-sor-011","prompt":"Find an object from a period earlier than Roman times. What is it made of, and what evidence suggests how people used it?", "type":"museum-observation","safety":"Use object labels as evidence; don't infer a use that the label or museum doesn't support."},
+      "status":"approved",
+      "sources":["src-italia-sorrento"],
+      "coordinate_status":"needs_verified_geocoding"
+    },
+    {
+      "id": "sor-012",
+      "title": "The Amalfi Coast: a landscape shaped by people and terrain",
+      "category": ["nature", "geography", "cultural-landscape"],
+      "location_name": "Amalfi Coast UNESCO World Heritage property",
+      "location_area": "Southern side of the Sorrento Peninsula and Salerno province",
+      "short_story": "The Amalfi Coast is recognised as a cultural landscape where steep terrain, cliffs and slopes shaped how people farmed and settled. UNESCO highlights terraced vineyards and orchards on lower slopes and upland pastures, showing how human activity adapted to the landscape.",
+      "approved_facts": [
+        {"id":"sor-012-f1","claim":"The Amalfi Coast is a UNESCO World Heritage cultural landscape with significant natural and cultural values.","source_ids":["src-unesco-amalfi"],"confidence":"high","review_note":"UNESCO World Heritage Centre."},
+        {"id":"sor-012-f2","claim":"Terraced vineyards and orchards on lower slopes and upland pastures are features described by UNESCO as examples of adaptation to the terrain.","source_ids":["src-unesco-amalfi"],"confidence":"high","review_note":"UNESCO description."}
+      ],
+      "quiz_ids": ["quiz-sor-012-1"],
+      "visit_challenge": {"id":"challenge-sor-012","prompt":"From a safe viewpoint, find one example of people adapting to the slope—terraces, paths, clustered buildings or cultivated land. Explain what problem it may help solve.","type":"landscape-observation","safety":"Stay on public viewpoints and marked paths."},
+      "status":"approved",
+      "sources":["src-unesco-amalfi"],
+      "coordinate_status":"needs_verified_geocoding"
+    },
+    {
+      "id": "sor-013",
+      "title": "The Vallone dei Mulini: a green gorge in the city",
+      "category": ["nature", "landscape", "history", "visual-observation"],
+      "location_name": "Vallone dei Mulini viewpoint",
+      "location_area": "Sorrento historic centre",
+      "short_story": "From the public viewpoint, the Vallone dei Mulini appears as a deep, vegetation-filled gorge close to Sorrento's modern streets. The name is associated with historic mills, but the precise timeline, original function of individual structures and the reason for the gorge's current vegetation need a dedicated specialist source before those details become scored facts.",
+      "approved_facts": [
+        {"id":"sor-013-f1","claim":"The Vallone dei Mulini is a recognisable gorge in Sorrento that can be viewed from the town's public viewpoint.","source_ids":["src-italia-sorrento"],"confidence":"medium","review_note":"Italia.it identifies the valley and viewpoint; this is a simple location/visual claim, not a detailed geological explanation."}
+      ],
+      "quiz_ids": [],
+      "visit_challenge": {"id":"challenge-sor-013","prompt":"From the public viewpoint, identify three different types of vegetation or visible surfaces. Do not enter the gorge or leave the public viewing area.","type":"visual-observation","safety":"View from the designated public area; do not attempt to enter the gorge."},
+      "status":"approved_with_limits",
+      "sources":["src-italia-sorrento"],
+      "coordinate_status":"needs_verified_geocoding",
+      "content_limit":"No scored history or geology quiz until a specialist source verifies the mills' chronology and the gorge's geological formation."
+    },
+    {
+      "id": "sor-014",
+      "title": "The Roman villas of Oplontis",
+      "category": ["history", "archaeology", "architecture"],
+      "location_name": "Villa A (Villa of Poppaea), Oplontis",
+      "location_area": "Torre Annunziata, Campania",
+      "short_story": "The Oplontis area forms part of the UNESCO-listed archaeological property that also includes Pompeii and Herculaneum. UNESCO describes Villa A, commonly called the Villa of Poppaea, as an important example of a wealthy suburban Roman villa, noted for its well-preserved wall paintings.",
+      "approved_facts": [
+        {"id":"sor-014-f1","claim":"Villa A at Oplontis is part of the UNESCO World Heritage property covering Pompeii, Herculaneum and Torre Annunziata.","source_ids":["src-unesco-pompeii","src-unesco-italy-pompeii"],"confidence":"high","review_note":"UNESCO and Italian Ministry of Culture UNESCO portal."},
+        {"id":"sor-014-f2","claim":"UNESCO describes Villa A as a significant example of a suburban Roman villa and highlights its wall paintings.","source_ids":["src-unesco-pompeii"],"confidence":"high","review_note":"UNESCO World Heritage Centre."}
+      ],
+      "quiz_ids": ["quiz-sor-014-1"],
+      "visit_challenge": {"id":"challenge-sor-014","prompt":"Look for a wall painting or official image of one. Identify one detail—colour, plant, architecture or object—that helps create depth or a sense of a larger space.","type":"visual-observation","safety":"Follow current site access and photography rules."},
+      "status":"approved",
+      "sources":["src-unesco-pompeii","src-unesco-italy-pompeii"],
+      "coordinate_status":"needs_verified_geocoding"
+    },
+    {
+      "id": "sor-015",
+      "title": "Sorrento's long archaeological timeline",
+      "category": ["history", "archaeology", "research"],
+      "location_name": "Sorrento historic centre / archaeological heritage route",
+      "location_area": "Sorrento, Campania",
+      "short_story": "Sorrento's archaeological record is spread through the modern town rather than confined to one large ruin. Italy's archaeological heritage authority describes research connecting prehistoric settlement, Oscan-Samnite phases, the Roman city and the medieval period. This card invites explorers to notice how a modern town can sit on many layers of history.",
+      "approved_facts": [
+        {"id":"sor-015-f1","claim":"A 2024 archaeological publication on Surrentum/Sorrento synthesises evidence from prehistoric, Oscan-Samnite, Roman and medieval phases.","source_ids":["src-sabap-surrentum"],"confidence":"high","review_note":"Official Soprintendenza ABAP page describes the scholarly publication and its scope."}
+      ],
+      "quiz_ids": ["quiz-sor-015-1"],
+      "visit_challenge": {"id":"challenge-sor-015","prompt":"Find one visible feature or museum object that belongs to a different period from the modern street around it. Use an information panel or source to identify its period.","type":"urban-history-observation","safety":"Do not enter restricted areas or assume every old-looking feature is ancient."},
+      "status":"approved",
+      "sources":["src-sabap-surrentum","src-giardino-archeologico"],
+      "coordinate_status":"needs_verified_geocoding"
+    }
+  ]
+}
