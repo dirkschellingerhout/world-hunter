@@ -1,0 +1,60 @@
+{
+  "queue_policy": "These items are not approved facts and must not be used in scored quizzes or presented as established history. Close each item with a source, a reviewer note, and a status change before publishing.",
+  "items": [
+    {
+      "id":"review-001",
+      "related_card_id":"sor-013",
+      "claim_or_question":"What is the precise geological origin and development of the Vallone dei Mulini gorge, and when were its mills active?",
+      "reason":"The general tourism source supports the existence of the valley and its association with mills but is not sufficient for a detailed geological or chronological explanation.",
+      "needed_evidence":"A geological or archaeological publication, or a local heritage authority source that cites research.",
+      "status":"needs_research",
+      "quiz_blocked":true
+    },
+    {
+      "id":"review-002",
+      "related_card_id":"sor-007",
+      "claim_or_question":"What is the most defensible archaeological date range for Villa Pollio Felice, and how certain is the attribution to Pollio Felice?",
+      "reason":"National tourism pages describe the villa with differing broad dates (first century BC in one page, first century AD in another). Avoid a precise scored date until a specialist source resolves the discrepancy.",
+      "needed_evidence":"Official archaeological documentation or a peer-reviewed archaeological publication; record the exact wording and uncertainty.",
+      "status":"needs_research",
+      "quiz_blocked":true
+    },
+    {
+      "id":"review-003",
+      "related_card_id":"sor-015",
+      "claim_or_question":"Which visible Sorrento remains can be confidently tied to specific ancient periods and safely geolocated for a visit card?",
+      "reason":"Sorrento's archaeology is distributed through the modern town. A general timeline does not verify the exact date or public accessibility of each individual ruin.",
+      "needed_evidence":"Official archaeological route or heritage inventory with site-specific descriptions and verified map points.",
+      "status":"needs_research",
+      "quiz_blocked":true
+    },
+    {
+      "id":"review-004",
+      "related_card_id":"all",
+      "claim_or_question":"Verify coordinates and visitor-access status for every place before turning cards into proximity-triggered stops.",
+      "reason":"Coordinates were deliberately omitted rather than guessed. A place name alone is not adequate evidence for a GPS trigger, and some archaeological sites have changing access restrictions.",
+      "needed_evidence":"Official site map or verified geocoding against the exact named entrance/viewpoint, plus current official access information.",
+      "status":"needs_research",
+      "quiz_blocked":false,
+      "publish_blocked":true
+    },
+    {
+      "id":"review-005",
+      "related_card_id":"sor-008",
+      "claim_or_question":"Add a scholarly reference for the ancient literary sources connecting the Sirens to this stretch of coast, if the card is expanded beyond local folklore.",
+      "reason":"The current source validates that a local legend is told; it does not establish an ancient historical location for the Sirens.",
+      "needed_evidence":"A reputable classical-text translation or scholarly source discussing the geography of the Odyssey and later local traditions.",
+      "status":"needs_research",
+      "quiz_blocked":true
+    },
+    {
+      "id":"review-006",
+      "related_card_id":"sor-009",
+      "claim_or_question":"Verify the exact construction chronology and historical function of Sedil Dominova using a local heritage or scholarly source.",
+      "reason":"The tourism portal gives an approximate date and broad function; stronger documentation is desirable before adding detailed historical claims.",
+      "needed_evidence":"Municipal heritage record or scholarly architectural history.",
+      "status":"needs_research",
+      "quiz_blocked":true
+    }
+  ]
+}
