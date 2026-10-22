@@ -32,3 +32,8 @@ This is a first researched content pack, not a full archaeological catalogue. Mo
 ## Integration suggestion
 
 Import `cards.json` as content records, `quizzes.json` as separate question records and `sources.json` as a source lookup table. Do not hard-code source text into quiz logic. Use `coordinate_status` to prevent cards with unverified coordinates from triggering location-based collection. Never treat broad areas or inaccessible internal features as a single collectible point. The app should show the source link and the claim's wording in each card's details view.
+
+
+## Regional additions
+
+New regions belong in the same shared JSON files, not in location-specific subfolders. Sicily cards currently use IDs `sic-001` through `sic-006`; all coordinates remain null until a safe, exact public arrival point is independently verified. The Segesta record is held for fact review. Source IDs in cards must resolve to `sources.json`.

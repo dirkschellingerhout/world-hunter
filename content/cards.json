@@ -706,6 +706,237 @@
       "coordinate_status": "verified_target",
       "lat": null,
       "lon": null
+    },
+    {
+      "id": "sic-001",
+      "title": "Ancient Syracuse: Greek theatre and a layered city",
+      "category": [
+        "history",
+        "archaeology",
+        "architecture"
+      ],
+      "location_name": "Neapolis Archaeological Park",
+      "location_area": "Syracuse, eastern Sicily",
+      "short_story": "Ancient Syracuse grew into one of the major Greek cities of the western Mediterranean. The Neapolis archaeological area brings together monuments from several periods, including a Greek theatre, a Roman amphitheatre, a monumental altar and the rock-cut quarries known as latomie.",
+      "approved_facts": [
+        {
+          "id": "sic-001-f1",
+          "claim": "The Neapolis archaeological area includes a Greek theatre, a Roman amphitheatre, the Altar of Hieron II and ancient stone quarries.",
+          "source_ids": [
+            "src-sicily-syracuse-park"
+          ],
+          "confidence": "high",
+          "review_note": "Listed in the official regional archaeological park description."
+        },
+        {
+          "id": "sic-001-f2",
+          "claim": "Ancient Syracuse and the Rocky Necropolis of Pantalica form a UNESCO World Heritage property.",
+          "source_ids": [
+            "src-unesco-syracuse"
+          ],
+          "confidence": "high",
+          "review_note": "UNESCO World Heritage Centre property listing."
+        }
+      ],
+      "quiz_ids": [],
+      "visit_challenge": {
+        "id": "challenge-sic-001",
+        "prompt": "Compare the shape of the Greek theatre with a modern performance venue. What does the curve tell you about sightlines and sound?",
+        "type": "observation",
+        "safety": "Use signed visitor paths and obey barriers; do not climb onto monuments."
+      },
+      "status": "approved",
+      "sources": [
+        "src-sicily-syracuse-park",
+        "src-unesco-syracuse"
+      ],
+      "coordinate_status": "browse_only_unverified",
+      "lat": null,
+      "lon": null
+    },
+    {
+      "id": "sic-002",
+      "title": "Valley of the Temples: a Greek city in Sicily",
+      "category": [
+        "history",
+        "archaeology",
+        "architecture"
+      ],
+      "location_name": "Valley of the Temples Archaeological Park",
+      "location_area": "Agrigento, southern Sicily",
+      "short_story": "The Valley of the Temples preserves monumental remains of ancient Akragas, one of the important Greek colonies in the Mediterranean. The archaeological and landscape park includes a broad ancient urban area, with temples and traces of the city that later came under Roman rule.",
+      "approved_facts": [
+        {
+          "id": "sic-002-f1",
+          "claim": "The Valley of the Temples preserves the monumental heritage of Akragas, described by the regional park as one of the important Greek colonies in the Mediterranean.",
+          "source_ids": [
+            "src-sicily-valley-temples"
+          ],
+          "confidence": "high",
+          "review_note": "Official regional archaeological park description."
+        }
+      ],
+      "quiz_ids": [],
+      "visit_challenge": {
+        "id": "challenge-sic-002",
+        "prompt": "Choose two temple remains and compare their surviving columns, layout or state of preservation. What can you observe without touching anything?",
+        "type": "observation",
+        "safety": "Stay on marked paths and keep away from fragile masonry; check current park access information before travelling."
+      },
+      "status": "approved",
+      "sources": [
+        "src-sicily-valley-temples"
+      ],
+      "coordinate_status": "browse_only_unverified",
+      "lat": null,
+      "lon": null
+    },
+    {
+      "id": "sic-003",
+      "title": "Mount Etna: a living volcanic landscape",
+      "category": [
+        "nature",
+        "geology",
+        "science"
+      ],
+      "location_name": "Mount Etna",
+      "location_area": "Eastern Sicily",
+      "short_story": "Mount Etna is an active volcanic landscape on Sicily. Its UNESCO listing recognises the mountain for its geological significance; the landscape and access conditions can change with volcanic activity and weather, so a card is not a promise that a particular trail or summit area is safe or open.",
+      "approved_facts": [
+        {
+          "id": "sic-003-f1",
+          "claim": "Mount Etna is inscribed on the UNESCO World Heritage List.",
+          "source_ids": [
+            "src-unesco-etna"
+          ],
+          "confidence": "high",
+          "review_note": "UNESCO World Heritage Centre listing."
+        }
+      ],
+      "quiz_ids": [],
+      "visit_challenge": {
+        "id": "challenge-sic-003",
+        "prompt": "From a safe, permitted viewpoint, look for differences in rock colour or vegetation that may reflect the volcanic landscape.",
+        "type": "observation",
+        "safety": "Check official volcanic alerts and local access restrictions. Never approach vents, lava or closed zones; follow park and guide instructions."
+      },
+      "status": "approved",
+      "sources": [
+        "src-unesco-etna"
+      ],
+      "coordinate_status": "browse_only_unverified",
+      "lat": null,
+      "lon": null
+    },
+    {
+      "id": "sic-004",
+      "title": "Palermo: where architectural traditions meet",
+      "category": [
+        "history",
+        "architecture",
+        "culture"
+      ],
+      "location_name": "Arab-Norman Palermo heritage sites",
+      "location_area": "Palermo and nearby Cefalù and Monreale, northern Sicily",
+      "short_story": "The Arab-Norman UNESCO property groups nine civic and religious structures from the Norman kingdom of Sicily, 1130–1194. Their architecture reflects interactions among Western, Islamic and Byzantine traditions, making the sites a vivid record of Sicily's cultural connections.",
+      "approved_facts": [
+        {
+          "id": "sic-004-f1",
+          "claim": "The Arab-Norman UNESCO property comprises nine civic and religious structures dating from the Norman kingdom of Sicily between 1130 and 1194.",
+          "source_ids": [
+            "src-unesco-palermo"
+          ],
+          "confidence": "high",
+          "review_note": "UNESCO World Heritage Centre description."
+        },
+        {
+          "id": "sic-004-f2",
+          "claim": "UNESCO describes the property's architecture as reflecting Western, Islamic and Byzantine cultural traditions.",
+          "source_ids": [
+            "src-unesco-palermo"
+          ],
+          "confidence": "high",
+          "review_note": "UNESCO World Heritage Centre description."
+        }
+      ],
+      "quiz_ids": [],
+      "visit_challenge": {
+        "id": "challenge-sic-004",
+        "prompt": "Look for a decorative pattern, arch or mosaic and note which shapes or visual traditions seem to be combined. Use an on-site interpretation panel to check your observation.",
+        "type": "visual-observation",
+        "safety": "Respect worshippers and any restrictions on photography or entry."
+      },
+      "status": "approved",
+      "sources": [
+        "src-unesco-palermo"
+      ],
+      "coordinate_status": "browse_only_unverified",
+      "lat": null,
+      "lon": null
+    },
+    {
+      "id": "sic-005",
+      "title": "Villa Romana del Casale: stories in mosaic",
+      "category": [
+        "history",
+        "archaeology",
+        "art"
+      ],
+      "location_name": "Villa Romana del Casale",
+      "location_area": "Piazza Armerina, central Sicily",
+      "short_story": "Villa Romana del Casale is a UNESCO-listed Roman villa famous for its extensive mosaic decoration. Its floors provide an unusually rich record of Roman art and elite life, best explored by looking closely at the scenes and how they are arranged across rooms.",
+      "approved_facts": [
+        {
+          "id": "sic-005-f1",
+          "claim": "Villa Romana del Casale is inscribed on the UNESCO World Heritage List.",
+          "source_ids": [
+            "src-unesco-villa-casale"
+          ],
+          "confidence": "high",
+          "review_note": "UNESCO World Heritage Centre listing."
+        }
+      ],
+      "quiz_ids": [],
+      "visit_challenge": {
+        "id": "challenge-sic-005",
+        "prompt": "Find a mosaic scene and identify three details: a person or animal, an action, and a pattern or border.",
+        "type": "observation",
+        "safety": "Follow visitor routes and do not touch mosaic surfaces."
+      },
+      "status": "approved",
+      "sources": [
+        "src-unesco-villa-casale"
+      ],
+      "coordinate_status": "browse_only_unverified",
+      "lat": null,
+      "lon": null
+    },
+    {
+      "id": "sic-006",
+      "title": "Segesta: a temple in a dramatic landscape",
+      "category": [
+        "history",
+        "archaeology",
+        "architecture"
+      ],
+      "location_name": "Archaeological Park of Segesta",
+      "location_area": "Calatafimi-Segesta, western Sicily",
+      "short_story": "Segesta is an important archaeological landscape in western Sicily, known for its ancient temple and theatre setting. The site is often discussed in the context of the island's diverse ancient communities; details about its builders and historical identity should be tied to specific archaeological or official heritage evidence rather than assumptions from the temple's appearance alone.",
+      "approved_facts": [],
+      "quiz_ids": [],
+      "visit_challenge": {
+        "id": "challenge-sic-006",
+        "prompt": "From a permitted viewpoint, compare the temple's position with the surrounding hills. Sketch the outline or describe how the landscape frames the building.",
+        "type": "observation",
+        "safety": "Use designated paths and check the official park's current access information."
+      },
+      "status": "needs_fact_review",
+      "sources": [
+        "src-sicily-segesta"
+      ],
+      "coordinate_status": "browse_only_unverified",
+      "lat": null,
+      "lon": null
     }
   ]
 }

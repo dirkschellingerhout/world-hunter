@@ -153,3 +153,11 @@ Validation performed for this build: JavaScript syntax check, JSON parsing, and 
 - Next offline step: select a map-data provider and regional packaging approach that explicitly permits offline distribution, then prototype a user-triggered small-area download with size/progress and storage checks.
 
 Validation should include JavaScript syntax, JSON checks and CI. Real Android performance, popup persistence and offline behaviour still require testing on the installed PWA.
+
+
+## Sicily content and hosted-data direction (October 2026)
+
+- Added six initial Sicily story records to the shared `content/cards.json` file. Five have source-linked approved facts; Segesta remains marked `needs_fact_review` and must not be used for scored quizzes until its claims are verified. All six remain browse-only: no unreviewed GPS coordinates are published as collectible targets.
+- Official sources are registered in `content/sources.json`, prioritising UNESCO and the Sicilian regional archaeological parks.
+- **Content hosting recommendation:** keep the shared JSON files as the canonical, version-controlled source of truth and serve them as static files over HTTPS (GitHub Pages is sufficient for this stage). The app can cache those files locally for offline reading. This avoids adding a database, credentials, user accounts or a location-data backend. A hosted database/API is only worth adding when editors need concurrent publishing, authentication, richer search, or server-side workflows. Any future API should deliver public curated content only; GPS and family progress should remain on-device by default.
+- **Offline maps are not included in this change.** The existing map uses a remote style and remote vector tiles; caching the app shell or hosting a PMTiles archive alone does not make the map offline. Next step is a separate tested implementation: create legally reusable regional PMTiles extracts, host versioned files, and add explicit in-app download/storage management using browser-supported persistent storage. Start with a high-detail Sorrento-area pack and a smaller multi-zoom Sicily overview. Do not bulk-download OpenFreeMap tiles or mark a pack as offline until the complete map style, glyphs/sprites and tile data have been verified offline.
