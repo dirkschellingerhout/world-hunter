@@ -11,6 +11,7 @@ Language: English
 - `quizzes.json` — scored multiple-choice questions linked to approved fact IDs only.
 - `sources.json` — source register with publisher, URL, source type and access date.
 - `review_queue.json` — unresolved claims and publication blockers.
+- `coordinate_audit.json` — per-card coordinate and safe-arrival-point review, with source links and publication status.
 - `source_register.csv` — compact source register for spreadsheet review.
 - `VALIDATION.txt` — results from automated structural checks.
 
@@ -20,7 +21,7 @@ Language: English
 2. Folklore is explicitly labelled. A source supporting that a legend is told does not establish that the legend happened.
 3. A quiz must reference an `approved_facts[].id` from its card. Cards with no supported quiz fact have no scored quiz.
 4. `approved_with_limits` cards may be used for the specific supported, low-risk observation only. Do not invent deeper history or geology for them.
-5. No coordinates are supplied. Geolocation must be resolved from a verified official map or reviewed geocoding result, using the actual entrance or public viewpoint intended for the trigger.
+5. Only cards marked `verified_target` may carry published coordinates or trigger collection. See `coordinate_audit.json`; site-centre coordinates are not automatically safe arrival points.
 6. Visitor access and opening hours are volatile and should be checked against official site information at runtime or before a trip.
 7. A fact should be retired or sent back to review if sources conflict, the source URL becomes unavailable, or a better primary source changes the interpretation.
 
@@ -30,4 +31,4 @@ This is a first researched content pack, not a full archaeological catalogue. Mo
 
 ## Integration suggestion
 
-Import `cards.json` as content records, `quizzes.json` as separate question records and `sources.json` as a source lookup table. Do not hard-code source text into quiz logic. Use `coordinate_status` to prevent cards with unverified coordinates from triggering location-based collection. The app should show the source link and the claim's wording in each card's details view.
+Import `cards.json` as content records, `quizzes.json` as separate question records and `sources.json` as a source lookup table. Do not hard-code source text into quiz logic. Use `coordinate_status` to prevent cards with unverified coordinates from triggering location-based collection. Never treat broad areas or inaccessible internal features as a single collectible point. The app should show the source link and the claim's wording in each card's details view.

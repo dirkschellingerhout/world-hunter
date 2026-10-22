@@ -1,0 +1,158 @@
+{
+  "schema_version": "1.0",
+  "title": "World Hunter Sorrento coordinate audit",
+  "policy": "Coordinates are collectible targets only when the point is a verified safe public arrival point. Site-centre coordinates, broad areas, inaccessible internal features and unsafe final approaches are not collectible targets. Coordinate review is not a substitute for on-site safety checks.",
+  "verified_target_count": 2,
+  "items": [
+    {
+      "card_id": "sor-001",
+      "location_name": "Pompeii Archaeological Park",
+      "status": "candidate site location only; entrance target not confirmed",
+      "action": "hold",
+      "lat": null,
+      "lon": null,
+      "note": "UNESCO provides property coordinates, not a safe visitor-gate point. Use official park map to select a public entrance before enabling GPS collection.",
+      "source_url": "https://whc.unesco.org/en/list/0829/maps/"
+    },
+    {
+      "card_id": "sor-002",
+      "location_name": "Herculaneum Archaeological Park",
+      "status": "candidate site location only; entrance target not confirmed",
+      "action": "hold",
+      "lat": null,
+      "lon": null,
+      "note": "UNESCO provides property coordinates, not the visitor entrance. Verify the Corso Resina entrance from the current official park map.",
+      "source_url": "https://whc.unesco.org/en/list/0829/maps/"
+    },
+    {
+      "card_id": "sor-003",
+      "location_name": "Villa San Marco",
+      "status": "site coordinate lead; entrance target needs on-map confirmation",
+      "action": "hold",
+      "lat": null,
+      "lon": null,
+      "note": "Address and a published coordinate lead exist, but a safe visitor-gate point needs confirmation against the official site map.",
+      "source_url": "https://www.anticanecropolidistabiae.it/english/faq/"
+    },
+    {
+      "card_id": "sor-004",
+      "location_name": "Villa Arianna",
+      "status": "site coordinate lead; entrance target needs on-map confirmation",
+      "action": "hold",
+      "lat": null,
+      "lon": null,
+      "note": "Published site coordinates exist; verify the visitor entrance and current approach before enabling collection.",
+      "source_url": "https://www.anticanecropolidistabiae.it/english/faq/"
+    },
+    {
+      "card_id": "sor-005",
+      "location_name": "Villa of the Papyri",
+      "status": "not an independent public target",
+      "action": "no-pin",
+      "lat": null,
+      "lon": null,
+      "note": "UNESCO maps the archaeological feature inside Herculaneum; the villa itself is not currently an independent visitor destination. Keep as a linked story, not a separate collectible pin.",
+      "source_url": "https://whc.unesco.org/en/list/0829/maps/"
+    },
+    {
+      "card_id": "sor-006",
+      "location_name": "House of the Faun",
+      "status": "internal Pompeii target; separate pin not verified",
+      "action": "no-pin",
+      "lat": null,
+      "lon": null,
+      "note": "This is an internal feature within Pompeii. Link it to the verified Pompeii entrance/park card until an internal map grid/target can be verified; do not create a standalone GPS pin.",
+      "source_url": "https://pompeiisites.org/en/visiting-info/map-and-guide-to-the-excavations/"
+    },
+    {
+      "card_id": "sor-007",
+      "location_name": "Bagni della Regina Giovanna / Villa Pollio Felice",
+      "status": "pool coordinate known; safe target must be trail entrance",
+      "action": "hold",
+      "lat": null,
+      "lon": null,
+      "note": "The pool coordinate is 40.6338, 14.3519, but the final access includes steep steps and slippery rocks. Target should be the top of the public lane on Via Capo, after confirming exact pin.",
+      "source_url": "https://bagnidellareginagiovanna.napoli.it/en/mappa/"
+    },
+    {
+      "card_id": "sor-008",
+      "location_name": "Punta Campanella",
+      "status": "trailhead identified; exact safe start pin not confirmed",
+      "action": "hold",
+      "lat": null,
+      "lon": null,
+      "note": "Official local tourism guidance starts at Piazza Santa Croce in Termini and directs walkers down Via Campanella. Verify the exact trailhead point and conditions before enabling collection.",
+      "source_url": "https://www.massalubrenseturismo.it/punta-campanella/"
+    },
+    {
+      "card_id": "sor-009",
+      "location_name": "Sedil Dominova",
+      "status": "address/feature known; coordinate needs independent confirmation",
+      "action": "hold",
+      "lat": null,
+      "lon": null,
+      "note": "Historic centre landmark. Confirm exact public-facing point on a reliable map before enabling GPS collection.",
+      "source_url": "https://www.discovercampania.it/en/explore-campania/territory/coast/sorrento-coast/sorrento"
+    },
+    {
+      "card_id": "sor-010",
+      "location_name": "Museo Correale di Terranova",
+      "status": "address known; coordinate needs independent confirmation",
+      "action": "hold",
+      "lat": null,
+      "lon": null,
+      "note": "Official museum address is Via Correale 50. Confirm the public entrance pin, opening/access constraints and entrance location.",
+      "source_url": "https://www.museocorreale.it/en/where/"
+    },
+    {
+      "card_id": "sor-011",
+      "location_name": "Museo Archeologico Georges Vallet at Villa Fondi",
+      "status": "published government coordinate; ground entrance check recommended",
+      "action": "verified-target",
+      "lat": 40.638194,
+      "lon": 14.402001,
+      "note": "Government heritage record publishes 40.638194, 14.402001 for the museum. Ground-check entrance before enabling collection.",
+      "source_url": "https://www.isprambiente.gov.it/it/attivita/museo/regioni/musei/museo-archeologico-territoriale-della-penisola-sorrentina-georges-vallet"
+    },
+    {
+      "card_id": "sor-012",
+      "location_name": "Amalfi Coast UNESCO property",
+      "status": "too broad for a single point",
+      "action": "no-pin",
+      "lat": null,
+      "lon": null,
+      "note": "This is a cultural landscape/property, not a single visitable point. Replace with a named, safe public viewpoint or split into specific locations.",
+      "source_url": "https://whc.unesco.org/en/list/830/"
+    },
+    {
+      "card_id": "sor-013",
+      "location_name": "Vallone dei Mulini public viewpoint",
+      "status": "public viewpoint coordinates verified as a candidate target",
+      "action": "verified-target",
+      "lat": 40.625077,
+      "lon": 14.376317,
+      "note": "40.625077, 14.376317 is published for the public viewpoint on Via Fuorimura. The gorge floor is private/inaccessible; target the public railing/viewpoint only.",
+      "source_url": "https://sorrentocityguidebook.com/vallone-dei-mulini/"
+    },
+    {
+      "card_id": "sor-014",
+      "location_name": "Villa A / Villa of Poppaea at Oplontis",
+      "status": "official entrance address known; exact pin needs confirmation",
+      "action": "hold",
+      "lat": null,
+      "lon": null,
+      "note": "Official entrance is Via dei Sepolcri, Torre Annunziata. Use the current official map to verify the visitor gate coordinate.",
+      "source_url": "https://pompeiisites.org/en/oplontis/info/"
+    },
+    {
+      "card_id": "sor-015",
+      "location_name": "Sorrento archaeological timeline route",
+      "status": "not a single target",
+      "action": "no-pin",
+      "lat": null,
+      "lon": null,
+      "note": "A thematic route needs several discrete stops, each with its own safe public target and evidence. Do not use a single pin for the whole historic centre.",
+      "source_url": "https://www.cultura.gov.it/"
+    }
+  ]
+}
