@@ -142,3 +142,14 @@ Validation performed for this build: JavaScript syntax check, JSON parsing, and 
 - The marker refresh now pauses while a map popup is open, avoiding popup flicker from frequent GPS watcher updates.
 - Explorer settings separate the acquisition/unlock radius from the capture/visit radius. Capture defaults to 35 m and can be set to 10, 20, 35, 50, 100, 200 m, or a custom 5–500 m value. It is saved locally on the device.
 - Real-device testing is still needed, particularly popup persistence and recording a visit at the configured threshold.
+
+
+## Release 0.10 — map responsiveness and cache boundaries
+
+- Reuses existing MapLibre discovery markers during GPS updates instead of removing and rebuilding every marker. Existing popups remain attached to their markers, including while their status is refreshed.
+- Removes a redundant second marker refresh after location updates; the discovery-list refresh already updates map markers.
+- Bumps the service-worker cache version so installed PWAs receive the revised app code. The service worker caches the same-origin app shell and content JSON for repeat visits and can fall back to the cached app page when offline.
+- This is **not an offline map download**: the MapLibre library, OpenFreeMap style and vector tiles still require a network connection and may not render offline. We have deliberately not bulk-cached or downloaded map tiles without confirming the provider's permitted offline-use terms.
+- Next offline step: select a map-data provider and regional packaging approach that explicitly permits offline distribution, then prototype a user-triggered small-area download with size/progress and storage checks.
+
+Validation should include JavaScript syntax, JSON checks and CI. Real Android performance, popup persistence and offline behaviour still require testing on the installed PWA.
