@@ -135,3 +135,10 @@ Validation performed for this build: JavaScript syntax check, JSON parsing, and 
 - Adds a 45-degree tilted camera with a one-tap flat/tilted toggle, bearing/navigational controls, an illustrated explorer marker, discovery markers, remembered explored areas, expedition trail and configurable acquisition-radius overlay.
 - Existing content, collection, quiz, journal and GPS-distance logic are intended to remain unchanged.
 - Map style and tiles are third-party services and require internet access. Review provider terms and availability before production use; this experiment does not provide offline map tiles. Android touch, GPS, marker interaction and service-worker update testing are required.
+
+
+## Follow-up fix: persistent map popups and adjustable capture radius
+
+- The marker refresh now pauses while a map popup is open, avoiding popup flicker from frequent GPS watcher updates.
+- Explorer settings separate the acquisition/unlock radius from the capture/visit radius. Capture defaults to 35 m and can be set to 10, 20, 35, 50, 100, 200 m, or a custom 5–500 m value. It is saved locally on the device.
+- Real-device testing is still needed, particularly popup persistence and recording a visit at the configured threshold.
