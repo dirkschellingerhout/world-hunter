@@ -937,6 +937,259 @@
       "coordinate_status": "browse_only_unverified",
       "lat": null,
       "lon": null
+    },
+    {
+      "id": "sic-007",
+      "title": "Cefalù Cathedral: three cultures in one building",
+      "category": [
+        "history",
+        "architecture",
+        "art"
+      ],
+      "location_name": "Cefalù Cathedral",
+      "location_area": "Cefalù, northern Sicily",
+      "short_story": "Commissioned by Norman king Roger II in 1131, Cefalù Cathedral became part of the UNESCO-listed Arab-Norman heritage property. Its architecture and mosaics reflect connections between Western, Islamic and Byzantine traditions in medieval Sicily.",
+      "approved_facts": [
+        {
+          "id": "sic-007-f1",
+          "claim": "Cefalù Cathedral was commissioned by Roger II in 1131.",
+          "source_ids": [
+            "src-visitsicily-cefalu",
+            "src-unesco-arabnorman"
+          ],
+          "confidence": "high",
+          "review_note": "Supported by regional tourism and UNESCO heritage descriptions."
+        },
+        {
+          "id": "sic-007-f2",
+          "claim": "Cefalù Cathedral is one of the nine structures in the UNESCO Arab-Norman Palermo and Cefalù-Monreale property.",
+          "source_ids": [
+            "src-unesco-arabnorman"
+          ],
+          "confidence": "high",
+          "review_note": "UNESCO property listing."
+        }
+      ],
+      "quiz_ids": [
+        "quiz-sic-007-1"
+      ],
+      "visit_challenge": {
+        "id": "challenge-sic-007",
+        "prompt": "Spot one architectural feature and one mosaic detail. What looks different between the building's exterior and interior?",
+        "type": "visual-observation",
+        "safety": "Respect worshippers, posted access rules and photography restrictions."
+      },
+      "status": "approved",
+      "sources": [
+        "src-visitsicily-cefalu",
+        "src-unesco-arabnorman"
+      ],
+      "coordinate_status": "browse_only_unverified",
+      "lat": null,
+      "lon": null
+    },
+    {
+      "id": "sic-008",
+      "title": "The Rocca: a mountain above Cefalù",
+      "category": [
+        "history",
+        "nature",
+        "archaeology"
+      ],
+      "location_name": "Rocca di Cefalù",
+      "location_area": "Cefalù, northern Sicily",
+      "short_story": "The steep limestone promontory dominates Cefalù and has long shaped the town's strategic setting. The path towards the summit also passes the remains known as the Temple of Diana, associated with an ancient water cult; the site's exact phases and purpose should be treated with care rather than reduced to a simple story.",
+      "approved_facts": [
+        {
+          "id": "sic-008-f1",
+          "claim": "The remains known as the Temple of Diana are on the path up the Rocca and are associated with an ancient water cult, with a nearby cistern.",
+          "source_ids": [
+            "src-cefalu-sites"
+          ],
+          "confidence": "high",
+          "review_note": "Local tourism site's archaeological overview."
+        }
+      ],
+      "quiz_ids": [
+        "quiz-sic-008-1"
+      ],
+      "visit_challenge": {
+        "id": "challenge-sic-008",
+        "prompt": "From a safe viewpoint, look at how the Rocca overlooks the town and coast. Can you identify why this would have been a useful place to watch the surrounding area?",
+        "type": "landscape-observation",
+        "safety": "The summit route can be steep and exposed. Check current access and weather, wear suitable footwear, and do not attempt it if conditions or the children make it unsafe."
+      },
+      "status": "approved",
+      "sources": [
+        "src-cefalu-sites"
+      ],
+      "coordinate_status": "browse_only_unverified",
+      "lat": null,
+      "lon": null
+    },
+    {
+      "id": "sic-009",
+      "title": "Cefalù's medieval washhouse",
+      "category": [
+        "history",
+        "architecture",
+        "daily-life"
+      ],
+      "location_name": "Lavatoio Medievale",
+      "location_area": "Historic centre of Cefalù, northern Sicily",
+      "short_story": "Cefalù's historic washhouse is built into the rock and uses water from the Cefalino stream. Its basins offer a small-scale glimpse into everyday life before modern domestic plumbing, alongside the medieval town's larger churches and fortifications.",
+      "approved_facts": [
+        {
+          "id": "sic-009-f1",
+          "claim": "Cefalù's historic washhouse is a rock-cut space supplied by the Cefalino stream.",
+          "source_ids": [
+            "src-visitsicily-cefalu"
+          ],
+          "confidence": "high",
+          "review_note": "Visit Sicily describes the washhouse, rock-cut staircase and stream."
+        }
+      ],
+      "quiz_ids": [
+        "quiz-sic-009-1"
+      ],
+      "visit_challenge": {
+        "id": "challenge-sic-009",
+        "prompt": "Count the visible basins or water outlets. What design choices help guide water through the space?",
+        "type": "observation",
+        "safety": "Stone steps and floors may be slippery; supervise children and avoid climbing on the structure."
+      },
+      "status": "approved",
+      "sources": [
+        "src-visitsicily-cefalu"
+      ],
+      "coordinate_status": "browse_only_unverified",
+      "lat": null,
+      "lon": null
+    },
+    {
+      "id": "sic-010",
+      "title": "Agrigento: a Greek city on a Sicilian ridge",
+      "category": [
+        "history",
+        "archaeology"
+      ],
+      "location_name": "Valley of the Temples Archaeological Park",
+      "location_area": "Agrigento, southern Sicily",
+      "short_story": "Ancient Akragas was founded as a Greek colony in the 6th century BCE and became one of the major cities of the ancient Mediterranean. The archaeological area preserves temples as well as parts of the wider ancient city, including evidence from later Hellenistic, Roman and early Christian periods.",
+      "approved_facts": [
+        {
+          "id": "sic-010-f1",
+          "claim": "Agrigento was founded as a Greek colony in the 6th century BCE.",
+          "source_ids": [
+            "src-unesco-agrigento"
+          ],
+          "confidence": "high",
+          "review_note": "UNESCO World Heritage Centre."
+        },
+        {
+          "id": "sic-010-f2",
+          "claim": "The archaeological area includes remains from later Hellenistic and Roman phases and evidence of early Christian burial practices.",
+          "source_ids": [
+            "src-unesco-agrigento"
+          ],
+          "confidence": "high",
+          "review_note": "UNESCO World Heritage Centre."
+        }
+      ],
+      "quiz_ids": [
+        "quiz-sic-010-1",
+        "quiz-sic-010-2"
+      ],
+      "visit_challenge": {
+        "id": "challenge-sic-010",
+        "prompt": "Find evidence that the site is more than a row of temples. Look for traces of roads, buildings, landscape boundaries or later periods.",
+        "type": "archaeology-observation",
+        "safety": "The park is extensive and exposed; take water, sun protection and breaks, and keep to signed paths."
+      },
+      "status": "approved",
+      "sources": [
+        "src-unesco-agrigento"
+      ],
+      "coordinate_status": "browse_only_unverified",
+      "lat": null,
+      "lon": null
+    },
+    {
+      "id": "sic-011",
+      "title": "Temple of Concordia: Doric geometry",
+      "category": [
+        "history",
+        "architecture",
+        "visual-observation"
+      ],
+      "location_name": "Temple of Concordia",
+      "location_area": "Valley of the Temples, Agrigento",
+      "short_story": "The Temple of Concordia is one of the best-preserved ancient Greek temples in the Valley of the Temples. Its surviving columns and proportions make it a wonderful place to look closely at the repeated geometry of Doric architecture and how a building can survive while its surrounding city changes.",
+      "approved_facts": [
+        {
+          "id": "sic-011-f1",
+          "claim": "The Doric temples at Agrigento are among the outstanding monuments of Greek art and culture recognised by UNESCO.",
+          "source_ids": [
+            "src-unesco-agrigento"
+          ],
+          "confidence": "high",
+          "review_note": "UNESCO describes the great row of Doric temples as outstanding monuments of Greek art and culture."
+        }
+      ],
+      "quiz_ids": [
+        "quiz-sic-011-1"
+      ],
+      "visit_challenge": {
+        "id": "challenge-sic-011",
+        "prompt": "Count a row of columns, then look for repeated shapes and spacing. Can you sketch the temple using only rectangles, vertical lines and triangles?",
+        "type": "visual-observation",
+        "safety": "Do not touch or climb on ancient stonework; follow marked routes."
+      },
+      "status": "approved",
+      "sources": [
+        "src-unesco-agrigento"
+      ],
+      "coordinate_status": "browse_only_unverified",
+      "lat": null,
+      "lon": null
+    },
+    {
+      "id": "sic-012",
+      "title": "Beyond the temples: the city that continued",
+      "category": [
+        "history",
+        "archaeology"
+      ],
+      "location_name": "Valley of the Temples Archaeological Park",
+      "location_area": "Agrigento, southern Sicily",
+      "short_story": "The famous temples are only part of Agrigento's archaeological story. UNESCO notes that selected excavated areas reveal later Hellenistic and Roman urban life, along with burial practices from the early Christian period. The site can therefore be read as a landscape that changed over centuries, not a single frozen moment.",
+      "approved_facts": [
+        {
+          "id": "sic-012-f1",
+          "claim": "Selected excavated areas at Agrigento reveal Hellenistic and Roman urban remains and early Christian burial practices.",
+          "source_ids": [
+            "src-unesco-agrigento"
+          ],
+          "confidence": "high",
+          "review_note": "UNESCO World Heritage Centre."
+        }
+      ],
+      "quiz_ids": [
+        "quiz-sic-012-1"
+      ],
+      "visit_challenge": {
+        "id": "challenge-sic-012",
+        "prompt": "Look for a feature or interpretation panel that points to a period later than the Greek temples. What does it add to the story of the site?",
+        "type": "research-observation",
+        "safety": "Check park signage and stay within areas open to visitors."
+      },
+      "status": "approved",
+      "sources": [
+        "src-unesco-agrigento"
+      ],
+      "coordinate_status": "browse_only_unverified",
+      "lat": null,
+      "lon": null
     }
   ]
 }
