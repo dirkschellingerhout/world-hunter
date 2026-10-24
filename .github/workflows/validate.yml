@@ -28,6 +28,6 @@ jobs:
           grep -q 'explorer-marker-halo' app.js
           grep -q "maplibregl.Map" app.js
           grep -q "Keep existing MapLibre Marker instances alive" app.js
-          grep -q "world-hunter-v11-sicily-content" sw.js
+          grep -q "world-hunter-v12-cefalu-agrigento" sw.js
           grep -q "pitchToggleBtn" index.html
           grep -q 'URL.createObjectURL(blob)' admin.js
