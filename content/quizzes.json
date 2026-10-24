@@ -1,19 +1,294 @@
 {
   "quiz_policy": "Every scored question must test an approved fact from cards.json. Questions with folklore test what the source says about the tradition, not whether mythical events literally happened. No quiz is attached to cards without a supported testable claim.",
   "quizzes": [
-    {"id":"quiz-sor-001-1","card_id":"sor-001","fact_id":"sor-001-f1","question":"Which year is given by UNESCO for the eruption that engulfed Pompeii?","options":["AD 62","AD 79","AD 1748"],"correct_option_index":1,"explanation":"UNESCO dates the eruption that engulfed Pompeii and Herculaneum to AD 79.","source_ids":["src-unesco-pompeii"],"status":"approved"},
-    {"id":"quiz-sor-002-1","card_id":"sor-002","fact_id":"sor-002-f2","question":"Which kind of material was among the remarkable things preserved at Herculaneum?","options":["Carbonised wooden furniture","Modern glass windows","Printed paper books"],"correct_option_index":0,"explanation":"UNESCO notes that carbonised organic matter, including wooden furniture, survived at Herculaneum.","source_ids":["src-unesco-pompeii"],"status":"approved"},
-    {"id":"quiz-sor-003-1","card_id":"sor-003","fact_id":"sor-003-f1","question":"What kind of building was Villa San Marco at Stabiae?","options":["A Roman residential villa","A medieval fortress","A Greek theatre"],"correct_option_index":0,"explanation":"The official Pompeii Sites page describes Villa San Marco as a large Roman residential villa.","source_ids":["src-pompeii-stabiae"],"status":"approved"},
-    {"id":"quiz-sor-004-1","card_id":"sor-004","fact_id":"sor-004-f1","question":"Why is Villa Arianna called by that name?","options":["A large mythological fresco of Ariadne","A surviving inscription naming Queen Arianna","A modern film shot there"],"correct_option_index":0,"explanation":"The official archaeological park says the name comes from a large mythological fresco of Ariadne in the triclinium.","source_ids":["src-pompeii-stabiae"],"status":"approved"},
-    {"id":"quiz-sor-005-1","card_id":"sor-005","fact_id":"sor-005-f1","question":"What kind of writing was found among the papyrus scrolls associated with the Villa of the Papyri?","options":["Greek philosophical texts","Medieval travel blogs","Printed Roman newspapers"],"correct_option_index":0,"explanation":"UNESCO reports that more than 1,800 papyrus scrolls containing Greek philosophical texts were found at the Villa of the Papyri.","source_ids":["src-unesco-pompeii"],"status":"approved"},
-    {"id":"quiz-sor-006-1","card_id":"sor-006","fact_id":"sor-006-f1","question":"How many atriums did the House of the Faun have, according to the official excavation guide?","options":["One","Two","Four"],"correct_option_index":1,"explanation":"The official guide describes two atriums and two peristyles.","source_ids":["src-pompeii-guide"],"status":"approved"},
-    {"id":"quiz-sor-007-1","card_id":"sor-007","fact_id":"sor-007-f2","question":"The story about Queen Giovanna at the natural pool should be treated as…","options":["A local legend","An archaeological proof that the story happened","A geological theory"],"correct_option_index":0,"explanation":"The tourism source presents the lovers story as legend. The Roman villa remains are separate archaeological evidence.","source_ids":["src-italia-regina-baths-legend"],"status":"approved"},
-    {"id":"quiz-sor-008-1","card_id":"sor-008","fact_id":"sor-008-f2","question":"The story linking Punta Campanella with the Sirens belongs to which category?","options":["Local legend and Greek mythology","A modern engineering report","A verified fossil discovery"],"correct_option_index":0,"explanation":"The source explicitly describes the Sirens connection as a legend.","source_ids":["src-italia-sorrento-peninsula"],"status":"approved"},
-    {"id":"quiz-sor-009-1","card_id":"sor-009","fact_id":"sor-009-f2","question":"Which colours are noted in the description of Sedil Dominova's tiled dome?","options":["Blue and white","Yellow and green","Red and black"],"correct_option_index":1,"explanation":"Italia.it calls out the characteristic yellow-and-green tiled dome.","source_ids":["src-italia-sorrento"],"status":"approved"},
-    {"id":"quiz-sor-010-1","card_id":"sor-010","fact_id":"sor-010-f1","question":"In which year did the Correale Museum open, according to its official website?","options":["1824","1924","2024"],"correct_option_index":1,"explanation":"The museum's official history says it opened in May 1924.","source_ids":["src-correale-museum"],"status":"approved"},
-    {"id":"quiz-sor-011-1","card_id":"sor-011","fact_id":"sor-011-f2","question":"Which broad periods are covered by the Georges Vallet archaeological museum collection?","options":["Prehistory through Roman times","Only the Middle Ages","Only the twentieth century"],"correct_option_index":0,"explanation":"Italia.it describes the collection as documenting the peninsula from prehistoric to Roman times.","source_ids":["src-italia-sorrento"],"status":"approved"},
-    {"id":"quiz-sor-012-1","card_id":"sor-012","fact_id":"sor-012-f2","question":"Which landscape feature does UNESCO mention on the lower slopes of the Amalfi Coast?","options":["Terraced vineyards and orchards","Vast desert dunes","Glaciers and ski fields"],"correct_option_index":0,"explanation":"UNESCO describes terraced vineyards and orchards as part of the cultural landscape.","source_ids":["src-unesco-amalfi"],"status":"approved"},
-    {"id":"quiz-sor-014-1","card_id":"sor-014","fact_id":"sor-014-f2","question":"What is Villa A at Oplontis especially noted for in UNESCO's description?","options":["Well-preserved Roman wall paintings","A medieval clock tower","A modern glass roof"],"correct_option_index":0,"explanation":"UNESCO highlights Villa A as an important suburban Roman villa with well-preserved wall paintings.","source_ids":["src-unesco-pompeii"],"status":"approved"},
-    {"id":"quiz-sor-015-1","card_id":"sor-015","fact_id":"sor-015-f1","question":"Which of these periods is included in the scholarly overview of Sorrento's archaeological timeline?","options":["Oscan-Samnite","Viking colonial","Mughal"],"correct_option_index":0,"explanation":"The Soprintendenza describes the publication as covering prehistoric, Oscan-Samnite, Roman and medieval phases.","source_ids":["src-sabap-surrentum"],"status":"approved"}
+    {
+      "id": "quiz-sor-001-1",
+      "card_id": "sor-001",
+      "fact_id": "sor-001-f1",
+      "question": "Which year is given by UNESCO for the eruption that engulfed Pompeii?",
+      "options": [
+        "AD 62",
+        "AD 79",
+        "AD 1748"
+      ],
+      "correct_option_index": 1,
+      "explanation": "UNESCO dates the eruption that engulfed Pompeii and Herculaneum to AD 79.",
+      "source_ids": [
+        "src-unesco-pompeii"
+      ],
+      "status": "approved"
+    },
+    {
+      "id": "quiz-sor-002-1",
+      "card_id": "sor-002",
+      "fact_id": "sor-002-f2",
+      "question": "Which kind of material was among the remarkable things preserved at Herculaneum?",
+      "options": [
+        "Carbonised wooden furniture",
+        "Modern glass windows",
+        "Printed paper books"
+      ],
+      "correct_option_index": 0,
+      "explanation": "UNESCO notes that carbonised organic matter, including wooden furniture, survived at Herculaneum.",
+      "source_ids": [
+        "src-unesco-pompeii"
+      ],
+      "status": "approved"
+    },
+    {
+      "id": "quiz-sor-003-1",
+      "card_id": "sor-003",
+      "fact_id": "sor-003-f1",
+      "question": "What kind of building was Villa San Marco at Stabiae?",
+      "options": [
+        "A Roman residential villa",
+        "A medieval fortress",
+        "A Greek theatre"
+      ],
+      "correct_option_index": 0,
+      "explanation": "The official Pompeii Sites page describes Villa San Marco as a large Roman residential villa.",
+      "source_ids": [
+        "src-pompeii-stabiae"
+      ],
+      "status": "approved"
+    },
+    {
+      "id": "quiz-sor-004-1",
+      "card_id": "sor-004",
+      "fact_id": "sor-004-f1",
+      "question": "Why is Villa Arianna called by that name?",
+      "options": [
+        "A large mythological fresco of Ariadne",
+        "A surviving inscription naming Queen Arianna",
+        "A modern film shot there"
+      ],
+      "correct_option_index": 0,
+      "explanation": "The official archaeological park says the name comes from a large mythological fresco of Ariadne in the triclinium.",
+      "source_ids": [
+        "src-pompeii-stabiae"
+      ],
+      "status": "approved"
+    },
+    {
+      "id": "quiz-sor-005-1",
+      "card_id": "sor-005",
+      "fact_id": "sor-005-f1",
+      "question": "What kind of writing was found among the papyrus scrolls associated with the Villa of the Papyri?",
+      "options": [
+        "Greek philosophical texts",
+        "Medieval travel blogs",
+        "Printed Roman newspapers"
+      ],
+      "correct_option_index": 0,
+      "explanation": "UNESCO reports that more than 1,800 papyrus scrolls containing Greek philosophical texts were found at the Villa of the Papyri.",
+      "source_ids": [
+        "src-unesco-pompeii"
+      ],
+      "status": "approved"
+    },
+    {
+      "id": "quiz-sor-006-1",
+      "card_id": "sor-006",
+      "fact_id": "sor-006-f1",
+      "question": "How many atriums did the House of the Faun have, according to the official excavation guide?",
+      "options": [
+        "One",
+        "Two",
+        "Four"
+      ],
+      "correct_option_index": 1,
+      "explanation": "The official guide describes two atriums and two peristyles.",
+      "source_ids": [
+        "src-pompeii-guide"
+      ],
+      "status": "approved"
+    },
+    {
+      "id": "quiz-sor-007-1",
+      "card_id": "sor-007",
+      "fact_id": "sor-007-f2",
+      "question": "The story about Queen Giovanna at the natural pool should be treated as…",
+      "options": [
+        "A local legend",
+        "An archaeological proof that the story happened",
+        "A geological theory"
+      ],
+      "correct_option_index": 0,
+      "explanation": "The tourism source presents the lovers story as legend. The Roman villa remains are separate archaeological evidence.",
+      "source_ids": [
+        "src-italia-regina-baths-legend"
+      ],
+      "status": "approved"
+    },
+    {
+      "id": "quiz-sor-008-1",
+      "card_id": "sor-008",
+      "fact_id": "sor-008-f2",
+      "question": "The story linking Punta Campanella with the Sirens belongs to which category?",
+      "options": [
+        "Local legend and Greek mythology",
+        "A modern engineering report",
+        "A verified fossil discovery"
+      ],
+      "correct_option_index": 0,
+      "explanation": "The source explicitly describes the Sirens connection as a legend.",
+      "source_ids": [
+        "src-italia-sorrento-peninsula"
+      ],
+      "status": "approved"
+    },
+    {
+      "id": "quiz-sor-009-1",
+      "card_id": "sor-009",
+      "fact_id": "sor-009-f2",
+      "question": "Which colours are noted in the description of Sedil Dominova's tiled dome?",
+      "options": [
+        "Blue and white",
+        "Yellow and green",
+        "Red and black"
+      ],
+      "correct_option_index": 1,
+      "explanation": "Italia.it calls out the characteristic yellow-and-green tiled dome.",
+      "source_ids": [
+        "src-italia-sorrento"
+      ],
+      "status": "approved"
+    },
+    {
+      "id": "quiz-sor-010-1",
+      "card_id": "sor-010",
+      "fact_id": "sor-010-f1",
+      "question": "In which year did the Correale Museum open, according to its official website?",
+      "options": [
+        "1824",
+        "1924",
+        "2024"
+      ],
+      "correct_option_index": 1,
+      "explanation": "The museum's official history says it opened in May 1924.",
+      "source_ids": [
+        "src-correale-museum"
+      ],
+      "status": "approved"
+    },
+    {
+      "id": "quiz-sor-011-1",
+      "card_id": "sor-011",
+      "fact_id": "sor-011-f2",
+      "question": "Which broad periods are covered by the Georges Vallet archaeological museum collection?",
+      "options": [
+        "Prehistory through Roman times",
+        "Only the Middle Ages",
+        "Only the twentieth century"
+      ],
+      "correct_option_index": 0,
+      "explanation": "Italia.it describes the collection as documenting the peninsula from prehistoric to Roman times.",
+      "source_ids": [
+        "src-italia-sorrento"
+      ],
+      "status": "approved"
+    },
+    {
+      "id": "quiz-sor-012-1",
+      "card_id": "sor-012",
+      "fact_id": "sor-012-f2",
+      "question": "Which landscape feature does UNESCO mention on the lower slopes of the Amalfi Coast?",
+      "options": [
+        "Terraced vineyards and orchards",
+        "Vast desert dunes",
+        "Glaciers and ski fields"
+      ],
+      "correct_option_index": 0,
+      "explanation": "UNESCO describes terraced vineyards and orchards as part of the cultural landscape.",
+      "source_ids": [
+        "src-unesco-amalfi"
+      ],
+      "status": "approved"
+    },
+    {
+      "id": "quiz-sor-014-1",
+      "card_id": "sor-014",
+      "fact_id": "sor-014-f2",
+      "question": "What is Villa A at Oplontis especially noted for in UNESCO's description?",
+      "options": [
+        "Well-preserved Roman wall paintings",
+        "A medieval clock tower",
+        "A modern glass roof"
+      ],
+      "correct_option_index": 0,
+      "explanation": "UNESCO highlights Villa A as an important suburban Roman villa with well-preserved wall paintings.",
+      "source_ids": [
+        "src-unesco-pompeii"
+      ],
+      "status": "approved"
+    },
+    {
+      "id": "quiz-sor-015-1",
+      "card_id": "sor-015",
+      "fact_id": "sor-015-f1",
+      "question": "Which of these periods is included in the scholarly overview of Sorrento's archaeological timeline?",
+      "options": [
+        "Oscan-Samnite",
+        "Viking colonial",
+        "Mughal"
+      ],
+      "correct_option_index": 0,
+      "explanation": "The Soprintendenza describes the publication as covering prehistoric, Oscan-Samnite, Roman and medieval phases.",
+      "source_ids": [
+        "src-sabap-surrentum"
+      ],
+      "status": "approved"
+    },
+    {
+      "id": "quiz-sic-007-1",
+      "card_id": "sic-007",
+      "fact_id": "sic-007-f1",
+      "question": "Who commissioned Cefalù Cathedral in 1131?",
+      "options": [
+        "Roger II",
+        "Julius Caesar",
+        "Frederick Barbarossa"
+      ],
+      "correct_option_index": 0,
+      "explanation": "The UNESCO-listed heritage site's official description dates the cathedral to the Norman kingdom under Roger II.",
+      "source_ids": [
+        "src-unesco-palermo"
+      ],
+      "status": "approved"
+    },
+    {
+      "id": "quiz-sic-010-1",
+      "card_id": "sic-010",
+      "fact_id": "sic-010-f1",
+      "question": "In which period was Agrigento founded as a Greek colony?",
+      "options": [
+        "6th century BCE",
+        "6th century CE",
+        "16th century CE"
+      ],
+      "correct_option_index": 0,
+      "explanation": "UNESCO dates the foundation of Agrigento as a Greek colony to the 6th century BCE.",
+      "source_ids": [
+        "src-unesco-agrigento"
+      ],
+      "status": "approved"
+    },
+    {
+      "id": "quiz-sic-011-1",
+      "card_id": "sic-011",
+      "fact_id": "sic-011-f1",
+      "question": "Which architectural order is especially associated with the temples at Agrigento?",
+      "options": [
+        "Doric",
+        "Gothic",
+        "Art Nouveau"
+      ],
+      "correct_option_index": 0,
+      "explanation": "UNESCO highlights the site's outstanding Doric temples.",
+      "source_ids": [
+        "src-unesco-agrigento"
+      ],
+      "status": "approved"
+    }
   ]
 }
